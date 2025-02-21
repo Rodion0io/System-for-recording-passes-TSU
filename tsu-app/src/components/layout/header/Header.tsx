@@ -1,10 +1,19 @@
 import "./header.css"
 
+import tsuLogo from "../../../assets/svgs/tsuLightLogo.svg"
+
 const Header = () => {
     
     return (
         <>
-            <h1>sdnijndkf</h1>
+            <header className="hero">
+                <div className="container">
+                    <div className="nav-container">
+                        <img src={tsuLogo} alt="" className="hero-logo" />
+                        <nav className="navbar"></nav>
+                    </div>
+                </div>
+            </header>
         </>
     )
 }
