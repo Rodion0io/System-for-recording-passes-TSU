@@ -3,6 +3,7 @@ import "./logInComponent.css"
 import tsuDarkLogo from "../../../../assets/svgs/tsuDarkLogo.svg"
 
 import Button from "../../../ui/button/Button";
+import Input from "../../../ui/input/Input";
 
 const LogInComponent = () => {
 
@@ -14,8 +15,8 @@ const LogInComponent = () => {
                         <img src={tsuDarkLogo} alt="logo" className="card-logo" />
                         <h2 className="card-title">Вход</h2>
                     </div>
-                    <input type="text" />
-                    <input type="text" />
+                    <Input placeholder="Логин"/>
+                    <Input placeholder="Пароль" type="password"/>
                     <Button className="login-button" text="Войти"/>
                     <Button className= "creater-button" text="Создать аккаунт"/>
                 </section>
