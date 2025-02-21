@@ -14,6 +14,7 @@ function App() {
       <Routes>
         <Route path={ROUTES.MAINPAGE} element={<Layout/>}>
           <Route path={ROUTES.AUTHORIZE} element={<AuthorizePage/>}/>
+          <Route path={ROUTES.REGISTRATION} element={<AuthorizePage/>}/>
         </Route>
       </Routes> 
     </>

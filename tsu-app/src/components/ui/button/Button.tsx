@@ -2,23 +2,31 @@ import React from "react";
 
 import "./button.css"
 
+import { Link } from "react-router-dom";
 
+type ButtonVariant = 'button' | 'link'
 interface ButtonProps extends React.ComponentProps<'button'>{
-    text: string
+    text: string,
+    variant?: ButtonVariant,
+    link?: string
 }
 
 const Button = 
-    ({className, text, ...props} : ButtonProps) => {
+    ({variant = 'button', className, text, link, ...props} : ButtonProps) => {
     
     return (
         <>
-            <button
-                className={`btn ${className}`}
-                type="button"
-                {...props}
-            >
-                {text}
-            </button>
+            {variant === "button" ? 
+                <button
+                    className={`btn ${className}`}
+                    type="button"
+                    {...props}
+                >
+                    {text}
+                </button>
+                : 
+                <Link className={`link ${className}`} to={link} {...props}>{text}</Link>
+            }
         </>
     )
 };
