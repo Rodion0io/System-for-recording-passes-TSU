@@ -2,6 +2,8 @@ import "./logInComponent.css"
 
 import tsuDarkLogo from "../../../../assets/svgs/tsuDarkLogo.svg"
 
+import Button from "../../../ui/button/Button";
+
 const LogInComponent = () => {
 
     return (
@@ -14,8 +16,8 @@ const LogInComponent = () => {
                     </div>
                     <input type="text" />
                     <input type="text" />
-                    <button>Вход</button>
-                    <button>Создать аккаунт</button>
+                    <Button className="login-button" text="Войти"/>
+                    <Button className= "creater-button" text="Создать аккаунт"/>
                 </section>
             </article>
         </>

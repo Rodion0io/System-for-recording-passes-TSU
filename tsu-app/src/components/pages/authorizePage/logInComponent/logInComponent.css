@@ -28,3 +28,19 @@
     width: 48px;
     height: 48px;
 }
+
+.card-title{
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.login-button{
+    background-color: #001529;
+    color: #fff;
+}
+
+.creater-button{
+    background-color: #fff;
+    color: #000;
+    border: 1px solid #F0F2F5 !important;
+}
