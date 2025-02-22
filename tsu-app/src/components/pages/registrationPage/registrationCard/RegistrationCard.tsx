@@ -1,4 +1,3 @@
-// ФИО, почта, пароль
 import "../../../../styles/authorizeCard.css"
 
 import darkTsuLogo from "../../../../assets/svgs/tsuDarkLogo.svg"
@@ -20,6 +19,13 @@ const RegistrationCard = () => {
 
     const [newUser, setNewUser] = useState<RegistrationDatas>({name: "", lastName: "", middleName: "", email: "", password: ""});
 
+    const handleChange = (inputName: string, value: string) => {
+        setNewUser((prevItem) => (
+            {...prevItem,
+            [inputName]: value}
+        ))
+    };
+
     return (
         <>
             <article className="login-card">
@@ -28,11 +34,11 @@ const RegistrationCard = () => {
                         <img src={darkTsuLogo} alt="logo" className="card-logo" />
                         <h2 className="card-title">Создание аккаунта</h2>
                     </div>
-                    <Input placeholder="Фамилия" />
-                    <Input placeholder="Имя"/>
-                    <Input placeholder="Отчество"/>
-                    <Input placeholder="Почта" type="email"/>
-                    <Input placeholder="Пароль" type="password"/>
+                    <Input placeholder="Фамилия" inputHandleChange={(value) => handleChange("lastname", value)}/>
+                    <Input placeholder="Имя" inputHandleChange={(value) => handleChange("name", value)}/>
+                    <Input placeholder="Отчество" inputHandleChange={(value) => handleChange("middlename", value)}/>
+                    <Input placeholder="Почта" type="email" inputHandleChange={(value) => handleChange("email", value)}/>
+                    <Input placeholder="Пароль" type="password" inputHandleChange={(value) => handleChange("password", value)}/>
                     <Button variant="button" className="btn dark-button" text="Создать аккаунт"/>
                 </section>
             </article>

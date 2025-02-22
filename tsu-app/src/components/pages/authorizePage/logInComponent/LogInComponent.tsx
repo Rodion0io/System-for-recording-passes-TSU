@@ -10,14 +10,11 @@ import { authorize } from "../../../../utils/api/authorize";
 
 import { useState } from "react";
 
-interface LogInDatas{
-    login: string,
-    password: string
-}
+import { LogInDatas } from "../../../../@types/api";
 
 const LogInComponent = () => {
 
-    const [LogInDatas, setLogInDatas] = useState<LogInDatas>({login: "", password: ""});
+    const [LogInDatas, setLogInDatas] = useState<LogInDatas>({email: "", password: ""});
 
     const handleChange = (inputName: string, value: string) => {
         setLogInDatas((prevItem) => (
@@ -25,6 +22,11 @@ const LogInComponent = () => {
             [inputName]: value}
         ))
     };
+
+    const handleClick = async () => {
+        const token = (await (await(authorize(LogInDatas))).json()).token;
+        
+    }
 
     return (
         <>

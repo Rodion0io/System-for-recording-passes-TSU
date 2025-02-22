@@ -2,7 +2,7 @@ import { URL } from "../constant";
 
 import { LogInDatas } from "../../@types/api";
 
-export const authorize = async (body: LogInDatas) => {
+export const registration = async (body: LogInDatas) => {
     const header = {
         "Content-Type": "application/json"
     };
