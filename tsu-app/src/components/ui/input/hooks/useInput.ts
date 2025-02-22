@@ -1,0 +1,18 @@
+import { useState } from "react"
+
+export const useInput = (initialState = "", handleInputChange?: (value: string) => void) => {
+
+    const [inputValue, setInputValue] = useState(initialState);
+
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const newValue = event.target.value;
+
+        setInputValue(newValue);
+
+        if (handleInputChange){
+            handleInputChange(newValue);
+        }
+    };
+
+    return {inputValue, handleChange};
+}

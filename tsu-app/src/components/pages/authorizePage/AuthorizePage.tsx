@@ -1,7 +1,5 @@
 import "./authorizePage.css"
 
-
-
 import LogInComponent from "./logInComponent/LogInComponent";
 
 const AuthorizePage = () => {
