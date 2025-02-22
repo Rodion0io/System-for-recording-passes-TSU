@@ -10,3 +10,7 @@ body{
     max-width: 90%;
     margin: auto;
 }
+
+.error-message{
+    color: red;
+}

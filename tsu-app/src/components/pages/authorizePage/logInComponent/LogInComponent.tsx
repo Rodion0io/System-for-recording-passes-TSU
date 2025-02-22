@@ -7,23 +7,26 @@ import Input from "../../../ui/input/Input";
 
 import { ROUTES } from "../../../../utils/routes"
 import { authorize } from "../../../../utils/api/authorize";
+import { LogInDatas } from "../../../../@types/api";
+import { logIn } from "../../../../utils/store/slices/userSlice";
+import { RootType } from "../../../../utils/store/store";
+import { EMAIL_PATTERN } from "../../../../utils/constant";
+import { ERROR_MESSAGES } from "../../../../utils/errorMessages";
 
 import { useState } from "react";
-
-import { LogInDatas } from "../../../../@types/api";
-
-import { useDispatch } from "react-redux";
-
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-
-import { logIn } from "../../../../utils/store/slices/userSlice";
 
 const LogInComponent = () => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const logInFlag = useSelector((state: RootType) => state.userr.logIn);
+
 
     const [LogInDatas, setLogInDatas] = useState<LogInDatas>({email: "", password: ""});
+    const [errorFlag, setErrorFlag] = useState(false);
+    const [errorStatusCode, setErrorStatusCode] = useState<number>(0);
     
     const handleChange = (inputName: string, value: string) => {
         setLogInDatas((prevItem) => (
@@ -33,35 +36,51 @@ const LogInComponent = () => {
     };
 
     const handleClick = async () => {
-        try{
-            console.log(LogInDatas);
-            const token = (await (await(authorize(LogInDatas))).json()).token;
 
-            dispatch(logIn(token));
-            navigate('/');
+        if (LogInDatas.email.length === 0 || LogInDatas.password.length === 0){
+            setErrorStatusCode(1);
+            setErrorFlag(true);
         }
-        catch (error){
-            console.log(error)
-            alert("Ошибка авторизации");
+        else if (!EMAIL_PATTERN.test(LogInDatas.email)){
+            setErrorStatusCode(3);
+            setErrorFlag(true);
+        }
+        else if (EMAIL_PATTERN.test(LogInDatas.email) && LogInDatas.password.length !== 0){
+            try{
+                setErrorFlag(false);
+                setErrorStatusCode(0);
+                const token = (await (await(authorize(LogInDatas))).json()).token;
+    
+                dispatch(logIn(token));
+                navigate('/');
+            }
+            catch {
+                setErrorStatusCode(2);
+                setErrorFlag(true);
+            }
         }
     }
 
     
-
     return (
         <>
-            <article className="login-card">
-                <section className="content-card">
-                    <div className="up-block">
-                        <img src={tsuDarkLogo} alt="logo" className="card-logo" />
-                        <h2 className="card-title">Вход</h2>
-                    </div>
-                    <Input placeholder="Логин" inputHandleChange={(value) => handleChange("email", value)}/>
-                    <Input placeholder="Пароль" inputHandleChange={(value) => handleChange("password", value)} type="password"/>
-                    <Button className="dark-button" text="Войти" onClick={handleClick}/>
-                    <Button variant="link" className="btn light-button" link={ROUTES.REGISTRATION} text="Создать аккаунт"/>
-                </section>
-            </article>
+            {!logInFlag ? 
+                <article className="login-card">
+                    <section className="content-card">
+                        <div className="up-block">
+                            <img src={tsuDarkLogo} alt="logo" className="card-logo" />
+                            <h2 className="card-title">Вход</h2>
+                        </div>
+                        <Input placeholder="Логин" inputHandleChange={(value) => handleChange("email", value)}/>
+                        <Input placeholder="Пароль" inputHandleChange={(value) => handleChange("password", value)} type="password"/>
+                        {errorFlag ? <p className="error-message">{ERROR_MESSAGES[errorStatusCode]}</p> : null}
+                        <Button className="dark-button" text="Войти" onClick={handleClick}/>
+                        <Button variant="link" className="btn light-button" link={ROUTES.REGISTRATION} text="Создать аккаунт"/>
+                    </section>
+                </article>:
+                <h1>Вы авторизованы</h1>
+            }
+            
         </>
     )
 };

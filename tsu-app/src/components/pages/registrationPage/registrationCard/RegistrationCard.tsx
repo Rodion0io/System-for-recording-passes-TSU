@@ -5,6 +5,8 @@ import darkTsuLogo from "../../../../assets/svgs/tsuDarkLogo.svg"
 import Input from "../../../ui/input/Input"
 import Button from "../../../ui/button/Button"
 import { useState } from "react"
+import { useSelector } from "react-redux"
+import { RootType } from "../../../../utils/store/store"
 
 
 interface RegistrationDatas{
@@ -17,6 +19,8 @@ interface RegistrationDatas{
 
 const RegistrationCard = () => {
 
+    const logInFlag = useSelector((state: RootType) => state.userr.logIn);
+
     const [newUser, setNewUser] = useState<RegistrationDatas>({name: "", lastName: "", middleName: "", email: "", password: ""});
 
     const handleChange = (inputName: string, value: string) => {
@@ -28,20 +32,24 @@ const RegistrationCard = () => {
 
     return (
         <>
-            <article className="login-card">
-                <section className="content-card">
-                    <div className="up-block">
-                        <img src={darkTsuLogo} alt="logo" className="card-logo" />
-                        <h2 className="card-title">Создание аккаунта</h2>
-                    </div>
-                    <Input placeholder="Фамилия" inputHandleChange={(value) => handleChange("lastname", value)}/>
-                    <Input placeholder="Имя" inputHandleChange={(value) => handleChange("name", value)}/>
-                    <Input placeholder="Отчество" inputHandleChange={(value) => handleChange("middlename", value)}/>
-                    <Input placeholder="Почта" type="email" inputHandleChange={(value) => handleChange("email", value)}/>
-                    <Input placeholder="Пароль" type="password" inputHandleChange={(value) => handleChange("password", value)}/>
-                    <Button variant="button" className="btn dark-button" text="Создать аккаунт"/>
-                </section>
-            </article>
+            {!logInFlag ? 
+                <article className="login-card">
+                    <section className="content-card">
+                        <div className="up-block">
+                            <img src={darkTsuLogo} alt="logo" className="card-logo" />
+                            <h2 className="card-title">Создание аккаунта</h2>
+                        </div>
+                        <Input placeholder="Фамилия" inputHandleChange={(value) => handleChange("lastname", value)}/>
+                        <Input placeholder="Имя" inputHandleChange={(value) => handleChange("name", value)}/>
+                        <Input placeholder="Отчество" inputHandleChange={(value) => handleChange("middlename", value)}/>
+                        <Input placeholder="Почта" type="email" inputHandleChange={(value) => handleChange("email", value)}/>
+                        <Input placeholder="Пароль" type="password" inputHandleChange={(value) => handleChange("password", value)}/>
+                        <Button variant="button" className="btn dark-button" text="Создать аккаунт"/>
+                    </section>
+                </article> :
+                <h1>Вы авторизованы</h1>
+            }
+            
         </>
     )
 };
