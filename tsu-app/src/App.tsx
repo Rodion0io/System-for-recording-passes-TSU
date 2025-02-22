@@ -4,6 +4,7 @@ import { Route, Routes } from 'react-router-dom'
 
 import Layout from "./components/layout/Layout"
 import AuthorizePage from "./components/pages/authorizePage/AuthorizePage"
+import RegistrationPage from "./components/pages/registrationPage/RegistrationPage"
 
 import { ROUTES } from "./utils/routes"
 
@@ -14,7 +15,7 @@ function App() {
       <Routes>
         <Route path={ROUTES.MAINPAGE} element={<Layout/>}>
           <Route path={ROUTES.AUTHORIZE} element={<AuthorizePage/>}/>
-          <Route path={ROUTES.REGISTRATION} element={<AuthorizePage/>}/>
+          <Route path={ROUTES.REGISTRATION} element={<RegistrationPage/>}/>
         </Route>
       </Routes> 
     </>

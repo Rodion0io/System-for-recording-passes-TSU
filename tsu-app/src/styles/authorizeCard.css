@@ -34,12 +34,13 @@
     font-weight: 600;
 }
 
-.login-button{
+.dark-button{
     background-color: #001529;
     color: #fff;
+    text-align: center;
 }
 
-.creater-button{
+.light-button{
     background-color: #fff;
     color: #000;
     border: 1px solid #F0F2F5 !important;
