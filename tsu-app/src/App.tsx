@@ -9,7 +9,7 @@ import RegistrationPage from "./components/pages/registrationPage/RegistrationPa
 import { ROUTES } from "./utils/routes"
 import { store } from "./utils/store/store"
 
-import { Provider } from "react-redux"
+import { Provider,  } from "react-redux"
 
 function App() {
 
