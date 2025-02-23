@@ -19,7 +19,7 @@ import { useNavigate } from "react-router-dom";
 
 const LogInComponent = () => {
 
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
     const navigate = useNavigate();
     const logInFlag = useSelector((state: RootType) => state.userr.logIn);
 
@@ -49,9 +49,12 @@ const LogInComponent = () => {
             try{
                 setErrorFlag(false);
                 setErrorStatusCode(0);
-                const token = (await (await(authorize(LogInDatas))).json()).token;
+                const token = (await (await(authorize(LogInDatas))).json()).accessToken;
     
-                dispatch(logIn(token));
+                localStorage.setItem("token", token);
+                localStorage.setItem('logIn', "true")
+
+                // dispatch(logIn(token));
                 navigate('/');
             }
             catch {
