@@ -6,7 +6,13 @@ const ProfilePage = () => {
     
     return (
         <>
-            <ProfileCard/>
+            <main className="profile-page">
+                <div className="container">
+                    <div className="profile-page_container">
+                        <ProfileCard/>
+                    </div>
+                </div>
+            </main>
         </>
     )
 };

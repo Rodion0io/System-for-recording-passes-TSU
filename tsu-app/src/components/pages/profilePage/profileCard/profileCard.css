@@ -1,0 +1,90 @@
+.profile-card{
+    width: 900px;
+    background-color: #fff;
+    border-radius: 10px;
+}
+
+.profile-card_container{
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    /* Пока отступ 20пикселей */
+    gap: 20px;
+}
+
+.datas-block{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+}
+
+
+.photo-profile{
+    width: 90px;
+    height: 90px;
+    border-radius: 50px;
+}
+
+.datas-block_user{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.user-information{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    align-items: center;
+}
+
+.user-name{
+    font-size: 28px;
+    font-weight: 555;
+}
+
+.user-type{
+    font-size: 18px;
+    font-weight: 470;
+}
+
+.user-email{
+    font-size: 15px;
+    font-weight: 400;
+}
+
+.user-status{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+}
+
+.user-status_indicator{
+    background-color: #1cc755;
+    width: 10px;
+    height: 10px;
+    border-radius: 20px;
+}
+
+.actions-block{
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 20px;
+}
+
+.profile-actions{
+    border: 2px solid #1890FF;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-right: 15px;
+    padding-left: 15px;
+    color: #1890FF;
+}
+
+.profile-actions:hover{
+    background-color: #1890FF;
+    color: #fff;
+    transition: all 0.25s ease-out;
+}
