@@ -2,7 +2,16 @@ import "./header.css"
 
 import tsuLogo from "../../../assets/svgs/tsuLightLogo.svg"
 
+import Button from "../../ui/button/Button"
+import { ROUTES } from "../../../utils/routes"
+
+import { useSelector } from "react-redux"
+
+import { RootType } from "../../../utils/store/store"
+
 const Header = () => {
+
+    const isLogin = useSelector((state:RootType) => state.userr.logIn);
     
     return (
         <>
@@ -10,7 +19,14 @@ const Header = () => {
                 <div className="container">
                     <div className="nav-container">
                         <img src={tsuLogo} alt="" className="hero-logo" />
-                        <nav className="navbar"></nav>
+                        <nav className="navbar">
+                            {isLogin ? 
+                                <>
+                                <Button variant="link" className="btn nav-link" link={ROUTES.MAINPAGE} text="Главная"/>
+                                <Button variant="link" className="btn nav-link" link={ROUTES.PROFILE} text="Профиль"/></> :
+                                null
+                            }
+                        </nav>
                     </div>
                 </div>
             </header>

@@ -1,5 +1,6 @@
 export const ROUTES = {
     MAINPAGE: "/",
     AUTHORIZE: "/authorize",
-    REGISTRATION: "/registration"
+    REGISTRATION: "/registration",
+    PROFILE: "/profile"
 }

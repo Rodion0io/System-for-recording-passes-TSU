@@ -1,5 +1,5 @@
 .hero{
-    height: 64px;
+    height: 62px;
     background-color: #001529;
     margin-bottom: 20px;
 }
@@ -7,13 +7,36 @@
 .nav-container{
     display: flex;
     justify-content: center;
-    padding-bottom: 11px;
+    /* padding-bottom: 11px; */
+    /* padding-top: 11px; */
+}
+
+.hero-logo{
+    margin-right: 90px;
     padding-top: 11px;
+    padding-bottom: 11px;
 }
 
 .navbar{
-    width: 100%;
+    width: 90%;
     /* height: 64px; */
     display: flex;
     justify-content: space-between;
+}
+
+.nav-link{
+    background-color: #001529;
+    color: #fff;
+    padding: 22px;
+    border-radius: 0px !important;
+    /* text-align: center; */
+}
+
+.nav-link:hover{
+    background-color: #1890FF;
+    transition: all 0.25s ease-out;
+}
+
+.active{
+    background-color: #1890FF;
 }

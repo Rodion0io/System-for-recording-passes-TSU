@@ -44,7 +44,7 @@ const RegistrationCard = () => {
                         <Input placeholder="Отчество" inputHandleChange={(value) => handleChange("middlename", value)}/>
                         <Input placeholder="Почта" type="email" inputHandleChange={(value) => handleChange("email", value)}/>
                         <Input placeholder="Пароль" type="password" inputHandleChange={(value) => handleChange("password", value)}/>
-                        <Button variant="button" className="btn dark-button" text="Создать аккаунт"/>
+                        <Button variant="button" className="btn form-button dark-button" text="Создать аккаунт"/>
                     </section>
                 </article> :
                 <h1>Вы авторизованы</h1>

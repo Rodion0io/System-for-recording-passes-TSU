@@ -74,8 +74,8 @@ const LogInComponent = () => {
                         <Input placeholder="Логин" inputHandleChange={(value) => handleChange("email", value)}/>
                         <Input placeholder="Пароль" inputHandleChange={(value) => handleChange("password", value)} type="password"/>
                         {errorFlag ? <p className="error-message">{ERROR_MESSAGES[errorStatusCode]}</p> : null}
-                        <Button className="dark-button" text="Войти" onClick={handleClick}/>
-                        <Button variant="link" className="btn light-button" link={ROUTES.REGISTRATION} text="Создать аккаунт"/>
+                        <Button className="btn form-button dark-button" text="Войти" onClick={handleClick}/>
+                        <Button variant="link" className="btn form-button light-button" link={ROUTES.REGISTRATION} text="Создать аккаунт"/>
                     </section>
                 </article>:
                 <h1>Вы авторизованы</h1>
