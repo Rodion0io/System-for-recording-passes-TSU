@@ -22,3 +22,7 @@ export interface UserModel{
     email: string,
     userType: string
 };
+
+export interface UserEditModel{
+    password: string
+}

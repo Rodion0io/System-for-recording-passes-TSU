@@ -3,14 +3,20 @@ import "./profileCard.css"
 import profilePhoto from "../../../../assets/photos/photo_2025-02-23 19.24.49.jpeg"
 
 import Button from "../../../ui/button/Button";
+import Input from "../../../ui/input/Input";
 import { ROUTES } from "../../../../utils/routes";
 import { USER_TYPE } from "../../../../utils/userTypeTranslation";
 import { logout } from "../../../../utils/api/logout";
+import { editProfile } from "../../../../utils/api/editProfile";
 
 import { ACCOUNT_CONFIRMED_TEXT, ACCOUNT_NOT_CONFIRMED_TEXT } from "../../../../utils/constant";
 
-import { UserModel } from "../../../../@types/api";
+import ModalWindow from "../modalWindow/ModelaWindow";
+
+import { UserModel, UserEditModel } from "../../../../@types/api";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { ERROR_MESSAGES } from "../../../../utils/errorMessages";
 
 interface PropsProfile{
     props: UserModel
@@ -21,7 +27,12 @@ const ProfileCard = ( { props } : PropsProfile) => {
     const userRole = props.userType;
     const navigate = useNavigate();
 
-    const handleClick = () => {
+    const [modalActive, setModalActive] = useState(false);
+    const [newPassword, setNewPassword] = useState<UserEditModel>({password: ""});
+    const [errorFlag, setErrorFlag] = useState(false);
+    const [errorStatusCode, setErrorStatusCode] = useState(0);
+
+    const handleClickLogout = () => {
         const token = localStorage.getItem('token');
         if (token){
             logout(token);
@@ -31,6 +42,44 @@ const ProfileCard = ( { props } : PropsProfile) => {
         
     }
 
+    const handleChange = (inputName: string, value: string) => {
+        setNewPassword((prevItem) => (
+            {...prevItem,
+            [inputName]: value}
+        ))
+    };
+
+    const handleClickChangePassword = async() => {
+        if (newPassword.password.length !== 0){
+            if (/\d/.test(newPassword.password)){
+                const token = localStorage.getItem('token');
+                try{
+                    setErrorFlag(false);
+                    setErrorStatusCode(0);
+                    
+                    await editProfile(newPassword, token);
+
+                    setModalActive(false);
+                }
+                catch {
+                    setErrorStatusCode(2);
+                    setErrorFlag(true);
+                }
+            }
+            else{
+                setErrorFlag(true);
+                setErrorStatusCode(4);
+            }
+        }
+        else{
+            setErrorFlag(true);
+            setErrorStatusCode(5); 
+        }
+    }
+
+    useEffect(() => {
+        console.log(newPassword);
+    },[newPassword]);
     
 
     return (
@@ -52,11 +101,17 @@ const ProfileCard = ( { props } : PropsProfile) => {
                         </div>
                     </div>
                     <div className="actions-block">
-                        <Button variant="button" className="btn profile-actions"text="Выход" onClick={handleClick}/>
-                        <Button variant="link" className="btn profile-actions" link={ROUTES.MAINPAGE} text="Редактировать пароль"/>
+                        <Button variant="button" className="btn profile-actions"text="Выход" onClick={handleClickLogout}/>
+                        <Button variant="button" className="btn profile-actions" text="Редактировать пароль" onClick={() => setModalActive(true)}/>
                     </div>
                 </div>
             </div>
+            <ModalWindow active={modalActive} setActive={setModalActive}>
+                <p className="title">Придумайте новый пароль</p>
+                <Input placeholder="Пароль" inputHandleChange={(value) => handleChange("password", value)} type="password"/>
+                <Button variant="button" className="btn dark-button newPassword-button" text="Подтвердить" onClick={handleClickChangePassword}/>
+                {errorFlag ? <p className="error-message">{ERROR_MESSAGES[errorStatusCode]}</p> : null}
+            </ModalWindow>
         </>
     )
 };
