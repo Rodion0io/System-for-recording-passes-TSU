@@ -5,10 +5,12 @@ import profilePhoto from "../../../../assets/photos/photo_2025-02-23 19.24.49.jp
 import Button from "../../../ui/button/Button";
 import { ROUTES } from "../../../../utils/routes";
 import { USER_TYPE } from "../../../../utils/userTypeTranslation";
+import { logout } from "../../../../utils/api/logout";
 
 import { ACCOUNT_CONFIRMED_TEXT, ACCOUNT_NOT_CONFIRMED_TEXT } from "../../../../utils/constant";
 
 import { UserModel } from "../../../../@types/api";
+import { useNavigate } from "react-router-dom";
 
 interface PropsProfile{
     props: UserModel
@@ -17,6 +19,19 @@ interface PropsProfile{
 const ProfileCard = ( { props } : PropsProfile) => {
 
     const userRole = props.userType;
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        const token = localStorage.getItem('token');
+        if (token){
+            logout(token);
+            localStorage.clear();
+            navigate("/authorize");
+        }
+        
+    }
+
+    
 
     return (
         <>
@@ -37,7 +52,7 @@ const ProfileCard = ( { props } : PropsProfile) => {
                         </div>
                     </div>
                     <div className="actions-block">
-                        <Button variant="link" className="btn profile-actions" link={ROUTES.MAINPAGE} text="Выход"/>
+                        <Button variant="button" className="btn profile-actions"text="Выход" onClick={handleClick}/>
                         <Button variant="link" className="btn profile-actions" link={ROUTES.MAINPAGE} text="Редактировать пароль"/>
                     </div>
                 </div>

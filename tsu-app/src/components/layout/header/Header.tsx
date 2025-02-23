@@ -21,7 +21,7 @@ const Header = () => {
                     <div className="nav-container">
                         <img src={tsuLogo} alt="" className="hero-logo" />
                         <nav className="navbar">
-                            {isLogin === "true" ? 
+                            {isLogin ? 
                                 <>
                                 <Button variant="link" className="btn nav-link" link={ROUTES.MAINPAGE} text="Главная"/>
                                 <Button variant="link" className="btn nav-link" link={ROUTES.PROFILE} text="Профиль"/></> :
