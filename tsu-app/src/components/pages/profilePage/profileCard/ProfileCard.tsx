@@ -78,8 +78,14 @@ const ProfileCard = ( { props } : PropsProfile) => {
     }
 
     useEffect(() => {
-        console.log(newPassword);
-    },[newPassword]);
+        setNewPassword((prevItem) => (
+            {...prevItem,
+            ["password"]: ""}
+            
+        ))
+        setErrorFlag(false);
+        setErrorStatusCode(0);
+    },[modalActive]);
     
 
     return (
@@ -107,10 +113,12 @@ const ProfileCard = ( { props } : PropsProfile) => {
                 </div>
             </div>
             <ModalWindow active={modalActive} setActive={setModalActive}>
-                <p className="title">Придумайте новый пароль</p>
-                <Input placeholder="Пароль" inputHandleChange={(value) => handleChange("password", value)} type="password"/>
-                <Button variant="button" className="btn dark-button newPassword-button" text="Подтвердить" onClick={handleClickChangePassword}/>
-                {errorFlag ? <p className="error-message">{ERROR_MESSAGES[errorStatusCode]}</p> : null}
+                <div className="modal-card-container">
+                    <p className="title">Придумайте новый пароль</p>
+                    <Input placeholder="Пароль" inputHandleChange={(value) => handleChange("password", value)} type="password"/>
+                    <Button variant="button" className="btn dark-button newPassword-button" text="Подтвердить" onClick={handleClickChangePassword}/>
+                    {errorFlag ? <p className="error-message">{ERROR_MESSAGES[errorStatusCode]}</p> : null}
+                </div>
             </ModalWindow>
         </>
     )

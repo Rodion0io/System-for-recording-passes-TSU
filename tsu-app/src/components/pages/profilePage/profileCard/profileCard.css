@@ -95,3 +95,15 @@
     color: #fff;
     transition: all 0.25s ease-out;
 }
+
+.modal-card-container{
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    /* align-items: center; */
+}
+
+.newPassword-button{
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
