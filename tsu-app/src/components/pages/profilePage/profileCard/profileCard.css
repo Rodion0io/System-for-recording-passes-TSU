@@ -61,39 +61,10 @@
     align-items: center;
 }
 
-.user-status_indicator{
-    width: 10px;
-    height: 10px;
-    border-radius: 20px;
-}
-
-.confirmed{
-    background-color: #1cc755;
-}
-
-.not-confirmed{
-    background-color: red;
-}
-
 .actions-block{
     display: flex;
     flex-direction: row-reverse;
     gap: 20px;
-}
-
-.profile-actions{
-    border: 2px solid #1890FF;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    padding-right: 15px;
-    padding-left: 15px;
-    color: #1890FF;
-}
-
-.profile-actions:hover{
-    background-color: #1890FF;
-    color: #fff;
-    transition: all 0.25s ease-out;
 }
 
 .modal-card-container{

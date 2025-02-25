@@ -1,0 +1,67 @@
+.application-card{
+    background-color: #fff;
+    width: 63vw;
+    border-radius: 10px;
+}
+
+.aplication-card_container{
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.header-card{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 15px;
+}
+
+.header-card_title{
+    font-size: 30px;
+    font-weight: 500;
+}
+
+.information-block{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.information-subBlcok{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 7px;
+}
+
+.section-title{
+    font-size: 20px;
+    font-weight: 550;
+}
+
+.text{
+    font-size: 20px;
+    font-weight: 500; 
+}
+
+.author{
+    font-size: 20px;
+    font-weight: 500; 
+}
+
+.data-request{
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.status-typy-text{
+    font-size: 17px;
+    font-weight: 500;
+}
+
+.action-block{
+    display: flex;
+    flex-direction: row-reverse;
+}

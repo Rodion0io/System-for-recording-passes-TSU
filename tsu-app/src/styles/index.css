@@ -19,3 +19,33 @@ body{
     padding-bottom: 10px;
     padding-top: 10px;
 }
+
+.user-status_indicator{
+    width: 10px;
+    height: 10px;
+    border-radius: 20px;
+}
+
+.confirmed{
+    background-color: #1cc755;
+}
+
+.not-confirmed{
+    background-color: red;
+}
+
+.profile-actions{
+    border: 2px solid #1890FF !important;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-right: 15px;
+    padding-left: 15px;
+    color: #1890FF;
+    background-color: #fff;
+}
+
+.profile-actions:hover{
+    background-color: #1890FF;
+    color: #fff;
+    transition: all 0.25s ease-out;
+}

@@ -5,7 +5,7 @@ import profilePhoto from "../../../../assets/photos/photo_2025-02-23 19.24.49.jp
 import Button from "../../../ui/button/Button";
 import Input from "../../../ui/input/Input";
 import { ROUTES } from "../../../../utils/routes";
-import { USER_TYPE } from "../../../../utils/userTypeTranslation";
+import { USER_TYPE } from "../../../../utils/translationLists/userTypeTranslation";
 import { logout } from "../../../../utils/api/logout";
 import { editProfile } from "../../../../utils/api/editProfile";
 
@@ -23,8 +23,6 @@ interface PropsProfile{
 }
 
 const ProfileCard = ( { props } : PropsProfile) => {
-
-    const userRole = props.userType;
     const navigate = useNavigate();
 
     const [modalActive, setModalActive] = useState(false);
@@ -97,7 +95,7 @@ const ProfileCard = ( { props } : PropsProfile) => {
                         <div className="datas-block_user">
                             <div className="user-information">                            
                                 <h2 className="user-name">{`${props.lastName} ${props.firstName} ${props.middleName}`}</h2>
-                                {props.userType !== "Unverified" ? <p className="user-type">{USER_TYPE.userRole}</p> : null}
+                                {props.userType !== "Unverified" ? <p className="user-type">{USER_TYPE[props.userType]}</p> : null}
                             </div>
                             <p className="user-email">{props.email}</p>
                             <div className="user-status">
@@ -116,7 +114,7 @@ const ProfileCard = ( { props } : PropsProfile) => {
                 <div className="modal-card-container">
                     <p className="title">Придумайте новый пароль</p>
                     <Input placeholder="Пароль" inputHandleChange={(value) => handleChange("password", value)} type="password"/>
-                    <Button variant="button" className="btn dark-button newPassword-button" text="Подтвердить" onClick={handleClickChangePassword}/>
+                    <Button variant="button" className="btn newPassword-button" text="Подтвердить" onClick={handleClickChangePassword}/>
                     {errorFlag ? <p className="error-message">{ERROR_MESSAGES[errorStatusCode]}</p> : null}
                 </div>
             </ModalWindow>
