@@ -25,26 +25,26 @@ const ApplicationCard = ({ props }: ApplicationCardProps) => {
                     <div className="information-block">
                         <div className="information-subBlcok">
                             <p className="section-title">Автор:</p>
-                            {/* <p className="text">Иванов Иван Иванович, студент</p> */}
                             <p className="text">{props.username}</p>
                         </div>
                         <div className="information-subBlcok">
                             <p className="section-title">Дата заявки:</p>
-                            <p className="text">{modifyDate(props.createTime)}</p>
+                            <p className="text">{modifyDate(props.createTime, null, true)}</p>
                         </div>
                         <div className="information-subBlcok">
                             <p className="section-title">Срок пропуска:</p>
-                            <p className="text">{modifyDate(props.absenceDateFrom, props.absenceDateTo, true)}</p>
+                            <p className="text">{modifyDate(props.absenceDateFrom, props.absenceDateTo)}</p>
                         </div>
                         <div className="information-subBlcok">
-                            {/* ${props.userType !== "Unverified" ? "confirmed" : "not-confirmed"}`} */}
                             <p className="section-title">Статус:</p>
-                            <div className={`user-status_indicator confirmed`}></div>
+                            <div className={`user-status_indicator ${props.status === "Checking" ? "checking" 
+                            : props.status === "Confirmed" ? "confirmed" 
+                            : "not-confirmed"}`}></div>
                             <div className="text">{REQUEST_STATUS[props.status]}</div>
                         </div>
                     </div>
                     <div className="action-block">
-                        <Button variant="button" className="btn profile-actions" text="Подробнее"/>
+                        <Button variant="button" className="btn profile-actions" text="Подробнее" id={props.id}/>
                     </div>
                 </div>
             </article>
