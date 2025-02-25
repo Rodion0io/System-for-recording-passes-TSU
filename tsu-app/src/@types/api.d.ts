@@ -26,3 +26,19 @@ export interface UserModel{
 export interface UserEditModel{
     password: string
 }
+
+export interface RequestListModel{
+    requestsList: RequestShortModel[]
+}
+
+export interface RequestShortModel{
+    createTime: string,
+    id: string,
+    // reasonId нужно будет потом убрать
+    reasonId?: string,
+    status: string,
+    username: string,
+    userType: string,
+    absenceDateFrom: string,
+    absenceDateTo: string
+}
