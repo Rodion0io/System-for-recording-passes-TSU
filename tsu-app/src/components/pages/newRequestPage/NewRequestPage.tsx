@@ -1,10 +1,18 @@
 import "./newRequestPage.css"
 
+import NewRequestForm from "./newRequestCardForm/NewRequestCardForm";
+
 const NewRequestPage = () => {
 
     return (
         <>
-            <h1>dljsfkm</h1>
+            <main className="new-request">
+                <div className="container">
+                    <div className="new-request_container">
+                        <NewRequestForm/>
+                    </div>
+                </div>
+            </main>
         </>
     )
 };

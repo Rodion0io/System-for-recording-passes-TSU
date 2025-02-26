@@ -1,0 +1,51 @@
+.request-form{
+    background-color: #fff;
+    border-radius: 10px;
+    width: 80%;
+}
+
+.request-form_container{
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.request-form_title{
+    font-size: 27px;
+    font-weight: 550;
+}
+
+.description-block{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.block-title{
+    font-size: 20px;
+    font-weight: 450;
+}
+
+.description-input{
+    resize: none;
+    width: 100%;
+    border: 1px solid #E7E7E7;
+}
+
+.time-block{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 15px;
+}
+
+.time-block_text{
+    font-size: 15px;
+    font-weight: 450;
+}
+
+.file-input{
+    background-color: #fff;
+    border: none;
+}
