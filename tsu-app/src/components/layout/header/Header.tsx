@@ -23,7 +23,10 @@ const Header = () => {
                         <nav className="navbar">
                             {isLogin ? 
                                 <>
-                                <Button variant="link" className="btn nav-link" link={ROUTES.MAINPAGE} text="Главная"/>
+                                <div className="left-part">
+                                    <Button variant="link" className="btn nav-link" link={ROUTES.MAINPAGE} text="Главная"/>
+                                    <Button variant="link" className="btn nav-link" link={ROUTES.NEW_REQUEST} text="Новая заявка"/>
+                                </div>
                                 <Button variant="link" className="btn nav-link" link={ROUTES.PROFILE} text="Профиль"/></> :
                                 null
                             }
