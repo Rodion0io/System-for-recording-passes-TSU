@@ -15,14 +15,7 @@ const MainPage = () => {
     // Эта логика временная
     //Пока берем из localStorage, потом может быть будем забирать из глобального стэйта
     const token = localStorage.getItem('token');
-    // if (token !== null){
-    //     const userId = decodeToken(token, "id")
-    //     try {
-    //         getUserRequests(token, userId)
-    //     }
-    // }
 
-    
     useEffect(() => {
         const userRequests = async () => {
             if (token) {
@@ -35,17 +28,6 @@ const MainPage = () => {
         }
         userRequests();
     },[]);
-
-    // useEffect(() => {
-    //     const getProfileDatas = async () => {
-    //         if (token){
-    //             const response = await getProfile(token);
-    //             const datas = await response.json()
-    //             setUserProfile((prev) => ({...prev, ...datas}));
-    //         }
-    //     }
-    //     getProfileDatas();
-    // }, []);
 
     return (
         <>
