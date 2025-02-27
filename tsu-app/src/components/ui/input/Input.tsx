@@ -1,20 +1,29 @@
 import "./input.css"
 
 import { useInput } from "./hooks/useInput";
+import { useFileInput } from "./hooks/useFileInput";
 
+type InputVariant = "input" | "textarea" | "file";
 interface InputProps extends React.ComponentProps<'input'> {
     inputMask?: string,
-    inputHandleChange?(value: string): void
+    variant?: InputVariant,
+    inputHandleChange?(value: string): void,
+    inputFileHandleChange?(file: File[]): void
 }
 
-const Input = ({className, inputMask, inputHandleChange, ...props} : InputProps) => {
+const Input = ({variant="input", className, inputMask, inputHandleChange, inputFileHandleChange, ...props} : InputProps) => {
 
-    const { value, handleChange } = useInput("", inputHandleChange);
+    const { inputValue, handleChange } = useInput("", inputHandleChange);
+
+    const { inputFileCurrentState, handleFileChange } = useFileInput([], inputFileHandleChange);
 
     return (
         <>
+            {variant === "input" ? 
+                <input className={`input ${className}`} value={inputValue} {...props} onChange={handleChange}/> :
+                <input className={`input ${className}`} type="file" {...props} onChange={handleFileChange} multiple/>
+            }
             
-            <input className={`input ${className}`} value={value} {...props} onChange={handleChange}/>
         </>
     )
 };

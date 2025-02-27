@@ -5,69 +5,36 @@ import Button from "../../../ui/button/Button";
 import { ROUTES } from "../../../../utils/routes";
 import FixedPhotoCard from "../../../ui/fixedPhotoCard/fixedPhotoCard";
 
-import { createRequest } from "../../../../utils/api/createREquest";
-
-import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { RequestData } from "../../../../@types/api";
 
 import Slider from "react-slick";
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import { useState } from "react";
 
 const NewRequestForm = () => {
 
-
-    const [requestData, setRequestData] = useState([]);
-
-    let settings = {
+    const settings = {
         dots: false,
         infinite: true,
         speed: 500,
         slidesToShow: 6,
         slidesToScroll: 6
-    };
-
-    // const [photosArray, setPhotosArray] = useState<File[]>([]);
+    }; 
 
 
-    // const datasRef = useRef<HTMLFormElement | null>(null);
-    // const navigate = useNavigate();
-    // //ВОзможно из глобального стэйта возьмем потом
-    // const token = localStorage.getItem('token');
+    const [requestData, setRequestData] = useState<RequestData>({description: "", absenceDateFrom: null, absenceDateTo: null, photos: []});
 
-    // const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    //     event.preventDefault();
-    
-    //     if (datasRef.current) {
-    //         const formDatas = new FormData(datasRef.current);
-            
-    //         const newPhotos = formDatas.getAll('photos') as File[];
-    
-    //         setPhotosArray([...newPhotos]); // Перезаписываем, а не дополняем массив
-    
-    //         const absenceDateFrom = formDatas.get("absenceDateFrom") as string;
-    //         const absenceDateTo = formDatas.get("absenceDateTo") as string;
-    
-    //         if (absenceDateFrom) {
-    //             formDatas.set("absenceDateFrom", new Date(absenceDateFrom).toISOString());
-    //         }
-    
-    //         if (absenceDateTo) {
-    //             formDatas.set("absenceDateTo", new Date(absenceDateTo).toISOString());
-    //         }
-    
-    //         try {
-    //             if (token !== null) {
-    //                 await createRequest(token, formDatas);
-    //                 navigate(ROUTES.MAINPAGE);
-    //             }
-    //         } catch {
-    //             console.log("Ошибка");
-    //         }
-    //     }
-    // };
-    
-    
+    const handleChange = (field: string, value: string | File[]) => {
+        setRequestData((prev) => (
+            {...prev, [field]: value}
+        ))
+    }
+
+    const handleClick = () => {
+
+    }
+
 
     return (
         <>
@@ -81,22 +48,21 @@ const NewRequestForm = () => {
                     </div>
                     <div className="time-block">
                         <p className="time-block_text">С</p>
-                        <Input className="date-time-input" type="datetime-local" name="absenceDateFrom"/>
+                        <Input className="date-time-input" inputHandleChange={(value) => handleChange("absenceDateFrom", value)} type="datetime-local"/>
                         <p className="time-block_text">до</p>
-                        <Input className="date-time-input" type="datetime-local" name="absenceDateTo"/>
+                        <Input className="date-time-input" inputHandleChange={(value) => handleChange("absenceDateTo", value)} type="datetime-local"/>
                     </div>
-                    {/* {photosArray.length > 0 ? 
+                    {requestData.photos.length !== 0 ? 
                         <Slider {...settings}>
-                            {photosArray.map((item, index) => (
-                                <FixedPhotoCard photo={item} key={index}/>)
-                            )}
-                        </Slider>
-                        :
+                            {requestData.photos.map((item, index) => (
+                                <FixedPhotoCard photo={item} key={index}/>
+                            ))}
+                        </Slider> :
                         null
-                    } */}
-                    <Input className="file-input" type="file" multiple={true} name="photos"/>
+                    }
+                    <Input className="file-input" variant="file" name="photos" inputFileHandleChange={(value) => handleChange("photos", value)}/>
                     <div className="action-block">
-                        <Button variant="button" className="btn profile-actions" text="Отправить" type="submit"/>
+                        <Button variant="button" className="btn profile-actions" text="Отправить" onClick={handleClick}/>
                     </div>
                 </div>
             </form>

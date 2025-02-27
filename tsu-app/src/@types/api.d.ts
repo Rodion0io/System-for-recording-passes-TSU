@@ -44,7 +44,10 @@ export interface RequestShortModel{
 }
 
 export interface RequestData{
-    
+    description: string,
+    absenceDateFrom: Date | null,
+    absenceDateTo: Date | null,
+    photos: File[]
 }
 
 export interface PhotoCard{
