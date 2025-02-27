@@ -42,3 +42,11 @@ export interface RequestShortModel{
     absenceDateFrom: string,
     absenceDateTo: string
 }
+
+//Под вопросом
+// export interface CreateRequestModel{
+//     absenceDateFrom: string,
+//     absenceDateTo: string,
+//     description: string,
+//     photos?: object[]
+// };
