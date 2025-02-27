@@ -6,14 +6,30 @@ import { ROUTES } from "../../../../utils/routes";
 
 import { createRequest } from "../../../../utils/api/createREquest";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
+import Slider from "react-slick";
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 const NewRequestForm = () => {
 
+
+    let settings = {
+        dots: false,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 6,
+        slidesToScroll: 6
+      };
+
+    const [photosArray, setPhotosArray] = useState<File[]>([]);
+
+
     const datasRef = useRef<HTMLFormElement | null>(null);
     const navigate = useNavigate();
-    //ВОзможно из глобального стэйта возьмем потомт
+    //ВОзможно из глобального стэйта возьмем потом
     const token = localStorage.getItem('token');
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -22,7 +38,11 @@ const NewRequestForm = () => {
         if (datasRef.current){
             const formDatas = new FormData(datasRef.current);
 
-            console.log(typeof(formDatas.get("absenceDateFrom")));
+            console.log(formDatas.getAll('photos'));
+
+            console.log(typeof(formDatas.getAll('photos')));
+
+            setPhotosArray((prev) => ([...prev, ...formDatas.getAll('photos') as File[]]))
 
             const absenceDateFrom = formDatas.get("absenceDateFrom") as string;
             const absenceDateTo = formDatas.get("absenceDateTo") as string;
@@ -39,11 +59,9 @@ const NewRequestForm = () => {
             
                 if (token !== null) {
 
-                    
-
                     await createRequest(token, formDatas);
     
-                    navigate('/');
+                    navigate(ROUTES.MAINPAGE);
                 }
             }
             catch{
@@ -55,7 +73,6 @@ const NewRequestForm = () => {
             return;
         }
     }
-
     
 
     return (
@@ -73,6 +90,29 @@ const NewRequestForm = () => {
                         <p className="time-block_text">до</p>
                         <Input className="date-time-input" type="datetime-local" name="absenceDateTo"/>
                     </div>
+                    {photosArray ? 
+                        <Slider {...settings}>
+                            <div>
+                                <h3>1</h3>
+                            </div>
+                            <div>
+                                <h3>2</h3>
+                            </div>
+                            <div>
+                                <h3>3</h3>
+                            </div>
+                            <div>
+                                <h3>4</h3>
+                            </div>
+                            <div>
+                                <h3>5</h3>
+                            </div>
+                            <div>
+                                <h3>6</h3>
+                            </div>
+                        </Slider> :
+                        null
+                    }
                     <Input className="file-input" type="file" multiple={true} name="photos"/>
                     <div className="action-block">
                         <Button variant="button" className="btn profile-actions" text="Отправить" type="submit"/>

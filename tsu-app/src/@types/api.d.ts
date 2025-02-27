@@ -43,6 +43,10 @@ export interface RequestShortModel{
     absenceDateTo: string
 }
 
+export interface PhotoCard{
+    photo: File
+}
+
 //Под вопросом
 // export interface CreateRequestModel{
 //     absenceDateFrom: string,
