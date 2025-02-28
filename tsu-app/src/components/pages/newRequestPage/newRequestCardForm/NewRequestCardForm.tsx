@@ -84,10 +84,6 @@ const NewRequestForm = () => {
         }
     }
 
-    useEffect(() => {
-        console.log(requestData);
-    },[requestData]);
-
     return (
         <>
         {/* ref={datasRef} onSubmit={handleSubmit} */}
