@@ -15,6 +15,7 @@ export const useFileInput = (initialState:File[] = [], handleInputFileChange?: (
             if (handleInputFileChange) {
                 handleInputFileChange([...inputFileCurrentState, ...modifyFileList]);
             }
+
         }
     }
 

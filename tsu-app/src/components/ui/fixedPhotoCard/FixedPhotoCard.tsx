@@ -6,17 +6,31 @@ import { useEffect, useState } from "react";
 
 const FixedPhotoCard = ({ photo }: PhotoCard) => {
 
+    // console.log(photo);
+
     const [path, setPath] = useState<string | null>(null);
 
     useEffect(() => {
-        const reader = new FileReader();
+        // console.log("new photo");
 
-        reader.onload = () => {
-            setPath(reader.result as string);
+        if (path){
+            return
         }
+        else{
+            const reader = new FileReader();
 
-        reader.readAsDataURL(photo);
-    },[photo]);
+
+            reader.onload = (event) => {
+                setPath(event.target?.result as string);
+            }
+
+            reader.readAsDataURL(photo);
+        }
+        
+
+    },[path]);
+
+
 
     if (path) {
         return (

@@ -1,5 +1,7 @@
 import { URL } from "../constant";
 
+import { RequestData } from "../../@types/api";
+
 export const createRequest = async (token: string, body: FormData) => {
     const header = {
         // "Content-Type": "application/json",

@@ -20,6 +20,7 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
+    height: 400px;
 }
 
 .block-title{
@@ -45,7 +46,32 @@
     font-weight: 450;
 }
 
+.files-block{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.cleaer-files{
+    width: 150px;
+    background-color: #fff;
+    border: 2px solid red;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-right: 15px;
+    padding-left: 15px;
+    color: red;
+    margin-left: 7px;
+}
+
+.cleaer-files:hover{
+    background-color: red;
+    color: #fff;
+    transition: all 0.25s ease-out;
+}
+
 .file-input{
+    width: 300px;
     background-color: #fff;
     border: none;
 }
