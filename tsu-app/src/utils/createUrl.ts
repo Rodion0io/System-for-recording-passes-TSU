@@ -1,7 +1,7 @@
 import { FilterModel } from "../@types/api"
 
-export const createUrl = (userId: string, model: FilterModel) => {
-    let result = userId + "?";
+export const createUrl = (model: FilterModel, userId?: string) => {
+    let result = userId ? userId + "?" : "?";
 
     let modelValues = Object.entries(model);
 

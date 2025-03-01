@@ -9,11 +9,13 @@ import { RequestListModel, FilterModel } from "../../../@types/api";
 import { createUrl } from "../../../utils/createUrl";
 
 import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
 const MainPage = () => {
 
     const [userRequest, setUserRequest] = useState<RequestListModel>();
     const [urlComponents, setUrlComponents] = useState<FilterModel>({sortType: "", requestStatus: "", dateFrom: "", dateTo: "", userName: ""});
+    const [searchParams, setSeacrchParams] = useSearchParams();
 
     // Эта логика временная
     //Пока берем из localStorage, потом может быть будем забирать из глобального стэйта
@@ -41,10 +43,12 @@ const MainPage = () => {
     const addFilter = async () => {
         if (token){
             const userId = decodeToken(token, "user_id");
-            const url = createUrl(userId, urlComponents);
-            const response = await getUserRequests(token, url);
+            const urlByRequset = createUrl(urlComponents, userId);
+            const response = await getUserRequests(token, urlByRequset);
             const datas = await response.json();
             setUserRequest((prev) => ({...prev, ...datas}))
+            const urlByLink = createUrl(urlComponents);
+            setSeacrchParams(urlByLink);
         }
     }
 
