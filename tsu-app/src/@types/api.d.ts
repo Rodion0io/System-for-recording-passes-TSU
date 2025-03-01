@@ -42,3 +42,11 @@ export interface RequestShortModel{
     absenceDateFrom: string,
     absenceDateTo: string
 }
+
+export interface FilterModel{
+    sortType: string,
+    requestStatus: string,
+    dateFrom: string,
+    dateTo: string,
+    userName?: string
+}
