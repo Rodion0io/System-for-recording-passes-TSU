@@ -1,6 +1,77 @@
-.film-card{
+.filter-card{
     background-color: #fff;
     border-radius: 10px;
-    width: 65%;
+    width: 63vw;
 }
 
+.filter-card_container{
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.film-card_title{
+    font-size: 30px;
+    font-weight: 500;
+}
+
+.inputs-container{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.up-section{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.time-block{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.filter-select{
+    width: 20vw;
+}
+
+.bottom-section{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.inputs-block{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.time-block{
+    display: flex;
+    flex-direction: column;
+}
+
+.filter-user-name{
+    margin-top: 20px;
+}
+
+.filter-button{
+    border: 2px solid #1890FF !important;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-right: 15px;
+    padding-left: 15px;
+    color: #1890FF;
+    background-color: #fff;
+    margin-top: 16px;
+}
+
+.filter-button:hover{
+    background-color: #1890FF;
+    color: #fff;
+    transition: all 0.25s ease-out;
+}

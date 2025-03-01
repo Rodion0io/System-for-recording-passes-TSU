@@ -20,7 +20,6 @@ const MainPage = () => {
         const userRequests = async () => {
             if (token) {
                 const userId = decodeToken(token, "user_id");
-                console.log(userId);
                 const response = await getUserRequests(token, userId);
                 const datas = await response.json();
                 setUserRequest((prev) => ({...prev, ...datas}))
@@ -34,7 +33,7 @@ const MainPage = () => {
             <main className="main-page">
                 <div className="container">
                     <div className="main-page-container">
-                        {/* <FilterCard/> */}
+                        <FilterCard/>
                         {userRequest?.requestsList.map((item) => (
                             <ApplicationCard
                             key={item.id}

@@ -1,0 +1,11 @@
+.select-block{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.select{
+    border: 2px solid #E7E7E7;
+    border-radius: 7px;
+    padding: 7px;
+}
