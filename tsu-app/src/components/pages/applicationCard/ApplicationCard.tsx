@@ -129,6 +129,10 @@ const ApplicationCard = ({ props, isFull }: ApplicationCardProps) => {
                                                 <p className="time-block_text">до</p>
                                                 <Input variant="input" className="date-time-input" type="datetime-local" initialValue={new Date(editDatas.absenceDateTo).toISOString().slice(0,-8)}/>
                                             </div>
+                                            <div className="action-block">
+                                                <Button linkState={props.id} variant="link" link={`/request/${props.id}`} className="btn profile-actions" text="Подтвердить" id={props.id}/>
+                                                <Button linkState={props.id} variant="link" link={`/request/${props.id}`} className="btn cancellation" text="Отменить" id={props.id}/>
+                                            </div>
                                         </div>
                                     </div>
                                 </ModalWindow>

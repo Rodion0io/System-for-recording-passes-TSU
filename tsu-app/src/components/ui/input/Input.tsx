@@ -27,7 +27,7 @@ const Input = ({name, variant="input", className, inputMask, inputHandleChange, 
                 <input name={name} className={`input ${className}`} value={inputValue} {...props} onChange={handleChange}/> :
                 variant === "file" ?
                 <input name={name} className={`input ${className}`} type="file" {...props} onChange={handleFileChange} multiple/> : 
-                <textarea name={name} id="" cols={30} rows={30} onChange={handleChange} value={inputValue}></textarea>
+                <textarea className={className} name={name} id="" cols={30} rows={30} onChange={handleChange} value={inputValue}></textarea>
             }
             
         </>

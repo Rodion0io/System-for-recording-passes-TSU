@@ -74,3 +74,41 @@
     height: 200px;
     overflow-y: scroll;
 }
+
+.edit-container{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    
+}
+
+.title{
+    text-align: center;
+    font-size: 25px;
+    font-weight: 550;
+}
+
+.description-title{
+    font-size: 20px;
+    font-weight: 550;
+}
+
+.edit-description-input{
+    width: 100%;
+}
+
+.cancellation{
+    border: 2px solid red !important;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-right: 15px;
+    padding-left: 15px;
+    color: red;
+    background-color: #fff;
+}
+
+.cancellation:hover{
+    background-color: red;
+    color: #fff;
+    transition: all 0.25s ease-out;
+}
