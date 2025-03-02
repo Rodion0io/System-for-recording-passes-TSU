@@ -3,5 +3,7 @@ export const ROUTES = {
     AUTHORIZE: "/authorize",
     REGISTRATION: "/registration",
     PROFILE: "/profile",
-    NEW_REQUEST: "/newRequest"
+    NEW_REQUEST: "/newRequest",
+    // CONCRETE_REQUEST: "/request/:id"
+    CONCRETE_REQUEST: "/request"
 }

@@ -54,17 +54,26 @@ export interface PhotoCard{
     photo: File
 }
 
-//Под вопросом
-// export interface CreateRequestModel{
-//     absenceDateFrom: string,
-//     absenceDateTo: string,
-//     description: string,
-//     photos?: object[]
-// };
 export interface FilterModel{
     sortType: string,
     requestStatus: string,
     dateFrom: string,
     dateTo: string,
     userName?: string
+}
+
+export interface RequestModel{
+    createTime: string,
+    id: string,
+    status: string,
+    firstName: string,
+    middleName: string,
+    lastName: string,
+    checkerUsername: string,
+    description: string,
+    images: string[],
+    userType: string,
+    userId: string,
+    absenceDateFrom: string,
+    absenceDateTo: string
 }

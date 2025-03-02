@@ -1,7 +1,7 @@
 import "./mainPage.css"
 
 import FilterCard from "./filterCard/FilterCard";
-import ApplicationCard from "./applicationCard/ApplicationCard";
+import ApplicationCard from "../applicationCard/ApplicationCard";
 
 import { decodeToken } from "../../../utils/decodeToken";
 import { getUserRequests } from "../../../utils/api/getUserRequests";
@@ -62,6 +62,7 @@ const MainPage = () => {
                             <ApplicationCard
                             key={item.id}
                             props={item}
+                            isFull={false}
                             />
                         ))}
                     </div>

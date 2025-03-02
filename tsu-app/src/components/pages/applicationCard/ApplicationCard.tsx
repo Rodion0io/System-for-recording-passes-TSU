@@ -1,18 +1,19 @@
 import "./applicationCard.css"
-import darkTsuIcon from "../../../../assets/svgs/tsuDarkLogo.svg"
+import darkTsuIcon from "../../../assets/svgs/tsuDarkLogo.svg"
 
-import { REQUEST_STATUS } from "../../../../utils/translationLists/requestStatusTranslation";
-import { RequestShortModel } from "../../../../@types/api";
+import { REQUEST_STATUS } from "../../../utils/translationLists/requestStatusTranslation";
+import { RequestShortModel, RequestModel } from "../../../@types/api";
 
-import { modifyDate } from "../../../../utils/modifyDate";
+import { modifyDate } from "../../../utils/modifyDate";
 
-import Button from "../../../ui/button/Button";
+import Button from "../../ui/button/Button";
 
 interface ApplicationCardProps{
-    props: RequestShortModel
+    props: RequestShortModel | RequestModel,
+    isFull?: boolean
 }
 
-const ApplicationCard = ({ props }: ApplicationCardProps) => {
+const ApplicationCard = ({ props, isFull }: ApplicationCardProps) => {
     
     return (
         <>
@@ -46,6 +47,7 @@ const ApplicationCard = ({ props }: ApplicationCardProps) => {
                     <div className="action-block">
                         <Button variant="button" className="btn profile-actions" text="Подробнее" id={props.id}/>
                     </div>
+                    {isFull ? <h1>ssdigjnksjdgn</h1> : null}
                 </div>
             </article>
         </>
