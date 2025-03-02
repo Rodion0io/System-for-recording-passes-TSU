@@ -8,11 +8,12 @@ type ButtonVariant = 'button' | 'link'
 interface ButtonProps extends React.ComponentProps<'button'>{
     text: string,
     variant?: ButtonVariant,
-    link?: string
+    link?: string,
+    linkState?: string
 }
 
 const Button = 
-    ({variant = 'button', className, text, link, ...props} : ButtonProps) => {
+    ({linkState, variant = 'button', className, text, link, ...props} : ButtonProps) => {
     
     return (
         <>
@@ -25,7 +26,7 @@ const Button =
                     {text}
                 </button>
                 : 
-                <Link className={`link ${className}`} to={link} {...props}>{text}</Link>
+                <Link state={linkState} className={`link ${className}`} to={link} {...props}>{text}</Link>
             }
         </>
     )

@@ -2,18 +2,38 @@ import "./concreteRequestPage.css"
 
 import ApplicationCard from "../applicationCard/ApplicationCard";
 
-import { RequestShortModel } from "../../../@types/api";
+import { RequestModel } from "../../../@types/api";
+
+import { getConcreteRequest } from "../../../utils/api/getConcreteRequest";
+
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router";
 
 const ConcreteRequestPage = () => {
 
-    
+    const location = useLocation();
+    const requestId: string = location.state;
+
+    const [concreteRequest, setConcreteRequest] = useState<RequestModel>();
+
+    useEffect(() => {
+        const request = async () => {
+            const token = localStorage.getItem('token');
+            if (token) {
+                const response = await getConcreteRequest(token, requestId);
+                const datas = await response.json();
+                setConcreteRequest((prev) => ({...prev, ...datas}))
+            }
+        }
+        request();
+    },[])
 
     return (
         <>
             <main className="concrete-request">
                 <div className="container">
                     <div className="concrete-request_container">
-                        <ApplicationCard props={requestsList} isFull={true}/>
+                        {concreteRequest ? <ApplicationCard props={concreteRequest} isFull={true}/> : null}
                     </div>
                 </div>
             </main>

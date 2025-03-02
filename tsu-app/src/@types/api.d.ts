@@ -14,6 +14,10 @@ export interface userSliceDatas{
     logIn: boolean
 };
 
+export interface requestSliceData{
+    requestId: string
+}
+
 export interface UserModel{
     id: string,
     firstName: string,

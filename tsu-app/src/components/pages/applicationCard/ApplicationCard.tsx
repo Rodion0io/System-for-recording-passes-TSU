@@ -8,13 +8,20 @@ import { modifyDate } from "../../../utils/modifyDate";
 
 import Button from "../../ui/button/Button";
 
-interface ApplicationCardProps{
-    props: RequestShortModel | RequestModel,
-    isFull?: boolean
+interface ApplicationCardPropsShortModel{
+    props: RequestShortModel,
+    isFull: false
+};
+
+interface ApplicationCardPropsModel{
+    props: RequestModel,
+    isFull: true
 }
 
+type ApplicationCardProps = ApplicationCardPropsShortModel | ApplicationCardPropsModel;
+
 const ApplicationCard = ({ props, isFull }: ApplicationCardProps) => {
-    
+
     return (
         <>
             <article className="application-card">
@@ -26,7 +33,11 @@ const ApplicationCard = ({ props, isFull }: ApplicationCardProps) => {
                     <div className="information-block">
                         <div className="information-subBlcok">
                             <p className="section-title">Автор:</p>
-                            <p className="text">{props.username}</p>
+                            {!isFull ? 
+                                <p className="text">{props.username}</p> :
+                                <p className="text">{`${props.firstName} ${props.middleName} ${props.lastName}`}</p>
+                            }
+                            
                         </div>
                         <div className="information-subBlcok">
                             <p className="section-title">Дата заявки:</p>
@@ -43,11 +54,42 @@ const ApplicationCard = ({ props, isFull }: ApplicationCardProps) => {
                             : "not-confirmed"}`}></div>
                             <div className="text">{REQUEST_STATUS[props.status]}</div>
                         </div>
+                        {isFull ? 
+                            <>
+                                {props.checkerUsername ? 
+                                    <div className="information-subBlcok">
+                                        <p className="section-title">Вынес вердикт:</p>
+                                        <p className="text">{props.checkerUsername}</p>
+                                    </div> : null
+                                }
+                                <div className="description-container">
+                                    <p className="description">
+                                        {props.description}
+                                    </p>
+                                </div>
+                                {props.images.length !== 0 ? 
+                                    <div className="images-container">
+                                        <p className="section-title">Файлы:</p>
+                                    </div>:
+                                    null
+                                }
+                                {
+                                    props.status === "Checking" ? 
+                                    <div className="action-block">
+                                        <Button linkState={props.id} variant="link" link={`/request/${props.id}`} className="btn profile-actions" text="Редактировать" id={props.id}/>
+                                    </div>:
+                                    null
+                                }
+                            </>
+                            :null
+                        }
                     </div>
-                    <div className="action-block">
-                        <Button variant="button" className="btn profile-actions" text="Подробнее" id={props.id}/>
-                    </div>
-                    {isFull ? <h1>ssdigjnksjdgn</h1> : null}
+                    {!isFull ?
+                        <div className="action-block">
+                            <Button linkState={props.id} variant="link" link={`/request/${props.id}`} className="btn profile-actions" text="Подробнее" id={props.id}/>
+                        </div> :
+                        null
+                    }
                 </div>
             </article>
         </>

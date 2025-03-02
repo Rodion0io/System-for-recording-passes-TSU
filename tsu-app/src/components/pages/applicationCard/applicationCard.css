@@ -64,4 +64,13 @@
 .action-block{
     display: flex;
     flex-direction: row-reverse;
+    gap: 15px;
+}
+
+.description-container{
+    border: 1px solid #E7E7E7;
+    border-radius: 8px;
+    padding: 10px;
+    height: 200px;
+    overflow-y: scroll;
 }
