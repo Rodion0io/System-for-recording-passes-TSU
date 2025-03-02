@@ -50,9 +50,10 @@
     gap: 20px;
 }
 
-.time-block{
+.time-block-filter{
     display: flex;
     flex-direction: column;
+    gap: 5px;
 }
 
 .filter-user-name{

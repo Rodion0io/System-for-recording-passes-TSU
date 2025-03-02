@@ -43,7 +43,6 @@ export interface RequestShortModel{
     absenceDateTo: string
 }
 
-<<<<<<< HEAD
 export interface RequestData{
     description: string,
     absenceDateFrom: Date | null,
@@ -62,7 +61,6 @@ export interface PhotoCard{
 //     description: string,
 //     photos?: object[]
 // };
-=======
 export interface FilterModel{
     sortType: string,
     requestStatus: string,
@@ -70,4 +68,3 @@ export interface FilterModel{
     dateTo: string,
     userName?: string
 }
->>>>>>> mainPage

@@ -25,12 +25,14 @@ const FilterCard = ({ changeStateFilters, addFilter }: FilterCardProps) => {
     if (token){
         userRole = decodeToken(token, "role");
     }
+
+    
     
     const [filters, setFilters] = useState<FilterModel>({sortType: "", requestStatus: "", dateFrom: "", dateTo: "", userName: ""});
 
     const handleChange = (field: string, value: string) => {
         setFilters((prevState) => (
-            {...prevState, [field]: value}
+            {...prevState, [field]: field === "dateFrom" || field === "dateTo" ? new Date(value).toISOString() : value}
         ))
     }
 
@@ -58,14 +60,14 @@ const FilterCard = ({ changeStateFilters, addFilter }: FilterCardProps) => {
                                 typeSort="sortType" selectChange={(value) => handleChange("sortType", value)}/>
                             <Select className="filter-select" valuesArr={SORT_STATUS_ARRAY} name="Статус заявок" lableClass="filter-label" 
                                 typeSort="sortStatus" selectChange={(value) => handleChange("requestStatus", value)}/>
-                            <div className="time-block">
+                            <div className="time-block-filter">
                                 <label>Дата начала</label>
                                 <Input variant="input" className="date-time-input" type="datetime-local" inputHandleChange={(value) => handleChange("dateFrom", value)}/>
                             </div>
                         </div>
                         <div className="bottom-section">
                             <div className="inputs-block">
-                                <div className="time-block">
+                                <div className="time-block-filter">
                                     <label>Дата окончания</label>
                                     <Input variant="input" className="date-time-input" type="datetime-local" inputHandleChange={(value) => handleChange("dateTo", value)}/>
                                 </div>
