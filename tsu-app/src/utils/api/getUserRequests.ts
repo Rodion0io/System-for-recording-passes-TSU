@@ -6,9 +6,6 @@ export const getUserRequests = async (token: string, partUrl: string) => {
         "Authorization": `Bearer ${token}`,
     };
 
-    console.log(token)
-    console.log(partUrl);
-
     const response = await fetch(`${URL}request/user/${partUrl}`, {
         method: "GET",
         headers: header
