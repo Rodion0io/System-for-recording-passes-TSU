@@ -7,6 +7,11 @@ import { RequestShortModel, RequestModel } from "../../../@types/api";
 import { modifyDate } from "../../../utils/modifyDate";
 
 import Button from "../../ui/button/Button";
+import Input from "../../ui/input/Input";
+
+import Slider from "react-slick";
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 interface ApplicationCardPropsShortModel{
     props: RequestShortModel,
@@ -21,6 +26,14 @@ interface ApplicationCardPropsModel{
 type ApplicationCardProps = ApplicationCardPropsShortModel | ApplicationCardPropsModel;
 
 const ApplicationCard = ({ props, isFull }: ApplicationCardProps) => {
+
+    const settings = {
+        dots: false,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 1,
+        slidesToScroll: 1
+    }; 
 
     return (
         <>
@@ -70,6 +83,9 @@ const ApplicationCard = ({ props, isFull }: ApplicationCardProps) => {
                                 {props.images.length !== 0 ? 
                                     <div className="images-container">
                                         <p className="section-title">Файлы:</p>
+                                        <Slider {...settings}>
+                                            {/* Пока не пофиксил */}
+                                        </Slider>
                                     </div>:
                                     null
                                 }
@@ -77,6 +93,8 @@ const ApplicationCard = ({ props, isFull }: ApplicationCardProps) => {
                                     props.status === "Checking" ? 
                                     <div className="action-block">
                                         <Button linkState={props.id} variant="link" link={`/request/${props.id}`} className="btn profile-actions" text="Редактировать" id={props.id}/>
+                                        <Input className="file-input" variant="file" name="photos" />
+                                        {/* inputFileHandleChange={(value) => handleChange("photos", value)} */}
                                     </div>:
                                     null
                                 }
