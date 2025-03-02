@@ -3,6 +3,7 @@ import darkTsuIcon from "../../../assets/svgs/tsuDarkLogo.svg"
 
 import { REQUEST_STATUS } from "../../../utils/translationLists/requestStatusTranslation";
 import { RequestShortModel, RequestModel, RequestEditModel } from "../../../@types/api";
+import { ERROR_MESSAGES } from "../../../utils/errorMessages";
 
 import { modifyDate } from "../../../utils/modifyDate";
 
@@ -15,6 +16,10 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
 import { useState } from "react";
+
+import { editRequest } from "../../../utils/api/editRequest";
+
+import { useNavigate } from "react-router";
 
 interface ApplicationCardPropsShortModel{
     props: RequestShortModel,
@@ -30,8 +35,6 @@ type ApplicationCardProps = ApplicationCardPropsShortModel | ApplicationCardProp
 
 const ApplicationCard = ({ props, isFull }: ApplicationCardProps) => {
 
-    const [modalActive, setModalActive] = useState(false);
-    
     const editObj: RequestEditModel = (isFull ? 
         {status: props.status, description: props.description,
             absenceDateFrom: props.absenceDateFrom,
@@ -41,8 +44,56 @@ const ApplicationCard = ({ props, isFull }: ApplicationCardProps) => {
          absenceDateTo: ""}
         );
 
-    let [editDatas, setEditDatas] = useState<RequestEditModel>(editObj);
+    const [modalActive, setModalActive] = useState(false);
+    const [errorStatusCode, setErrorStatusCode] = useState<number>(0);
+    const [errorFlag, setErrorFlag] = useState<boolean>(false);
+    const [editDatas, setEditDatas] = useState<RequestEditModel>(editObj);
 
+    const navigate = useNavigate();
+    
+
+    const handleCahnge = (field: string, value: string) => {
+        setEditDatas((prevState) => (
+            {...prevState, [field]: value}
+        ))
+    };
+
+    const handleCancellation = () => {
+        
+    }
+
+    const handleEditData = async () => {
+        if (editDatas.description.length === 0){
+            setErrorFlag(true)
+            setErrorStatusCode(7);
+        }
+        else if (Date.now() <= editDatas.absenceDateFrom){
+            setErrorFlag(true)
+            setErrorStatusCode(9)
+        }
+        else if ((editDatas.absenceDateFrom) > (editDatas.absenceDateTo)){
+            setErrorFlag(true)
+            setErrorStatusCode(10)
+        }
+        else{
+            setErrorFlag(false)
+            setErrorStatusCode(0);
+
+            const token = localStorage.getItem('token');
+            const userId: string = props.id;
+
+            try{
+                if (token){
+                    await editRequest(editDatas, token, userId);
+                    setModalActive(false);
+                    navigate("/");
+                }
+            }
+            catch{
+                console.log("error");
+            }
+        }
+    }
 
     const settings = {
         dots: false,
@@ -51,8 +102,6 @@ const ApplicationCard = ({ props, isFull }: ApplicationCardProps) => {
         slidesToShow: 1,
         slidesToScroll: 1
     }; 
-
-    console.log(editDatas.description);
 
     return (
         <>
@@ -122,17 +171,21 @@ const ApplicationCard = ({ props, isFull }: ApplicationCardProps) => {
                                         <div className="edit-container">
                                             <h2 className="title">Редактирование профиля</h2>
                                             <p className="description-title">Опсиание</p>
-                                            <Input name="description" variant="textarea" className="description-input" type="text" value={editDatas.description} initialValue={editDatas.description}/>
+                                            <Input name="description" variant="textarea" className="description-input" type="text" inputHandleChange={(value) => handleCahnge("description", value)}
+                                             value={editDatas.description} initialValue={editDatas.description}/>
                                             <div className="time-block">
                                                 <p className="time-block_text">С</p>
-                                                <Input variant="input" className="date-time-input" type="datetime-local" initialValue={new Date(editDatas.absenceDateFrom).toISOString().slice(0,-8)}/>
+                                                <Input variant="input" className="date-time-input" type="datetime-local" inputHandleChange={(value) => handleCahnge("absenceDateFrom", value)}
+                                                    initialValue={new Date(editDatas.absenceDateFrom).toISOString().slice(0,-8)}/>
                                                 <p className="time-block_text">до</p>
-                                                <Input variant="input" className="date-time-input" type="datetime-local" initialValue={new Date(editDatas.absenceDateTo).toISOString().slice(0,-8)}/>
+                                                <Input variant="input" className="date-time-input" type="datetime-local" inputHandleChange={(value) => handleCahnge("absenceDateTo", value)}
+                                                    initialValue={new Date(editDatas.absenceDateTo).toISOString().slice(0,-8)}/>
                                             </div>
                                             <div className="action-block">
-                                                <Button linkState={props.id} variant="link" link={`/request/${props.id}`} className="btn profile-actions" text="Подтвердить" id={props.id}/>
+                                                <Button variant="button" className="btn profile-actions" text="Подтвердить" onClick={handleEditData}/>
                                                 <Button linkState={props.id} variant="link" link={`/request/${props.id}`} className="btn cancellation" text="Отменить" id={props.id}/>
                                             </div>
+                                            {errorFlag ? <p className="error-message">{ERROR_MESSAGES[errorStatusCode]}</p> : null}
                                         </div>
                                     </div>
                                 </ModalWindow>
