@@ -2,16 +2,19 @@ import "./applicationCard.css"
 import darkTsuIcon from "../../../assets/svgs/tsuDarkLogo.svg"
 
 import { REQUEST_STATUS } from "../../../utils/translationLists/requestStatusTranslation";
-import { RequestShortModel, RequestModel } from "../../../@types/api";
+import { RequestShortModel, RequestModel, RequestEditModel } from "../../../@types/api";
 
 import { modifyDate } from "../../../utils/modifyDate";
 
 import Button from "../../ui/button/Button";
 import Input from "../../ui/input/Input";
+import ModalWindow from "../../ui/modalWindow/ModelaWindow";
 
 import Slider from "react-slick";
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+
+import { useState } from "react";
 
 interface ApplicationCardPropsShortModel{
     props: RequestShortModel,
@@ -27,6 +30,20 @@ type ApplicationCardProps = ApplicationCardPropsShortModel | ApplicationCardProp
 
 const ApplicationCard = ({ props, isFull }: ApplicationCardProps) => {
 
+    const [modalActive, setModalActive] = useState(false);
+    
+    const editObj: RequestEditModel = (isFull ? 
+        {status: props.status, description: props.description,
+            absenceDateFrom: props.absenceDateFrom,
+             absenceDateTo: props.absenceDateTo} : 
+             {status: "", description: "",
+        absenceDateFrom: "",
+         absenceDateTo: ""}
+        );
+
+    let [editDatas, setEditDatas] = useState<RequestEditModel>(editObj);
+
+
     const settings = {
         dots: false,
         infinite: true,
@@ -34,6 +51,8 @@ const ApplicationCard = ({ props, isFull }: ApplicationCardProps) => {
         slidesToShow: 1,
         slidesToScroll: 1
     }; 
+
+    console.log(editDatas.description);
 
     return (
         <>
@@ -92,12 +111,27 @@ const ApplicationCard = ({ props, isFull }: ApplicationCardProps) => {
                                 {
                                     props.status === "Checking" ? 
                                     <div className="action-block">
-                                        <Button linkState={props.id} variant="link" link={`/request/${props.id}`} className="btn profile-actions" text="Редактировать" id={props.id}/>
+                                        <Button variant="button" className="btn profile-actions" text="Редактировать" onClick={() => setModalActive(true)}/>
                                         <Input className="file-input" variant="file" name="photos" />
                                         {/* inputFileHandleChange={(value) => handleChange("photos", value)} */}
                                     </div>:
                                     null
                                 }
+                                <ModalWindow active={modalActive} setActive={setModalActive}>
+                                    <div className="modal-card-container">
+                                        <div className="edit-container">
+                                            <h2 className="title">Редактирование профиля</h2>
+                                            <p className="description-title">Опсиание</p>
+                                            <Input name="description" variant="textarea" className="description-input" type="text" value={editDatas.description} initialValue={editDatas.description}/>
+                                            <div className="time-block">
+                                                <p className="time-block_text">С</p>
+                                                <Input variant="input" className="date-time-input" type="datetime-local" initialValue={new Date(editDatas.absenceDateFrom).toISOString().slice(0,-8)}/>
+                                                <p className="time-block_text">до</p>
+                                                <Input variant="input" className="date-time-input" type="datetime-local" initialValue={new Date(editDatas.absenceDateTo).toISOString().slice(0,-8)}/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ModalWindow>
                             </>
                             :null
                         }

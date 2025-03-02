@@ -11,7 +11,7 @@ import { editProfile } from "../../../../utils/api/editProfile";
 
 import { ACCOUNT_CONFIRMED_TEXT, ACCOUNT_NOT_CONFIRMED_TEXT } from "../../../../utils/constant";
 
-import ModalWindow from "../modalWindow/ModelaWindow";
+import ModalWindow from "../../../ui/modalWindow/ModelaWindow";
 
 import { UserModel, UserEditModel } from "../../../../@types/api";
 import { useNavigate } from "react-router-dom";

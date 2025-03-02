@@ -9,14 +9,17 @@ interface InputProps extends React.ComponentProps<'input'> {
     variant?: InputVariant,
     name?: string,
     inputHandleChange?(value: string): void,
-    inputFileHandleChange?(file: File[]): void
+    inputFileHandleChange?(file: File[]): void,
+    initialValue?: string
 }
 
-const Input = ({name, variant="input", className, inputMask, inputHandleChange, inputFileHandleChange, ...props} : InputProps) => {
+const Input = ({name, variant="input", className, inputMask, inputHandleChange, inputFileHandleChange, initialValue, ...props} : InputProps) => {
 
-    const { inputValue, handleChange } = useInput("", inputHandleChange);
+    const { inputValue, handleChange } = useInput(initialValue ? initialValue : "", inputHandleChange);
 
     const { inputFileCurrentState, handleFileChange } = useFileInput([], inputFileHandleChange);
+
+    console.log(initialValue);
 
     return (
         <>

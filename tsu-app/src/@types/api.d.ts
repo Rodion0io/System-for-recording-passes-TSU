@@ -81,3 +81,11 @@ export interface RequestModel{
     absenceDateFrom: string,
     absenceDateTo: string
 }
+
+export interface RequestEditModel{
+    status: string,
+    description: string,
+    absenceDateFrom: string,
+    absenceDateTo: string
+}
+
