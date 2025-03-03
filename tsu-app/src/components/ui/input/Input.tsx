@@ -19,8 +19,6 @@ const Input = ({name, variant="input", className, inputMask, inputHandleChange, 
 
     const { inputFileCurrentState, handleFileChange } = useFileInput([], inputFileHandleChange);
 
-    console.log(initialValue);
-
     return (
         <>
             {variant === "input" ? 

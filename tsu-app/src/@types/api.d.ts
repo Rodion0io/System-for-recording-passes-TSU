@@ -3,8 +3,10 @@ export interface LogInDatas{
     password: string
 }
 
-export interface registrationDatas{
-    name: string,
+export interface UserRegisterModel{
+    firstName: string,
+    middleName?: string,
+    lastName: string,
     email: string,
     password: string
 };

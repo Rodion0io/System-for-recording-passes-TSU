@@ -1,13 +1,13 @@
 import { URL } from "../constant";
 
-import { LogInDatas } from "../../@types/api";
+import { UserRegisterModel } from "../../@types/api";
 
-export const registration = async (body: LogInDatas) => {
+export const registration = async (body: UserRegisterModel) => {
     const header = {
         "Content-Type": "application/json"
     };
 
-    const response = await fetch(`${URL}user/login`, {
+    const response = await fetch(`${URL}user/register`, {
         method: "POST",
         body: JSON.stringify(body),
         headers: header
