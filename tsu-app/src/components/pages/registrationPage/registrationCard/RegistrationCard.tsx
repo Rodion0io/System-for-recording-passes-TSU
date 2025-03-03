@@ -13,7 +13,7 @@ import { registration } from "../../../../utils/api/registration"
 
 import { RootType } from "../../../../utils/store/store"
 
-import { useEffect, useState } from "react"
+import { useState } from "react"
 
 import { useSelector } from "react-redux"
 
@@ -38,9 +38,6 @@ const RegistrationCard = () => {
         ))
     };
 
-    useEffect(() => {
-        console.log(newUser);
-    },[newUser])
 
     const handleClick = async () => {
         if (newUser.firstName.length === 0){
@@ -75,7 +72,9 @@ const RegistrationCard = () => {
             try{
                 setErrorStatusCode(0);
                 setErrorFlag(false);
-                const response = await registration(newUser);
+                const token = (await (await(registration(newUser))).json()).accessToken
+                localStorage.setItem("token", token);
+                localStorage.setItem('logIn', "true")
                 navigate("/");
             }
             catch{
