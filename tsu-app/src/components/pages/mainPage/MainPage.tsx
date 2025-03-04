@@ -29,7 +29,7 @@ const MainPage = () => {
             if (token) {
                 const userId = decodeToken(token, "user_id");
                 const response = await getUserRequests(token, userId);
-                const datas = await response.json();
+                const datas = response;
                 setUserRequest((prev) => ({...prev, ...datas}))
             }
         }
@@ -45,7 +45,7 @@ const MainPage = () => {
             const userId = decodeToken(token, "user_id");
             const urlByRequset = createUrl(urlComponents, userId);
             const response = await getUserRequests(token, urlByRequset);
-            const datas = await response.json();
+            const datas = response;
             setUserRequest((prev) => ({...prev, ...datas}))
             const urlByLink = createUrl(urlComponents);
             setSeacrchParams(urlByLink);

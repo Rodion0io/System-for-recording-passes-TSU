@@ -91,3 +91,7 @@ export interface RequestEditModel{
     absenceDateTo: string
 }
 
+export interface TokenResponseModel{
+    accessToken: string,
+    refreshToken: string
+}

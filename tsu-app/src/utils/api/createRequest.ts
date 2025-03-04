@@ -1,23 +1,23 @@
+import axios from "axios";
+
 import { URL } from "../constant";
 
-import { RequestData } from "../../@types/api";
 
-export const createRequest = async (token: string, body: FormData) => {
+export const createRequest = async (token: string, body: FormData): Promise<string> => {
     const header = {
         // "Content-Type": "application/json",
         "Authorization": `Bearer ${token}`
     };
 
-    const response = await fetch(`${URL}request`, {
-        method: "POST",
-        body: body,
-        headers: header
-    });
+    try{
+        const response = await axios.post(`${URL}request`, {body}, {headers: header});
 
-    if (response.ok){
-        return response;
+        return response.data;
     }
-    else{
-        throw Error("Не получилось получить данные");
+    catch(error) {
+        if (axios.isAxiosError(error)){
+            console.log(error.message);
+        }
+        throw new Error ("Произошла ошибка создания поста");
     }
 }

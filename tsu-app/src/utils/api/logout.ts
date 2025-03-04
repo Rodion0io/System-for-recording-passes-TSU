@@ -1,20 +1,22 @@
 import { URL } from "../constant";
 
+import axios from "axios";
+
 export const logout = async (token: string) => {
     const header = {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${token}`,
     };
 
-    const response = await fetch(`${URL}user/logout`, {
-        method: "POST",
-        headers: header
-    });
+    try{
+        const response = await axios.post(`${URL}user/logout`, {header: header});
 
-    if (response.ok){
-        return response;
+        return response.data;
     }
-    else{
-        throw Error("Ошибка!");
+    catch(error) {
+        if (axios.isAxiosError(error)){
+            console.log(error.message);
+        }
+        throw new Error ("Не получилось выйти");
     }
 }

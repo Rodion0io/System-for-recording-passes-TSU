@@ -1,20 +1,26 @@
 import { URL } from "../constant";
 
-export const getUserRequests = async (token: string, partUrl: string) => {
+import { RequestListModel } from "../../@types/api";
+
+import axios from "axios";
+
+export const getUserRequests = async (token: string, partUrl: string): Promise<RequestListModel> => {
+
     const header = {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${token}`,
     };
 
-    const response = await fetch(`${URL}request/user/${partUrl}`, {
-        method: "GET",
-        headers: header
-    });
+    try{
+        const response = await axios.get<RequestListModel>(`${URL}request/user/${partUrl}`, {headers: header})
 
-    if (response.ok){
-        return response;
+        return response.data;
     }
-    else{
-        throw Error("Не получилось получить данные");
+    catch (error){
+        if (axios.isAxiosError(error)){
+            console.log(error.message)
+        }
+        throw new Error ("Ошибка");
     }
+    
 }

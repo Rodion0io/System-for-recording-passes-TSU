@@ -49,7 +49,7 @@ const LogInComponent = () => {
             try{
                 setErrorFlag(false);
                 setErrorStatusCode(0);
-                const token = (await (await(authorize(LogInDatas))).json()).accessToken;
+                const token = await (await authorize(LogInDatas)).accessToken
     
                 localStorage.setItem("token", token);
                 localStorage.setItem('logIn', "true")

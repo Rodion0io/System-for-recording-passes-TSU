@@ -21,8 +21,7 @@ const ConcreteRequestPage = () => {
             const token = localStorage.getItem('token');
             if (token) {
                 const response = await getConcreteRequest(token, requestId);
-                const datas = await response.json();
-                setConcreteRequest((prev) => ({...prev, ...datas}))
+                setConcreteRequest((prev) => ({...prev, ...response}))
             }
         }
         request();

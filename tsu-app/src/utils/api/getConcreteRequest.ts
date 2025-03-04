@@ -1,20 +1,25 @@
 import { URL } from "../constant";
 
-export const getConcreteRequest = async (token: string, requestId: string) => {
+import axios from "axios";
+
+import { RequestModel } from "../../@types/api";
+
+
+export const getConcreteRequest = async (token: string, requestId: string): Promise<RequestModel> => {
     const header = {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${token}`,
     };
 
-    const response = await fetch(`${URL}request/${requestId}`, {
-        method: "GET",
-        headers: header
-    });
+    try{
+        const response = await axios.get(`${URL}request/${requestId}`, {headers: header});
 
-    if (response.ok){
-        return response;
+        return response.data;
     }
-    else{
-        throw Error("Не получилось получить данные");
+    catch(error) {
+        if (axios.isAxiosError(error)){
+            console.log(error.message);
+        }
+        throw new Error ("Произошла ошибка получения поста");
     }
 }

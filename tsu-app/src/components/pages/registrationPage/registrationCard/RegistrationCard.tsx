@@ -72,7 +72,7 @@ const RegistrationCard = () => {
             try{
                 setErrorStatusCode(0);
                 setErrorFlag(false);
-                const token = (await (await(registration(newUser))).json()).accessToken
+                const token = (await registration(newUser)).accessToken
                 localStorage.setItem("token", token);
                 localStorage.setItem('logIn', "true")
                 navigate("/");

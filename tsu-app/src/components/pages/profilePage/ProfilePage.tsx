@@ -18,8 +18,7 @@ const ProfilePage = () => {
         const getProfileDatas = async () => {
             if (token){
                 const response = await getProfile(token);
-                const datas = await response.json()
-                setUserProfile((prev) => ({...prev, ...datas}));
+                setUserProfile((prev) => ({...prev, ...response}));
             }
         }
         getProfileDatas();

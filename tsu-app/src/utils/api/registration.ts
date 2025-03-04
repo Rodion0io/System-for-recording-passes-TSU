@@ -1,22 +1,23 @@
 import { URL } from "../constant";
 
-import { UserRegisterModel } from "../../@types/api";
+import { UserRegisterModel, TokenResponseModel } from "../../@types/api";
 
-export const registration = async (body: UserRegisterModel) => {
+import axios from "axios";
+
+export const registration = async (body: UserRegisterModel): Promise<TokenResponseModel> => {
     const header = {
         "Content-Type": "application/json"
     };
 
-    const response = await fetch(`${URL}user/register`, {
-        method: "POST",
-        body: JSON.stringify(body),
-        headers: header
-    });
+    try{
+        const response = await axios.post(`${URL}user/register`, {body: body}, {headers: header});
 
-    if (response.ok){
-        return response;
+        return response.data;
     }
-    else{
-        throw Error("Произошла ошибка авторизации!");
+    catch(error) {
+        if (axios.isAxiosError(error)){
+            console.log(error.message);
+        }
+        throw new Error ("Не получилось зарегестрироваться");
     }
 }

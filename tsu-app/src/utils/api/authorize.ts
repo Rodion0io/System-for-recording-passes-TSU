@@ -1,22 +1,23 @@
 import { URL } from "../constant";
 
-import { LogInDatas } from "../../@types/api";
+import axios from "axios";
 
-export const authorize = async (body: LogInDatas) => {
+import { LogInDatas, TokenResponseModel } from "../../@types/api";
+
+export const authorize = async (body: LogInDatas): Promise<TokenResponseModel> => {
     const header = {
         "Content-Type": "application/json"
     };
 
-    const response = await fetch(`${URL}user/login`, {
-        method: "POST",
-        body: JSON.stringify(body),
-        headers: header
-    });
+    try{
+        const response = await axios.post(`${URL}user/login`, {body}, {headers: header})
 
-    if (response.ok){
-        return response;
+        return response.data;
     }
-    else{
-        throw Error("Произошла ошибка авторизации!");
+    catch(error) {
+        if (axios.isAxiosError(error)){
+            console.log(error.message);
+        }
+        throw new Error ("Произошла ошибка авторизации");
     }
 }

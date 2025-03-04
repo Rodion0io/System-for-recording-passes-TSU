@@ -2,22 +2,24 @@ import { URL } from "../constant";
 
 import { RequestEditModel } from "../../@types/api";
 
-export const editRequest = async (body: RequestEditModel, token: string, requestId: string) => {
+
+import axios from "axios";
+
+export const editRequest = async (body: RequestEditModel, token: string, requestId: string): Promise<string> => {
     const header = {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${token}`,
     };
 
-    const response = await fetch(`${URL}request/${requestId}`, {
-        method: "PUT",
-        body: JSON.stringify(body),
-        headers: header
-    });
+    try{
+        const response = await axios.put(`${URL}request/${requestId}`, {body}, {headers:header});
 
-    if (response.ok){
-        return response;
+        return response.data;
     }
-    else{
-        throw Error("Не получилось получить данные");
+    catch(error) {
+        if (axios.isAxiosError(error)){
+            console.log(error.message);
+        }
+        throw new Error ("Произошла ошибка редактирования поста");
     }
 }
