@@ -8,6 +8,7 @@ import Button from "../../../ui/button/Button"
 import { UserRegisterModel } from "../../../../@types/api"
 import { ERROR_MESSAGES } from "../../../../utils/errorMessages"
 import { VALID_PERSONAL_DATAS, EMAIL_PATTERN, VALID_PASSWORD } from "../../../../utils/constant"
+import { ROUTES } from "../../../../utils/routes"
 
 import { registration } from "../../../../utils/api/registration"
 
@@ -18,7 +19,6 @@ import { useState } from "react"
 import { useSelector } from "react-redux"
 
 import { useNavigate } from "react-router-dom"
-import { ROUTES } from "../../../../utils/routes"
 
 
 const RegistrationCard = () => {
@@ -72,10 +72,13 @@ const RegistrationCard = () => {
             try{
                 setErrorStatusCode(0);
                 setErrorFlag(false);
-                const token = (await registration(newUser)).accessToken
-                localStorage.setItem("token", token);
-                localStorage.setItem('logIn', "true")
-                navigate("/");
+                const response = (await registration(newUser))
+
+                localStorage.setItem("token", response.accessToken);
+                localStorage.setItem("refresh", response.refreshToken);
+                console.log("Переходим на главную")
+                navigate(ROUTES.MAINPAGE);
+                console.log("перешли")
             }
             catch{
                 // Временно

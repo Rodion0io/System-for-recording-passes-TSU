@@ -2,6 +2,8 @@ import { URL } from "../constant";
 
 import axios from "axios";
 
+import { authorizeRequests } from "./instances";
+
 import { RequestModel } from "../../@types/api";
 
 
@@ -12,7 +14,7 @@ export const getConcreteRequest = async (token: string, requestId: string): Prom
     };
 
     try{
-        const response = await axios.get(`${URL}request/${requestId}`, {headers: header});
+        const response = await authorizeRequests.get(`${URL}request/${requestId}`);
 
         return response.data;
     }

@@ -2,15 +2,14 @@ import { URL } from "../constant";
 
 import { UserRegisterModel, TokenResponseModel } from "../../@types/api";
 
+import { notAuthorizedRequest } from "./instances";
+
 import axios from "axios";
 
 export const registration = async (body: UserRegisterModel): Promise<TokenResponseModel> => {
-    const header = {
-        "Content-Type": "application/json"
-    };
 
     try{
-        const response = await axios.post(`${URL}user/register`, {body: body}, {headers: header});
+        const response = await notAuthorizedRequest.post(`${URL}user/register`, body);
 
         return response.data;
     }

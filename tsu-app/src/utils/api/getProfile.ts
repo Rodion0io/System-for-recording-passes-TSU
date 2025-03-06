@@ -2,35 +2,14 @@ import { URL } from "../constant";
 
 import { UserModel } from "../../@types/api";
 
+import { authorizeRequests } from "./instances";
+
 import axios from "axios";
 
-// export const getProfile = async (token: string) => {
-//     const header = {
-//         "Content-Type": "application/json",
-//         "Authorization": `Bearer ${token}`,
-//     };
-
-//     const response = await fetch(`${URL}user/profile`, {
-//         method: "GET",
-//         headers: header
-//     });
-
-//     if (response.ok){
-//         return response;
-//     }
-//     else{
-//         throw Error("Не получилось получить данные");
-//     }
-// }
-
-export const getProfile = async (token: string): Promise<UserModel> => {
-    const header = {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
-    };
+export const getProfile = async (): Promise<UserModel> => {
 
     try{
-        const response = await axios.get(`${URL}user/profile`, {headers: header});
+        const response = await authorizeRequests.get(`${URL}user/profile`);
 
         return response.data;
     }

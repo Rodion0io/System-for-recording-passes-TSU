@@ -95,3 +95,8 @@ export interface TokenResponseModel{
     accessToken: string,
     refreshToken: string
 }
+
+export interface RefreshTokenRequestToken{
+    userId: string,
+    refreshToken: string
+}

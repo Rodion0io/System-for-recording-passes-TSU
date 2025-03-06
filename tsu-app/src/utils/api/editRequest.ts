@@ -2,6 +2,8 @@ import { URL } from "../constant";
 
 import { RequestEditModel } from "../../@types/api";
 
+import { authorizeRequests } from "./instances";
+
 
 import axios from "axios";
 
@@ -12,7 +14,7 @@ export const editRequest = async (body: RequestEditModel, token: string, request
     };
 
     try{
-        const response = await axios.put(`${URL}request/${requestId}`, {body}, {headers:header});
+        const response = await authorizeRequests.put(`${URL}request/${requestId}`, body);
 
         return response.data;
     }

@@ -2,17 +2,14 @@ import { URL } from "../constant";
 
 import { RequestListModel } from "../../@types/api";
 
+import { authorizeRequests } from "./instances";
+
 import axios from "axios";
 
 export const getUserRequests = async (token: string, partUrl: string): Promise<RequestListModel> => {
 
-    const header = {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
-    };
-
     try{
-        const response = await axios.get<RequestListModel>(`${URL}request/user/${partUrl}`, {headers: header})
+        const response = await authorizeRequests.get<RequestListModel>(`${URL}request/user/${partUrl}`)
 
         return response.data;
     }

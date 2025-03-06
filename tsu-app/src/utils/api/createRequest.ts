@@ -2,15 +2,13 @@ import axios from "axios";
 
 import { URL } from "../constant";
 
+import { formDataRequest } from "./instances";
+
 
 export const createRequest = async (token: string, body: FormData): Promise<string> => {
-    const header = {
-        // "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`
-    };
 
     try{
-        const response = await axios.post(`${URL}request`, {body}, {headers: header});
+        const response = await formDataRequest.post(`${URL}request`, body);
 
         return response.data;
     }

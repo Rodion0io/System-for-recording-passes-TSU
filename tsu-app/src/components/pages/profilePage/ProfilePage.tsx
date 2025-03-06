@@ -17,7 +17,7 @@ const ProfilePage = () => {
     useEffect(() => {
         const getProfileDatas = async () => {
             if (token){
-                const response = await getProfile(token);
+                const response = await getProfile();
                 setUserProfile((prev) => ({...prev, ...response}));
             }
         }

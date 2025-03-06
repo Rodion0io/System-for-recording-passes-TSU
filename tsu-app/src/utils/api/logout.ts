@@ -2,14 +2,12 @@ import { URL } from "../constant";
 
 import axios from "axios";
 
+import { authorizeRequests } from "./instances";
+
 export const logout = async (token: string) => {
-    const header = {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
-    };
 
     try{
-        const response = await axios.post(`${URL}user/logout`, {header: header});
+        const response = await authorizeRequests.post(`${URL}user/logout`);
 
         return response.data;
     }

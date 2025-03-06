@@ -12,7 +12,7 @@ import { ROUTES } from "../../../utils/routes"
 const Header = () => {
 
     // const isLogin = useSelector((state:RootType) => state.userr.logIn);
-    const isLogin = localStorage.getItem("logIn");
+    const token = localStorage.getItem("token");
     
     return (
         <>
@@ -21,7 +21,7 @@ const Header = () => {
                     <div className="nav-container">
                         <img src={tsuLogo} alt="" className="hero-logo" />
                         <nav className="navbar">
-                            {isLogin ? 
+                            {token ? 
                                 <>
                                 <div className="left-part">
                                     <Button variant="link" className="btn nav-link" link={ROUTES.MAINPAGE} text="Главная"/>

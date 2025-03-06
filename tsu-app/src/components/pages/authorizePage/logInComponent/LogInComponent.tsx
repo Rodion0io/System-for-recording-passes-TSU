@@ -13,7 +13,7 @@ import { RootType } from "../../../../utils/store/store";
 import { EMAIL_PATTERN } from "../../../../utils/constant";
 import { ERROR_MESSAGES } from "../../../../utils/errorMessages";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -49,12 +49,12 @@ const LogInComponent = () => {
             try{
                 setErrorFlag(false);
                 setErrorStatusCode(0);
-                const token = await (await authorize(LogInDatas)).accessToken
+                const response = await authorize(LogInDatas);
     
-                localStorage.setItem("token", token);
+                localStorage.setItem("token", response.accessToken);
+                localStorage.setItem('refresh', response.refreshToken);
                 localStorage.setItem('logIn', "true")
 
-                // dispatch(logIn(token));
                 navigate('/');
             }
             catch {
@@ -62,7 +62,7 @@ const LogInComponent = () => {
                 setErrorFlag(true);
             }
         }
-    }
+    };
 
     
     return (

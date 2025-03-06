@@ -35,7 +35,7 @@ const ProfileCard = ( { props } : PropsProfile) => {
         if (token){
             logout(token);
             localStorage.clear();
-            navigate("/authorize");
+            navigate(ROUTES.MAINPAGE);
         }
         
     }

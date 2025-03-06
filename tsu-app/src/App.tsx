@@ -18,19 +18,28 @@ import { store } from "./utils/store/store"
 
 function App() {
 
+  const isAuthorize = localStorage.getItem('token');
+
   return (
     <>
     <Provider store={store}>
         <Routes>
-          <Route path={ROUTES.MAINPAGE} element={<Layout/>}>
-            <Route index element={<MainPage/>}/>
-            <Route path={ROUTES.AUTHORIZE} element={<AuthorizePage/>}/>
+          {isAuthorize ? 
+            <Route path={ROUTES.MAINPAGE} element={<Layout/>}>
+                <Route index element={<MainPage/>}/>
+                <Route path={ROUTES.PROFILE} element={<ProfilePage/>}/>
+                <Route path={ROUTES.NEW_REQUEST} element={<NewRequestPage/>}/>
+                <Route path={ROUTES.CONCRETE_REQUEST} element={<ConcreteRequestPage/>}/>
+                <Route path="*" element={<h1>Not found</h1>}/>
+            </Route> 
+            :
+            <Route path={ROUTES.MAINPAGE} element={<Layout/>}>
+            <Route index element={<AuthorizePage/>}/>
             <Route path={ROUTES.REGISTRATION} element={<RegistrationPage/>}/>
-            <Route path={ROUTES.PROFILE} element={<ProfilePage/>}/>
-            <Route path={ROUTES.NEW_REQUEST} element={<NewRequestPage/>}/>
-            <Route path={ROUTES.CONCRETE_REQUEST} element={<ConcreteRequestPage/>}/>
             <Route path="*" element={<h1>Not found</h1>}/>
-          </Route>
+        </Route>
+          }
+          
         </Routes> 
       </Provider>
     </>
