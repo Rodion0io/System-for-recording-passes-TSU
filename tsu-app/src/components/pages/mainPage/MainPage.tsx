@@ -7,8 +7,10 @@ import Button from "../../ui/button/Button";
 
 import { decodeToken } from "../../../utils/decodeToken";
 import { getUserRequests } from "../../../utils/api/getUserRequests";
+import { getAllUsersRequest } from "../../../utils/api/getAllUsersRequest";
 import { RequestListModel, FilterModel } from "../../../@types/api";
 import { createUrl } from "../../../utils/createUrl";
+import { USER_TYPE } from "../../../utils/translationLists/userTypeTranslation";
 
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
@@ -21,14 +23,20 @@ const MainPage = () => {
     const [searchParams, setSeacrchParams] = useSearchParams();
 
     const token = localStorage.getItem('token');
+    const userId = decodeToken(token, "user_id");
+    const userRole = decodeToken(token, "role");
 
     useEffect(() => {
         const userRequests = async () => {
             if (token) {
-                const userId = decodeToken(token, "user_id");
-                console.log(token);
-                const response = await getUserRequests(token,userId);
-                setUserRequest((prev) => ({...prev, ...response}))
+                if (userRole === "Dean" || userRole === "Admin"){
+                    const response = await getAllUsersRequest(token, null);
+                    setUserRequest((prev) => ({...prev, ...response}))
+                }
+                else{
+                    const response = await getUserRequests(token,userId);
+                    setUserRequest((prev) => ({...prev, ...response}))
+                }
             }
         }
         userRequests();
@@ -40,12 +48,22 @@ const MainPage = () => {
 
     const addFilter = async () => {
         if (token){
-            const userId = decodeToken(token, "user_id");
-            const urlByRequset = createUrl(urlComponents, userId);
-            const response = await getUserRequests(token,urlByRequset);
-            setUserRequest((prev) => ({...prev, ...response}))
-            const urlByLink = createUrl(urlComponents);
-            setSeacrchParams(urlByLink);
+
+            const urlByRequset = createUrl(urlComponents);
+
+            if (userRole === "Dean" || userRole === "Admin"){
+                const response = await getAllUsersRequest(token,urlByRequset);
+                setUserRequest((prev) => ({...prev, ...response}))
+                const urlByLink = createUrl(urlComponents);
+                setSeacrchParams(urlByLink);
+            }
+            else{
+                const response = await getUserRequests(token,urlByRequset);
+                setUserRequest((prev) => ({...prev, ...response}))
+                const urlByLink = createUrl(urlComponents);
+                setSeacrchParams(urlByLink);
+            }
+            
         }
     }
 
@@ -68,7 +86,6 @@ const MainPage = () => {
                                 <Button variant="link"  link={ROUTES.AUTHORIZE} text="авторизоваться"/>
                             </div>
                         }
-                        
                     </div>
                 </div>
             </main>

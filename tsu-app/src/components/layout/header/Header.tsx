@@ -12,12 +12,6 @@ import { RootType } from "../../../utils/store/store"
 const Header = () => {
 
     const selector = useSelector((state: RootType) => state.userr.token);
-
-    // const [flag, setFlag] = useState<boolean>(false);
-
-    // useEffect(() => {
-    //     setFlag(token ? true: false);
-    // },[token]);
     
     return (
         <>
