@@ -6,8 +6,12 @@ import { authorizeRequests } from "./instances";
 
 export const logout = async (token: string) => {
 
+    const headerAuth = {
+        "Authorization": `Bearer ${token}`
+    }
+
     try{
-        const response = await authorizeRequests.post(`${URL}user/logout`);
+        const response = await authorizeRequests.post(`${URL}user/logout`, {headerAuth: headerAuth});
 
         return response.data;
     }

@@ -4,3 +4,9 @@
     align-items: center;
     gap: 24px;
 }
+
+.no-auth-block{
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}

@@ -5,21 +5,19 @@ import tsuLogo from "../../../assets/svgs/tsuLightLogo.svg"
 import Button from "../../ui/button/Button"
 import { ROUTES } from "../../../utils/routes"
 
-import { useEffect, useState } from "react"
+import { useSelector } from "react-redux"
 
-// import { useSelector } from "react-redux"
-
-// import { RootType } from "../../../utils/store/store"
+import { RootType } from "../../../utils/store/store"
 
 const Header = () => {
 
-    // const isLogin = useSelector((state:RootType) => state.userr.logIn);
-    const token = localStorage.getItem("token");
-    const [flag, setFlag] = useState<boolean>(false);
+    const selector = useSelector((state: RootType) => state.userr.token);
 
-    useEffect(() => {
-        setFlag(token ? true: false);
-    },[token])
+    // const [flag, setFlag] = useState<boolean>(false);
+
+    // useEffect(() => {
+    //     setFlag(token ? true: false);
+    // },[token]);
     
     return (
         <>
@@ -28,7 +26,7 @@ const Header = () => {
                     <div className="nav-container">
                         <img src={tsuLogo} alt="" className="hero-logo" />
                         <nav className="navbar">
-                            {flag ? 
+                            {selector ? 
                                 <>
                                 <div className="left-part">
                                     <Button variant="link" className="btn nav-link" link={ROUTES.MAINPAGE} text="Главная"/>

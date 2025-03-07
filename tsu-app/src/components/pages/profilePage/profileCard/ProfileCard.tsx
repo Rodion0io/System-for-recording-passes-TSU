@@ -9,31 +9,41 @@ import { USER_TYPE } from "../../../../utils/translationLists/userTypeTranslatio
 import { logout } from "../../../../utils/api/logout";
 import { editProfile } from "../../../../utils/api/editProfile";
 
+import { logOut } from "../../../../utils/store/slices/userSlice";
+
 import { ACCOUNT_CONFIRMED_TEXT, ACCOUNT_NOT_CONFIRMED_TEXT } from "../../../../utils/constant";
+import { ERROR_MESSAGES } from "../../../../utils/errorMessages";
 
 import ModalWindow from "../../../ui/modalWindow/ModelaWindow";
 
 import { UserModel, UserEditModel } from "../../../../@types/api";
-import { useNavigate } from "react-router-dom";
+
+
 import { useEffect, useState } from "react";
-import { ERROR_MESSAGES } from "../../../../utils/errorMessages";
+
+import { useNavigate } from "react-router-dom";
+
+import { useDispatch } from "react-redux";
 
 interface PropsProfile{
     props: UserModel
 }
 
 const ProfileCard = ( { props } : PropsProfile) => {
-    const navigate = useNavigate();
-
+    
     const [modalActive, setModalActive] = useState(false);
     const [newPassword, setNewPassword] = useState<UserEditModel>({password: ""});
     const [errorFlag, setErrorFlag] = useState(false);
     const [errorStatusCode, setErrorStatusCode] = useState(0);
 
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
     const handleClickLogout = () => {
         const token = localStorage.getItem('token');
         if (token){
             logout(token);
+            dispatch(logOut());
             localStorage.clear();
             navigate(ROUTES.AUTHORIZE);
         }

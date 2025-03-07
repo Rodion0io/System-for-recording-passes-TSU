@@ -9,7 +9,6 @@ import { ROUTES } from "../../../../utils/routes"
 import { authorize } from "../../../../utils/api/authorize";
 import { LogInDatas } from "../../../../@types/api";
 import { logIn } from "../../../../utils/store/slices/userSlice";
-import { RootType } from "../../../../utils/store/store";
 import { EMAIL_PATTERN } from "../../../../utils/constant";
 import { ERROR_MESSAGES } from "../../../../utils/errorMessages";
 
@@ -19,10 +18,8 @@ import { useNavigate } from "react-router-dom";
 
 const LogInComponent = () => {
 
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
     const navigate = useNavigate();
-    // const logInFlag = useSelector((state: RootType) => state.userr.logIn);
-
 
     const [LogInDatas, setLogInDatas] = useState<LogInDatas>({email: "", password: ""});
     const [errorFlag, setErrorFlag] = useState(false);
@@ -54,7 +51,7 @@ const LogInComponent = () => {
                 localStorage.setItem("token", response.accessToken);
                 localStorage.setItem('refresh', response.refreshToken);
                 
-                
+                dispatch(logIn(response.accessToken));
 
                 navigate(ROUTES.MAINPAGE);
             }

@@ -10,26 +10,27 @@ import { ERROR_MESSAGES } from "../../../../utils/errorMessages"
 import { VALID_PERSONAL_DATAS, EMAIL_PATTERN, VALID_PASSWORD } from "../../../../utils/constant"
 import { ROUTES } from "../../../../utils/routes"
 
-import { registration } from "../../../../utils/api/registration"
+import { logIn } from "../../../../utils/store/slices/userSlice"
 
-import { RootType } from "../../../../utils/store/store"
+import { registration } from "../../../../utils/api/registration"
 
 import { useState } from "react"
 
-import { useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 
 import { useNavigate } from "react-router-dom"
 
 
 const RegistrationCard = () => {
 
-    const logInFlag = useSelector((state: RootType) => state.userr.logIn);
-
     const [newUser, setNewUser] = useState<UserRegisterModel>({firstName: "", middleName: "", lastName: "", email: "", password: ""});
     const [errorFlag, setErrorFlag] = useState(false);
     const [errorStatusCode, setErrorStatusCode] = useState<number>(0);
 
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const token = localStorage.getItem('token');
 
     const handleChange = (inputName: string, value: string) => {
         setNewUser((prevItem) => (
@@ -76,6 +77,7 @@ const RegistrationCard = () => {
 
                 localStorage.setItem("token", response.accessToken);
                 localStorage.setItem("refresh", response.refreshToken);
+                dispatch(logIn(response.accessToken));
                 navigate(ROUTES.MAINPAGE);
             }
             catch{
@@ -87,7 +89,7 @@ const RegistrationCard = () => {
 
     return (
         <>
-            {!logInFlag ? 
+            {!token ? 
                 <article className="login-card">
                     <section className="content-card">
                         <div className="up-block">

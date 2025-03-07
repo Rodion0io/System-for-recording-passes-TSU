@@ -8,8 +8,14 @@ import axios from "axios";
 
 export const getProfile = async (): Promise<UserModel> => {
 
+    const token = localStorage.getItem('token')
+
+    const headerAuth = {
+        "Authorization": `Bearer ${token}`
+    }
+
     try{
-        const response = await authorizeRequests.get(`${URL}user/profile`);
+        const response = await authorizeRequests.get(`${URL}user/profile`, {headers: headerAuth});
 
         return response.data;
     }

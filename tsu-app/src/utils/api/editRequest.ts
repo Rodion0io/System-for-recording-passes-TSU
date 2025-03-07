@@ -8,13 +8,12 @@ import { authorizeRequests } from "./instances";
 import axios from "axios";
 
 export const editRequest = async (body: RequestEditModel, token: string, requestId: string): Promise<string> => {
-    const header = {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
-    };
+    const headerAuth = {
+        "Authorization": `Bearer ${token}`
+    }
 
     try{
-        const response = await authorizeRequests.put(`${URL}request/${requestId}`, body);
+        const response = await authorizeRequests.put(`${URL}request/${requestId}`, body, {headers: headerAuth});
 
         return response.data;
     }

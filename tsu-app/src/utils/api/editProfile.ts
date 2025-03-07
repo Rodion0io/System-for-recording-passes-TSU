@@ -7,13 +7,13 @@ import { authorizeRequests } from "./instances";
 import { UserEditModel } from "../../@types/api";
 
 export const editProfile = async (body: UserEditModel, token: string) => {
-    // const header = {
-    //     "Content-Type": "application/json",
-    //     "Authorization": `Bearer ${token}`,
-    // };
+    
+    const headerAuth = {
+        "Authorization": `Bearer ${token}`
+    }
 
     try{
-        const response = await authorizeRequests.put(`${URL}user/profile`, body);
+        const response = await authorizeRequests.put(`${URL}user/profile`, body, {headers: headerAuth});
 
         return response.data;
     }

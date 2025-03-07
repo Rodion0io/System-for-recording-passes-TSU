@@ -20,7 +20,6 @@ export const authorizeRequests = axios.create({
 
 export const formDataRequest = axios.create({
     baseURL: URL,
-    headers: {"Authorization": `Bearer ${TOKEN}`},
 })
 
 export const notAuthorizedRequest = axios.create({
@@ -42,7 +41,7 @@ authorizeRequests.interceptors.response.use(
                 if (newAccess && newRefresh){
                     const userId = decodeToken(newAccess, "user_id")
                     try {
-                        const response = await refreshToken(userId, REFRESH);
+                        const response = await refreshToken(userId, newRefresh);
                         localStorage.setItem('token', response.accessToken);
                         localStorage.setItem('refresh', response.refreshToken);
                         error.config.headers.Authorization = `Bearer ${response.accessToken}`;
@@ -60,21 +59,21 @@ authorizeRequests.interceptors.response.use(
     }
 )
 
-formDataRequest.interceptors.response.use(
+authorizeRequests.interceptors.response.use(
     (result) => {
         return result;
     },
     async (error) => {
         if (isAxiosError(error)){
             if (error.response?.status === 401){
-                if (TOKEN && REFRESH){
-                    const userId = decodeToken(TOKEN, "user_id")
+                const newAccess = localStorage.getItem('token');
+                const newRefresh =localStorage.getItem('refresh')
+                if (newAccess && newRefresh){
+                    const userId = decodeToken(newAccess, "user_id")
                     try {
-                        const response = await refreshToken(userId, REFRESH);
-
+                        const response = await refreshToken(userId, newRefresh);
                         localStorage.setItem('token', response.accessToken);
                         localStorage.setItem('refresh', response.refreshToken);
-
                         error.config.headers.Authorization = `Bearer ${response.accessToken}`;
                         return authorizeRequests(error.config)
                     } 
@@ -86,5 +85,6 @@ formDataRequest.interceptors.response.use(
                 }
             }
         }
+        return Promise.reject(error);
     }
 )

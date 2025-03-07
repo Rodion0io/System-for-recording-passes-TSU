@@ -8,13 +8,12 @@ import { RequestModel } from "../../@types/api";
 
 
 export const getConcreteRequest = async (token: string, requestId: string): Promise<RequestModel> => {
-    const header = {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
-    };
+    const headerAuth = {
+        "Authorization": `Bearer ${token}`
+    }
 
     try{
-        const response = await authorizeRequests.get(`${URL}request/${requestId}`);
+        const response = await authorizeRequests.get(`${URL}request/${requestId}`, {headers: headerAuth});
 
         return response.data;
     }

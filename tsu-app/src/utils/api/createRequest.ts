@@ -7,8 +7,12 @@ import { formDataRequest } from "./instances";
 
 export const createRequest = async (token: string, body: FormData): Promise<string> => {
 
+    const headerAuth = {
+        "Authorization": `Bearer ${token}`
+    }
+
     try{
-        const response = await formDataRequest.post(`${URL}request`, body);
+        const response = await formDataRequest.post(`${URL}request`, body, {headers: headerAuth});
 
         return response.data;
     }

@@ -7,12 +7,9 @@ import { notAuthorizedRequest } from "./instances";
 import { LogInDatas, TokenResponseModel } from "../../@types/api";
 
 export const authorize = async (body: LogInDatas): Promise<TokenResponseModel> => {
-    const header = {
-        "Content-Type": "application/json"
-    };
 
     try{
-        const response = await notAuthorizedRequest.post(`${URL}user/login`, body, {headers: header})
+        const response = await notAuthorizedRequest.post(`${URL}user/login`, body)
 
         return response.data;
     }

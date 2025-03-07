@@ -8,11 +8,13 @@ import axios from "axios";
 
 export const getUserRequests = async (token: string, partUrl: string): Promise<RequestListModel> => {
 
+    const headerAuth = {
+        "Authorization": `Bearer ${token}`
+    }
+
     try{
         const response = await authorizeRequests.get<RequestListModel>(`${URL}request/user/${partUrl}`,
-            {headers: {
-                "Authorization": `Bearer ${token}`
-            }}
+            {headers: headerAuth}
         )
 
 
