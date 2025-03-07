@@ -29,10 +29,10 @@ const Header = () => {
                             {selector ? 
                                 <>
                                 <div className="left-part">
-                                    <Button variant="link" className="btn nav-link" link={ROUTES.MAINPAGE} text="Главная"/>
-                                    <Button variant="link" className="btn nav-link" link={ROUTES.NEW_REQUEST} text="Новая заявка"/>
+                                    <Button variant="navLink" className="btn nav-link" link={ROUTES.MAINPAGE} text="Главная"/>
+                                    <Button variant="navLink" className="btn nav-link" link={ROUTES.NEW_REQUEST} text="Новая заявка"/>
                                 </div>
-                                <Button variant="link" className="btn nav-link" link={ROUTES.PROFILE} text="Профиль"/></> :
+                                <Button variant="navLink" className="btn nav-link" link={ROUTES.PROFILE} text="Профиль"/></> :
                                 null
                             }
                         </nav>

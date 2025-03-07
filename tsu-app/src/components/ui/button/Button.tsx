@@ -2,9 +2,9 @@ import React from "react";
 
 import "./button.css"
 
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
-type ButtonVariant = 'button' | 'link'
+type ButtonVariant = 'button' | 'link' | 'navLink'
 interface ButtonProps extends React.ComponentProps<'button'>{
     text: string,
     variant?: ButtonVariant,
@@ -25,8 +25,9 @@ const Button =
                 >
                     {text}
                 </button>
-                : 
-                <Link state={linkState} className={`link ${className}`} to={link} {...props}>{text}</Link>
+                : variant === 'link' ? 
+                <Link state={linkState} className={`link ${className}`} to={link} {...props}>{text}</Link> :
+                <NavLink state={linkState} className={`link ${className}`} to={link} {...props}>{text}</NavLink>
             }
         </>
     )
