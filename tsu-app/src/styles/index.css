@@ -61,3 +61,19 @@ body{
     height: 400px;
     border-radius: 8px;
 }
+
+.cancellation{
+    border: 2px solid red !important;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-right: 15px;
+    padding-left: 15px;
+    color: red;
+    background-color: #fff;
+}
+
+.cancellation:hover{
+    background-color: red;
+    color: #fff;
+    transition: all 0.25s ease-out;
+}

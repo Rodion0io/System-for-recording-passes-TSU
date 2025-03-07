@@ -8,6 +8,7 @@ import EditRequestModel from "./editRequestModal/EditRequestModel";
 
 
 import { modifyDate } from "../../../utils/modifyDate";
+import { decodeToken } from "../../../utils/decodeToken";
 
 import Button from "../../ui/button/Button";
 import Input from "../../ui/input/Input";
@@ -34,6 +35,7 @@ type ApplicationCardProps = ApplicationCardPropsShortModel | ApplicationCardProp
 const ApplicationCard = ({ props, isFull }: ApplicationCardProps) => {
 
     const [modalActive, setModalActive] = useState(false);
+    const userRole = decodeToken(localStorage.getItem('token'), 'role');
 
     const settings = {
         dots: false,
@@ -100,7 +102,14 @@ const ApplicationCard = ({ props, isFull }: ApplicationCardProps) => {
                                 {
                                     props.status === "Checking" ? 
                                     <div className="action-block">
-                                        <Button variant="button" className="btn profile-actions" text="Редактировать" onClick={() => setModalActive(true)}/>
+                                        {userRole === "Dean" || userRole === "Admin" ? 
+                                            <>
+                                                <Button variant="button" className="btn profile-actions" text="Принять" onClick={() => setModalActive(true)}/>
+                                                <Button variant="button" className="btn cancellation" text="Отклонить" onClick={() => setModalActive(true)}/>
+                                            </>:
+                                            <Button variant="button" className="btn profile-actions" text="Редактировать" onClick={() => setModalActive(true)}/>
+                                        }
+                                        
                                         <Input className="file-input" variant="file" name="photos" />
                                         {/* inputFileHandleChange={(value) => handleChange("photos", value)} */}
                                     </div>:

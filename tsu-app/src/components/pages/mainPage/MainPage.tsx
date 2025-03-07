@@ -49,15 +49,17 @@ const MainPage = () => {
     const addFilter = async () => {
         if (token){
 
-            const urlByRequset = createUrl(urlComponents);
+            
 
             if (userRole === "Dean" || userRole === "Admin"){
+                const urlByRequset = createUrl(urlComponents);
                 const response = await getAllUsersRequest(token,urlByRequset);
                 setUserRequest((prev) => ({...prev, ...response}))
                 const urlByLink = createUrl(urlComponents);
                 setSeacrchParams(urlByLink);
             }
             else{
+                const urlByRequset = createUrl(urlComponents, userId);
                 const response = await getUserRequests(token,urlByRequset);
                 setUserRequest((prev) => ({...prev, ...response}))
                 const urlByLink = createUrl(urlComponents);
