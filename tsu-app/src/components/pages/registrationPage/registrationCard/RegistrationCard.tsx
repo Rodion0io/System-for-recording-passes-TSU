@@ -76,9 +76,7 @@ const RegistrationCard = () => {
 
                 localStorage.setItem("token", response.accessToken);
                 localStorage.setItem("refresh", response.refreshToken);
-                console.log("Переходим на главную")
                 navigate(ROUTES.MAINPAGE);
-                console.log("перешли")
             }
             catch{
                 // Временно

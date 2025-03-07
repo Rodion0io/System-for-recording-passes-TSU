@@ -13,7 +13,6 @@ export interface UserRegisterModel{
 
 export interface userSliceDatas{
     token: string | null,
-    logIn: boolean
 };
 
 export interface requestSliceData{

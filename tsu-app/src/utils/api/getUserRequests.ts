@@ -9,7 +9,12 @@ import axios from "axios";
 export const getUserRequests = async (token: string, partUrl: string): Promise<RequestListModel> => {
 
     try{
-        const response = await authorizeRequests.get<RequestListModel>(`${URL}request/user/${partUrl}`)
+        const response = await authorizeRequests.get<RequestListModel>(`${URL}request/user/${partUrl}`,
+            {headers: {
+                "Authorization": `Bearer ${token}`
+            }}
+        )
+
 
         return response.data;
     }

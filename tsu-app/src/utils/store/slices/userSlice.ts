@@ -4,7 +4,6 @@ import { userSliceDatas } from "../../../@types/api";
 
 const initialState: userSliceDatas = {
     token: null,
-    logIn: false
 };
 
 const userSlice = createSlice({
@@ -12,11 +11,9 @@ const userSlice = createSlice({
     initialState,
     reducers: {
         logIn: (state, actions) => {
-            state.logIn = true,
             state.token = actions.payload
         },
         logOut: (state) => {
-            state.logIn = false,
             state.token = null
         }
     }

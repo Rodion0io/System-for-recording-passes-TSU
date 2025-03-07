@@ -5,6 +5,7 @@ import { Route, Routes } from 'react-router-dom'
 import { Provider } from "react-redux"
 
 import Layout from "./components/layout/Layout"
+import ProtectedLayout from "./components/layout/ProtectedLayout"
 import AuthorizePage from "./components/pages/authorizePage/AuthorizePage"
 import RegistrationPage from "./components/pages/registrationPage/RegistrationPage"
 import ProfilePage from "./components/pages/profilePage/ProfilePage"
@@ -18,28 +19,25 @@ import { store } from "./utils/store/store"
 
 function App() {
 
-  const isAuthorize = localStorage.getItem('token');
-
   return (
     <>
     <Provider store={store}>
         <Routes>
-          {isAuthorize ? 
-            <Route path={ROUTES.MAINPAGE} element={<Layout/>}>
-                <Route index element={<MainPage/>}/>
-                <Route path={ROUTES.PROFILE} element={<ProfilePage/>}/>
-                <Route path={ROUTES.NEW_REQUEST} element={<NewRequestPage/>}/>
-                <Route path={ROUTES.CONCRETE_REQUEST} element={<ConcreteRequestPage/>}/>
-                <Route path="*" element={<h1>Not found</h1>}/>
-            </Route> 
-            :
-            <Route path={ROUTES.MAINPAGE} element={<Layout/>}>
-            <Route index element={<AuthorizePage/>}/>
+          <Route path={ROUTES.MAINPAGE} element={<Layout/>}>
+            <Route index element={<MainPage/>}/>
+            <Route path={ROUTES.AUTHORIZE} element={<AuthorizePage/>}/>
             <Route path={ROUTES.REGISTRATION} element={<RegistrationPage/>}/>
+
+
+            
+            <Route element={<ProtectedLayout/>}>
+              <Route path={ROUTES.PROFILE} element={<ProfilePage/>}/>
+              <Route path={ROUTES.NEW_REQUEST} element={<NewRequestPage/>}/>
+              <Route path={ROUTES.CONCRETE_REQUEST} element={<ConcreteRequestPage/>}/>
+            </Route>
+
             <Route path="*" element={<h1>Not found</h1>}/>
-        </Route>
-          }
-          
+          </Route>
         </Routes> 
       </Provider>
     </>

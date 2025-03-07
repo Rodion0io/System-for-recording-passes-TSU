@@ -21,7 +21,7 @@ const LogInComponent = () => {
 
     // const dispatch = useDispatch();
     const navigate = useNavigate();
-    const logInFlag = useSelector((state: RootType) => state.userr.logIn);
+    // const logInFlag = useSelector((state: RootType) => state.userr.logIn);
 
 
     const [LogInDatas, setLogInDatas] = useState<LogInDatas>({email: "", password: ""});
@@ -53,9 +53,10 @@ const LogInComponent = () => {
     
                 localStorage.setItem("token", response.accessToken);
                 localStorage.setItem('refresh', response.refreshToken);
-                localStorage.setItem('logIn', "true")
+                
+                
 
-                navigate('/');
+                navigate(ROUTES.MAINPAGE);
             }
             catch {
                 setErrorStatusCode(2);
@@ -67,7 +68,7 @@ const LogInComponent = () => {
     
     return (
         <>
-            {!logInFlag ? 
+            {!localStorage.getItem('token') ? 
                 <article className="login-card">
                     <section className="content-card">
                         <div className="up-block">

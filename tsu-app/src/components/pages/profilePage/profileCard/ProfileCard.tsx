@@ -35,7 +35,7 @@ const ProfileCard = ( { props } : PropsProfile) => {
         if (token){
             logout(token);
             localStorage.clear();
-            navigate(ROUTES.MAINPAGE);
+            navigate(ROUTES.AUTHORIZE);
         }
         
     }
@@ -105,7 +105,7 @@ const ProfileCard = ( { props } : PropsProfile) => {
                         </div>
                     </div>
                     <div className="actions-block">
-                        <Button variant="button" className="btn profile-actions"text="Выход" onClick={handleClickLogout}/>
+                        <Button variant="button" className="btn profile-actions" text="Выход" onClick={handleClickLogout}/>
                         <Button variant="button" className="btn profile-actions" text="Редактировать пароль" onClick={() => setModalActive(true)}/>
                     </div>
                 </div>

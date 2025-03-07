@@ -17,24 +17,22 @@ const MainPage = () => {
     const [urlComponents, setUrlComponents] = useState<FilterModel>({sortType: "", requestStatus: "", dateFrom: "", dateTo: "", userName: ""});
     const [searchParams, setSeacrchParams] = useSearchParams();
 
-    // Эта логика временная
-    //Пока берем из localStorage, потом может быть будем забирать из глобального стэйта
     const token = localStorage.getItem('token');
 
+    // console.log(token);
 
-
-    // Нужно запрос обернуть в try catch
     useEffect(() => {
         const userRequests = async () => {
             if (token) {
                 const userId = decodeToken(token, "user_id");
-                const response = await getUserRequests(token, userId);
-                const datas = response;
-                setUserRequest((prev) => ({...prev, ...datas}))
+                console.log(token);
+                const response = await getUserRequests(token,userId);
+                // console.log(response);
+                setUserRequest((prev) => ({...prev, ...response}))
             }
         }
         userRequests();
-    },[]);
+    },[token]);
 
     const handleChangeUrlComponents = (newState: FilterModel) => {
         setUrlComponents((prevState) => ({...prevState, ...newState}));
@@ -44,9 +42,8 @@ const MainPage = () => {
         if (token){
             const userId = decodeToken(token, "user_id");
             const urlByRequset = createUrl(urlComponents, userId);
-            const response = await getUserRequests(token, urlByRequset);
-            const datas = response;
-            setUserRequest((prev) => ({...prev, ...datas}))
+            const response = await getUserRequests(token,urlByRequset);
+            setUserRequest((prev) => ({...prev, ...response}))
             const urlByLink = createUrl(urlComponents);
             setSeacrchParams(urlByLink);
         }
