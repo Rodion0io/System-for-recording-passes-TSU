@@ -78,3 +78,12 @@
     padding-top: 10px;
     padding-bottom: 10px;
 }
+
+.user-link{
+    color: #000;
+}
+
+
+.user-link:hover{
+    color: #6e6e6e;
+}

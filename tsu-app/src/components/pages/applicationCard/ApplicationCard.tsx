@@ -6,9 +6,7 @@ import { RequestShortModel, RequestModel } from "../../../@types/api";
 
 import EditRequestModel from "./editRequestModal/EditRequestModel";
 
-
 import { modifyDate } from "../../../utils/modifyDate";
-import { decodeToken } from "../../../utils/decodeToken";
 
 import Button from "../../ui/button/Button";
 import Input from "../../ui/input/Input";
@@ -22,20 +20,21 @@ import { useState } from "react";
 
 interface ApplicationCardPropsShortModel{
     props: RequestShortModel,
-    isFull: false
+    isFull: false,
+    userRoles: string[],
 };
 
 interface ApplicationCardPropsModel{
     props: RequestModel,
-    isFull: true
+    isFull: true,
+    userRoles: string[],
 }
 
 type ApplicationCardProps = ApplicationCardPropsShortModel | ApplicationCardPropsModel;
 
-const ApplicationCard = ({ props, isFull }: ApplicationCardProps) => {
+const ApplicationCard = ({ props, isFull, userRoles }: ApplicationCardProps) => {
 
     const [modalActive, setModalActive] = useState(false);
-    const userRole = decodeToken(localStorage.getItem('token'), 'role');
 
     const settings = {
         dots: false,
@@ -102,7 +101,7 @@ const ApplicationCard = ({ props, isFull }: ApplicationCardProps) => {
                                 {
                                     props.status === "Checking" ? 
                                     <div className="action-block">
-                                        {userRole === "Dean" || userRole === "Admin" ? 
+                                        {userRoles.includes("Dean") || userRoles.includes("Admin") ? 
                                             <>
                                                 <Button variant="button" className="btn profile-actions" text="Принять" onClick={() => setModalActive(true)}/>
                                                 <Button variant="button" className="btn cancellation" text="Отклонить" onClick={() => setModalActive(true)}/>

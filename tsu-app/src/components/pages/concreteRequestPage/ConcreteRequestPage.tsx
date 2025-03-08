@@ -6,6 +6,8 @@ import { RequestModel } from "../../../@types/api";
 
 import { getConcreteRequest } from "../../../utils/api/getConcreteRequest";
 
+import { useUserRoles } from "../../../utils/hooks/useUserRoles";
+
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router";
 
@@ -15,6 +17,7 @@ const ConcreteRequestPage = () => {
     const requestId: string = location.state;
 
     const [concreteRequest, setConcreteRequest] = useState<RequestModel>();
+    const userRoles = useUserRoles();
 
     useEffect(() => {
         const request = async () => {
@@ -25,14 +28,19 @@ const ConcreteRequestPage = () => {
             }
         }
         request();
-    },[])
+    },[]);
+
 
     return (
         <>
             <main className="concrete-request">
                 <div className="container">
                     <div className="concrete-request_container">
-                        {concreteRequest ? <ApplicationCard props={concreteRequest} isFull={true}/> : null}
+                        {concreteRequest ? <ApplicationCard 
+                            props={concreteRequest}
+                             isFull={true}
+                             userRoles={userRoles}
+                             /> : null}
                     </div>
                 </div>
             </main>

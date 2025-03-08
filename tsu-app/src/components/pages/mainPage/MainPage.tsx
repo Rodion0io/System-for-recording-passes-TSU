@@ -8,9 +8,11 @@ import Button from "../../ui/button/Button";
 import { decodeToken } from "../../../utils/decodeToken";
 import { getUserRequests } from "../../../utils/api/getUserRequests";
 import { getAllUsersRequest } from "../../../utils/api/getAllUsersRequest";
+import { getProfile } from "../../../utils/api/getProfile";
 import { RequestListModel, FilterModel } from "../../../@types/api";
 import { createUrl } from "../../../utils/createUrl";
 import { USER_TYPE } from "../../../utils/translationLists/userTypeTranslation";
+import { useUserRoles } from "../../../utils/hooks/useUserRoles";
 
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
@@ -21,15 +23,17 @@ const MainPage = () => {
     const [userRequest, setUserRequest] = useState<RequestListModel>();
     const [urlComponents, setUrlComponents] = useState<FilterModel>({sortType: "", requestStatus: "", dateFrom: "", dateTo: "", userName: ""});
     const [searchParams, setSeacrchParams] = useSearchParams();
+    
+    const userRoles = useUserRoles();
 
     const token = localStorage.getItem('token');
     const userId = decodeToken(token, "user_id");
-    const userRole = decodeToken(token, "role");
 
     useEffect(() => {
         const userRequests = async () => {
             if (token) {
-                if (userRole === "Dean" || userRole === "Admin"){
+                
+                if (userRoles.includes("Dean") || userRoles.includes("Admin")){
                     const response = await getAllUsersRequest(token, null);
                     setUserRequest((prev) => ({...prev, ...response}))
                 }
@@ -51,7 +55,7 @@ const MainPage = () => {
 
             
 
-            if (userRole === "Dean" || userRole === "Admin"){
+            if (userRoles.includes("Dean") || userRoles.includes("Admin")){
                 const urlByRequset = createUrl(urlComponents);
                 const response = await getAllUsersRequest(token,urlByRequset);
                 setUserRequest((prev) => ({...prev, ...response}))
@@ -81,6 +85,7 @@ const MainPage = () => {
                                 key={item.id}
                                 props={item}
                                 isFull={false}
+                                userRoles={userRoles}
                                 />
                             ))}</> :
                             <div className="no-auth-block">

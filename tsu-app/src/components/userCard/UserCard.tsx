@@ -106,15 +106,15 @@ const UserCard = ( { props, forList = false } : PropsProfile) => {
                             <div className="user-information">
                                 {!forList ? 
                                     <h2 className="user-name">{`${props.lastName} ${props.firstName} ${props.middleName}`}</h2>:
-                                    <Button variant="link" className="user-name" link={`${ROUTES.USER_LIST}/${props.id}`}
+                                    <Button variant="link" className="user-name user-link" link={`${ROUTES.USER_LIST}/${props.id}`}
                                      text={`${props.lastName} ${props.firstName} ${props.middleName}`}/>
                                 }                      
-                                {props.userType !== "Unverified" ? <p className="user-type">{USER_TYPE[props.userType]}</p> : null}
+                                {!props.userTypes.includes("Unverified") ? <p className="user-type">{(props.userTypes) => }</p> : null}
                             </div>
                             <p className="user-email">{props.email}</p>
                             <div className="user-status">
-                                <div className={`user-status_indicator ${props.userType !== "Unverified" ? "confirmed" : "not-confirmed"}`}></div>
-                                <p className="user-status_text">{props.userType !== "Unverified" ? ACCOUNT_CONFIRMED_TEXT : ACCOUNT_NOT_CONFIRMED_TEXT}</p>
+                                <div className={`user-status_indicator ${!props.userTypes.includes("Unverified") ? "confirmed" : "not-confirmed"}`}></div>
+                                <p className="user-status_text">{!props.userTypes.includes("Unverified") ? ACCOUNT_CONFIRMED_TEXT : ACCOUNT_NOT_CONFIRMED_TEXT}</p>
                             </div>
                         </div>
                     </div>

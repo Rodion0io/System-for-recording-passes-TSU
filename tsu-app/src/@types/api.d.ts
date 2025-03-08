@@ -25,7 +25,7 @@ export interface UserModel{
     middleName: string,
     lastName: string,
     email: string,
-    userType: string
+    userTypes: string[]
 };
 
 export interface UserEditModel{
@@ -39,11 +39,8 @@ export interface RequestListModel{
 export interface RequestShortModel{
     createTime: string,
     id: string,
-    // reasonId нужно будет потом убрать
-    reasonId?: string,
     status: string,
     username: string,
-    userType: string,
     absenceDateFrom: string,
     absenceDateTo: string
 }
@@ -77,7 +74,6 @@ export interface RequestModel{
     checkerUsername: string,
     description: string,
     images: string[],
-    userType: string,
     userId: string,
     absenceDateFrom: string,
     absenceDateTo: string

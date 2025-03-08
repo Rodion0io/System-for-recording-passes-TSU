@@ -12,7 +12,7 @@ const ProfilePage = () => {
 
     const token = localStorage.getItem('token');
 
-    const [userProfile, setUserProfile] = useState<UserModel>({id: "", firstName: "", middleName: "", lastName: "", email: "", userType: ""})
+    const [userProfile, setUserProfile] = useState<UserModel>({id: "", firstName: "", middleName: "", lastName: "", email: "", userTypes: []})
 
     useEffect(() => {
         const getProfileDatas = async () => {
