@@ -31,6 +31,13 @@
     align-items: center;
 }
 
+.right-part{
+    width: 30%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .nav-link{
     background-color: #001529;
     color: #fff;

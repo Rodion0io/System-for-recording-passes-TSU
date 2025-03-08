@@ -1,23 +1,22 @@
-import "./profileCard.css"
+import "./userCard.css"
 
-import profilePhoto from "../../../../assets/photos/photo_2025-02-23 19.24.49.jpeg"
+import profilePhoto from "../../assets/photos/photo_2025-02-23 19.24.49.jpeg"
 
-import Button from "../../../ui/button/Button";
-import Input from "../../../ui/input/Input";
-import { ROUTES } from "../../../../utils/routes";
-import { USER_TYPE } from "../../../../utils/translationLists/userTypeTranslation";
-import { logout } from "../../../../utils/api/logout";
-import { editProfile } from "../../../../utils/api/editProfile";
+import Button from "../ui/button/Button";
+import Input from "../ui/input/Input";
+import { ROUTES } from "../../utils/routes";
+import { USER_TYPE } from "../../utils/translationLists/userTypeTranslation";
+import { logout } from "../../utils/api/logout";
+import { editProfile } from "../../utils/api/editProfile";
 
-import { logOut } from "../../../../utils/store/slices/userSlice";
+import { logOut } from "../../utils/store/slices/userSlice";
 
-import { ACCOUNT_CONFIRMED_TEXT, ACCOUNT_NOT_CONFIRMED_TEXT } from "../../../../utils/constant";
-import { ERROR_MESSAGES } from "../../../../utils/errorMessages";
+import { ACCOUNT_CONFIRMED_TEXT, ACCOUNT_NOT_CONFIRMED_TEXT } from "../../utils/constant";
+import { ERROR_MESSAGES } from "../../utils/errorMessages";
 
-import ModalWindow from "../../../ui/modalWindow/ModelaWindow";
+import ModalWindow from "../ui/modalWindow/ModelaWindow";
 
-import { UserModel, UserEditModel } from "../../../../@types/api";
-
+import { UserModel, UserEditModel } from "../../@types/api";
 
 import { useEffect, useState } from "react";
 
@@ -26,10 +25,11 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
 interface PropsProfile{
-    props: UserModel
+    props: UserModel,
+    forList: boolean
 }
 
-const ProfileCard = ( { props } : PropsProfile) => {
+const UserCard = ( { props, forList = false } : PropsProfile) => {
     
     const [modalActive, setModalActive] = useState(false);
     const [newPassword, setNewPassword] = useState<UserEditModel>({password: ""});
@@ -103,8 +103,12 @@ const ProfileCard = ( { props } : PropsProfile) => {
                     <div className="datas-block">
                         <img src={profilePhoto} alt="photo" className="photo-profile" />
                         <div className="datas-block_user">
-                            <div className="user-information">                            
-                                <h2 className="user-name">{`${props.lastName} ${props.firstName} ${props.middleName}`}</h2>
+                            <div className="user-information">
+                                {!forList ? 
+                                    <h2 className="user-name">{`${props.lastName} ${props.firstName} ${props.middleName}`}</h2>:
+                                    <Button variant="link" className="user-name" link={`${ROUTES.USER_LIST}/${props.id}`}
+                                     text={`${props.lastName} ${props.firstName} ${props.middleName}`}/>
+                                }                      
                                 {props.userType !== "Unverified" ? <p className="user-type">{USER_TYPE[props.userType]}</p> : null}
                             </div>
                             <p className="user-email">{props.email}</p>
@@ -114,10 +118,14 @@ const ProfileCard = ( { props } : PropsProfile) => {
                             </div>
                         </div>
                     </div>
-                    <div className="actions-block">
-                        <Button variant="button" className="btn profile-actions" text="Выход" onClick={handleClickLogout}/>
-                        <Button variant="button" className="btn profile-actions" text="Редактировать пароль" onClick={() => setModalActive(true)}/>
-                    </div>
+                    {!forList ?
+                        <div className="actions-block">
+                            <Button variant="button" className="btn profile-actions" text="Выход" onClick={handleClickLogout}/>
+                            <Button variant="button" className="btn profile-actions" text="Редактировать пароль" onClick={() => setModalActive(true)}/>
+                        </div>:
+                        null
+                    }
+                    
                 </div>
             </div>
             <ModalWindow active={modalActive} setActive={setModalActive}>
@@ -132,4 +140,4 @@ const ProfileCard = ( { props } : PropsProfile) => {
     )
 };
 
-export default ProfileCard;
+export default UserCard;

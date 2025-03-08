@@ -1,6 +1,6 @@
 import "./profilePAge.css"
 
-import ProfileCard from "./profileCard/ProfileCard";
+import UserCard from "../../userCard/UserCard";
 
 import { getProfile } from "../../../utils/api/getProfile";
 
@@ -29,7 +29,10 @@ const ProfilePage = () => {
             <main className="profile-page">
                 <div className="container">
                     <div className="profile-page_container">
-                        <ProfileCard props={userProfile}/>
+                        <UserCard 
+                            props={userProfile}
+                            forList={false}
+                        />
                     </div>
                 </div>
             </main>

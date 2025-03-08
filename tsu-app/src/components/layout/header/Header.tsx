@@ -26,7 +26,10 @@ const Header = () => {
                                     <Button variant="navLink" className="btn nav-link" link={ROUTES.MAINPAGE} text="Главная"/>
                                     <Button variant="navLink" className="btn nav-link" link={ROUTES.NEW_REQUEST} text="Новая заявка"/>
                                 </div>
-                                <Button variant="navLink" className="btn nav-link" link={ROUTES.PROFILE} text="Профиль"/></> :
+                                <div className="right-part">
+                                    <Button variant="navLink" className="btn nav-link" link={ROUTES.USER_LIST} text="Список пользоватлей"/>
+                                    <Button variant="navLink" className="btn nav-link" link={ROUTES.PROFILE} text="Профиль"/>
+                                </div></> :
                                 null
                             }
                         </nav>

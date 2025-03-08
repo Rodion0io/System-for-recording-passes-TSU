@@ -12,6 +12,7 @@ import ProfilePage from "./components/pages/profilePage/ProfilePage"
 import MainPage from "./components/pages/mainPage/MainPage"
 import NewRequestPage from "./components/pages/newRequestPage/newRequestPage"
 import ConcreteRequestPage from "./components/pages/concreteRequestPage/ConcreteRequestPage"
+import UsersPage from "./components/pages/usersPage/UsersPage"
 
 import { ROUTES } from "./utils/routes"
 import { store } from "./utils/store/store"
@@ -32,6 +33,7 @@ function App() {
             
             <Route element={<ProtectedLayout/>}>
               <Route path={ROUTES.PROFILE} element={<ProfilePage/>}/>
+              <Route path={ROUTES.USER_LIST} element={<UsersPage/>}/>
               <Route path={ROUTES.NEW_REQUEST} element={<NewRequestPage/>}/>
               <Route path={ROUTES.CONCRETE_REQUEST} element={<ConcreteRequestPage/>}/>
             </Route>
