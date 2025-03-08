@@ -29,15 +29,8 @@ const MainPage = () => {
 
     const token = localStorage.getItem('token');
     const userId = decodeToken(token, "user_id");
-
-
     const userRequests = useUserRequest(token, userRoles);
 
-    useEffect(() => {
-        if (userRequests){
-            setUserRequest((prev) => ({...prev, ...userRequests}))
-        }
-    },[userRequests]);
 
     const handleChangeUrlComponents = (newState: FilterModel) => {
         setUrlComponents((prevState) => ({...prevState, ...newState}));
@@ -71,7 +64,7 @@ const MainPage = () => {
                     <div className="main-page-container">
                         {token ? 
                             <><FilterCard changeStateFilters={(value) => handleChangeUrlComponents(value)} addFilter={addFilter}/>
-                            {userRequest?.requestsList.map((item) => (
+                            {userRequests?.requestsList.map((item) => (
                                 <ApplicationCard
                                 key={item.id}
                                 props={item}

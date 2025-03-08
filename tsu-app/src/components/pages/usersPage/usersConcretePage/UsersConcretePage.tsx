@@ -7,15 +7,16 @@ import ApplicationCard from "../../applicationCard/ApplicationCard";
 import { UserModel } from "../../../../@types/api";
 
 import { useUserInformation } from "../../../../utils/hooks/useUserInformation";
-
-import { useState } from "react";
-
+import { useUserRequest } from "../../../../utils/hooks/useUserRequest";
+import { useUserRoles } from "../../../../utils/hooks/useUserRoles";
 
 const UsersConcretePage = () => {
 
+    const token = localStorage.getItem('token');
+    const userRoles = useUserRoles();
+
     const userInformation: UserModel = useUserInformation();
-    
-    
+    const userRequests = useUserRequest(token, userRoles); 
     
     return (
         <>
@@ -27,7 +28,14 @@ const UsersConcretePage = () => {
                             forList={true}
                         />
                         <FilterCard/>
-
+                        {userRequests?.requestsList.map((item) => (
+                            <ApplicationCard
+                                key={item.id}
+                                props={item}
+                                isFull={false}
+                                userRoles={userRoles}
+                            />
+                        ))}
                     </div>
                 </div>
             </div>
