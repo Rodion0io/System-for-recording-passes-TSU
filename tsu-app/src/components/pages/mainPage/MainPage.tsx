@@ -32,7 +32,7 @@ const MainPage = () => {
     useEffect(() => {
         const userRequests = async () => {
             if (token) {
-                
+                console.log(userRoles)
                 if (userRoles.includes("Dean") || userRoles.includes("Admin")){
                     const response = await getAllUsersRequest(token, null);
                     setUserRequest((prev) => ({...prev, ...response}))
@@ -44,7 +44,7 @@ const MainPage = () => {
             }
         }
         userRequests();
-    },[token]);
+    },[token, userRoles]);
 
     const handleChangeUrlComponents = (newState: FilterModel) => {
         setUrlComponents((prevState) => ({...prevState, ...newState}));

@@ -8,6 +8,7 @@ import { ROUTES } from "../../utils/routes";
 import { USER_TYPE } from "../../utils/translationLists/userTypeTranslation";
 import { logout } from "../../utils/api/logout";
 import { editProfile } from "../../utils/api/editProfile";
+import { userTypeTranslate } from "../../utils/userTypeTranslate";
 
 import { logOut } from "../../utils/store/slices/userSlice";
 
@@ -109,7 +110,7 @@ const UserCard = ( { props, forList = false } : PropsProfile) => {
                                     <Button variant="link" className="user-name user-link" link={`${ROUTES.USER_LIST}/${props.id}`}
                                      text={`${props.lastName} ${props.firstName} ${props.middleName}`}/>
                                 }                      
-                                {!props.userTypes.includes("Unverified") ? <p className="user-type">{(props.userTypes) => }</p> : null}
+                                {!props.userTypes.includes("Unverified") ? <p className="user-type">{userTypeTranslate(props.userTypes).join(',')}</p> : null}
                             </div>
                             <p className="user-email">{props.email}</p>
                             <div className="user-status">
