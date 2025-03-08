@@ -36,7 +36,7 @@ const ConcreteRequestPage = () => {
             <main className="concrete-request">
                 <div className="container">
                     <div className="concrete-request_container">
-                        {concreteRequest ? <ApplicationCard 
+                        {concreteRequest ? <ApplicationCard
                             props={concreteRequest}
                              isFull={true}
                              userRoles={userRoles}

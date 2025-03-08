@@ -12,8 +12,6 @@ export const getAllUsersRequest = async (token: string, partUrl: string | null):
         "Authorization": `Bearer ${token}`
     }
 
-    console.log(partUrl);
-
     try{
         const response = await authorizeRequests.get<RequestListModel>(`${URL}request${partUrl !== null ? partUrl : ""}`,
             {headers: headerAuth}

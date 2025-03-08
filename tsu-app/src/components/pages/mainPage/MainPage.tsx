@@ -13,6 +13,7 @@ import { RequestListModel, FilterModel } from "../../../@types/api";
 import { createUrl } from "../../../utils/createUrl";
 import { USER_TYPE } from "../../../utils/translationLists/userTypeTranslation";
 import { useUserRoles } from "../../../utils/hooks/useUserRoles";
+import { useUserRequest } from "../../../utils/hooks/useUserRequest";
 
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
@@ -29,22 +30,14 @@ const MainPage = () => {
     const token = localStorage.getItem('token');
     const userId = decodeToken(token, "user_id");
 
+
+    const userRequests = useUserRequest(token, userRoles);
+
     useEffect(() => {
-        const userRequests = async () => {
-            if (token) {
-                console.log(userRoles)
-                if (userRoles.includes("Dean") || userRoles.includes("Admin")){
-                    const response = await getAllUsersRequest(token, null);
-                    setUserRequest((prev) => ({...prev, ...response}))
-                }
-                else{
-                    const response = await getUserRequests(token,userId);
-                    setUserRequest((prev) => ({...prev, ...response}))
-                }
-            }
+        if (userRequests){
+            setUserRequest((prev) => ({...prev, ...userRequests}))
         }
-        userRequests();
-    },[token, userRoles]);
+    },[userRequests]);
 
     const handleChangeUrlComponents = (newState: FilterModel) => {
         setUrlComponents((prevState) => ({...prevState, ...newState}));
@@ -52,8 +45,6 @@ const MainPage = () => {
 
     const addFilter = async () => {
         if (token){
-
-            
 
             if (userRoles.includes("Dean") || userRoles.includes("Admin")){
                 const urlByRequset = createUrl(urlComponents);

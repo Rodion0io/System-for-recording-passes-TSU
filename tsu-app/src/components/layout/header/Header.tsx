@@ -5,6 +5,8 @@ import tsuLogo from "../../../assets/svgs/tsuLightLogo.svg"
 import Button from "../../ui/button/Button"
 import { ROUTES } from "../../../utils/routes"
 
+import { useUserRoles } from "../../../utils/hooks/useUserRoles"
+
 import { useSelector } from "react-redux"
 
 import { RootType } from "../../../utils/store/store"
@@ -12,6 +14,8 @@ import { RootType } from "../../../utils/store/store"
 const Header = () => {
 
     const selector = useSelector((state: RootType) => state.userr.token);
+
+    const userRoles = useUserRoles();
     
     return (
         <>
