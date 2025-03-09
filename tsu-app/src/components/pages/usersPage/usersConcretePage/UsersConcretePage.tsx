@@ -4,21 +4,31 @@ import UserCard from "../../../userCard/UserCard";
 import FilterCard from "../../mainPage/filterCard/FilterCard";
 import ApplicationCard from "../../applicationCard/ApplicationCard";
 
-import { UserFullModel } from "../../../../@types/api";
+import { FilterModel, RequestListModel, UserFullModel } from "../../../../@types/api";
 
 import { getUserInformation } from "../../../../utils/api/getUserInformation";
 import { useUserRoles } from "../../../../utils/hooks/useUserRoles";
 
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useFilters } from "../../../../utils/hooks/useFilters";
+import { decodeToken } from "../../../../utils/decodeToken";
+import { createUrl } from "../../../../utils/createUrl";
+import { getAllUsersRequest } from "../../../../utils/api/getAllUsersRequest";
+import { getUserRequests } from "../../../../utils/api/getUserRequests";
 
 const UsersConcretePage = () => {
+
     const [fullUserInformation, setFullUserInformation] = useState<UserFullModel | null>(null);
-    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [urlComponents, setUrlComponents] = useState<FilterModel>({sortType: "", requestStatus: "", dateFrom: "", dateTo: "", userName: ""});
+    const [userRequest, setUserRequest] = useState<RequestListModel>();
+    const [searchParams, setSeacrchParams] = useSearchParams();
+    const [flag, setFlag] = useState<boolean>(false);
 
     const { id } = useParams();
     const token = localStorage.getItem('token');
     const userRoles = useUserRoles();
+    const userId = decodeToken(token, "user_id");
 
     useEffect(() => {
         const request = async () => {
@@ -28,13 +38,36 @@ const UsersConcretePage = () => {
                     setFullUserInformation((prev) => ({ ...prev, ...response }));
                 } catch (error) {
                     console.error('Ошибка загрузки информации о пользователе!');
-                } finally {
-                    setIsLoading(false);
                 }
             }
         };
         request();
     }, [id, token]);
+
+    const handleChangeUrlComponents = (newState: FilterModel) => {
+        setUrlComponents((prevState) => ({...prevState, ...newState}));
+    };
+
+    const addFilter = async () => {
+        if (token){
+
+            if (userRoles.includes("Dean") || userRoles.includes("Admin")){
+                const urlByRequset = createUrl(urlComponents);
+                const response = await getAllUsersRequest(token,urlByRequset);
+                setUserRequest((prev) => ({...prev, ...response}))
+                const urlByLink = createUrl(urlComponents);
+                setSeacrchParams(urlByLink);
+            }
+            else{
+                const urlByRequset = createUrl(urlComponents, userId);
+                const response = await getUserRequests(token,urlByRequset);
+                setUserRequest((prev) => ({...prev, ...response}))
+                const urlByLink = createUrl(urlComponents);
+                setSeacrchParams(urlByLink);
+            }
+            setFlag(true);
+        }
+    }
 
     
     if (!fullUserInformation) {
@@ -49,15 +82,24 @@ const UsersConcretePage = () => {
                         props={fullUserInformation.user}
                         forList={true}
                     />
-                    <FilterCard />
-                    {fullUserInformation.requests?.map((item) => (
+                    <FilterCard changeStateFilters={(value) => handleChangeUrlComponents(value)} addFilter={addFilter}/>
+                    {!flag ? fullUserInformation.requests?.map((item) => (
                         <ApplicationCard
                             key={item.id}
                             props={item}
                             isFull={false}
                             userRoles={userRoles}
                         />
-                    ))}
+                    )):
+                        userRequest?.requestsList.map((item) => (
+                            <ApplicationCard
+                                key={item.id}
+                                props={item}
+                                isFull={false}
+                                userRoles={userRoles}
+                            />
+                        ))
+                    }
                 </div>
             </div>
         </div>

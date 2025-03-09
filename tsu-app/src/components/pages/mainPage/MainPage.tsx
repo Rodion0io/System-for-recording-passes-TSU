@@ -73,7 +73,7 @@ const MainPage = () => {
                                 userRoles={userRoles}
                                 />
                             )) :
-                                userRequest?.requestsList.map((item) => (
+                                userRequests?.requestsList.map((item) => (
                                     <ApplicationCard
                                     key={item.id}
                                     props={item}
