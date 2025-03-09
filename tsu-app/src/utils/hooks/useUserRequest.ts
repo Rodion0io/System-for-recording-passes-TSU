@@ -8,8 +8,6 @@ import { decodeToken } from "../decodeToken";
 
 export const useUserRequest = (token: string, userRoles: string[]): RequestListModel => {
 
-    console.log(userRoles);
-
     const userId = decodeToken(token, "user_id");
 
     const [userReuests, setUserRequests] = useState<RequestListModel>();

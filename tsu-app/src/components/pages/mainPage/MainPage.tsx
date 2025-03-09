@@ -24,6 +24,7 @@ const MainPage = () => {
     const [userRequest, setUserRequest] = useState<RequestListModel>();
     const [urlComponents, setUrlComponents] = useState<FilterModel>({sortType: "", requestStatus: "", dateFrom: "", dateTo: "", userName: ""});
     const [searchParams, setSeacrchParams] = useSearchParams();
+    const [flag, setFlag] = useState<boolean>(false);
     
     const userRoles = useUserRoles();
 
@@ -53,7 +54,7 @@ const MainPage = () => {
                 const urlByLink = createUrl(urlComponents);
                 setSeacrchParams(urlByLink);
             }
-            
+            setFlag(true);
         }
     }
 
@@ -64,14 +65,23 @@ const MainPage = () => {
                     <div className="main-page-container">
                         {token ? 
                             <><FilterCard changeStateFilters={(value) => handleChangeUrlComponents(value)} addFilter={addFilter}/>
-                            {userRequests?.requestsList.map((item) => (
+                            {!flag ? userRequests?.requestsList.map((item) => (
                                 <ApplicationCard
                                 key={item.id}
                                 props={item}
                                 isFull={false}
                                 userRoles={userRoles}
                                 />
-                            ))}</> :
+                            )) :
+                                userRequest?.requestsList.map((item) => (
+                                    <ApplicationCard
+                                    key={item.id}
+                                    props={item}
+                                    isFull={false}
+                                    userRoles={userRoles}
+                                    />
+                                ))
+                            }</> :
                             <div className="no-auth-block">
                                 <h1>Вы не авторизованы, перейдите по ссылке -</h1>
                                 <Button variant="link"  link={ROUTES.AUTHORIZE} text="авторизоваться"/>

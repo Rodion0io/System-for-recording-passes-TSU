@@ -5,6 +5,7 @@ import Input from "../../../ui/input/Input";
 import Button from "../../../ui/button/Button";
 
 import { decodeToken } from "../../../../utils/decodeToken";
+import { useUserRoles } from "../../../../utils/hooks/useUserRoles";
 
 import { SORT_TYPE_ARRAY, SORT_STATUS_ARRAY } from "../../../../utils/constant";
 import { FilterModel } from "../../../../@types/api";
@@ -19,15 +20,9 @@ interface FilterCardProps{
 
 const FilterCard = ({ changeStateFilters, addFilter }: FilterCardProps) => {
 
-    //Пока отсюда берем токен, потом будем получать из global state
     const token = localStorage.getItem('token');
-    let userRole;
-    if (token){
-        userRole = decodeToken(token, "role");
-    }
+    let userRoles = useUserRoles();
 
-    
-    
     const [filters, setFilters] = useState<FilterModel>({sortType: "", requestStatus: "", dateFrom: "", dateTo: "", userName: ""});
 
     const handleChange = (field: string, value: string) => {
@@ -71,7 +66,7 @@ const FilterCard = ({ changeStateFilters, addFilter }: FilterCardProps) => {
                                     <label>Дата окончания</label>
                                     <Input variant="input" className="date-time-input" type="datetime-local" inputHandleChange={(value) => handleChange("dateTo", value)}/>
                                 </div>
-                                {userRole === "Dean" || userRole === "Admin" ? 
+                                {userRoles.includes("Dean") || userRoles.includes("Admin") ? 
                                     <Input className="filter-user-name" placeholder="Имя пользователя" type="text" inputHandleChange={(value) => handleChange("userName", value)}/> : 
                                     null
                                 }

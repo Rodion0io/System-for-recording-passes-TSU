@@ -95,3 +95,8 @@ export interface RefreshTokenRequestToken{
     userId: string,
     refreshToken: string
 }
+
+export interface UserFullModel{
+    user: UserModel,
+    requests: RequestModel[];
+}

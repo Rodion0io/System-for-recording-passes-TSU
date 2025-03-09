@@ -30,6 +30,10 @@ interface ApplicationCardPropsModel{
     userRoles: string[],
 }
 
+// interface ApplicationCardFullModel{
+//     props: 
+// }
+
 type ApplicationCardProps = ApplicationCardPropsShortModel | ApplicationCardPropsModel;
 
 const ApplicationCard = ({ props, isFull, userRoles }: ApplicationCardProps) => {

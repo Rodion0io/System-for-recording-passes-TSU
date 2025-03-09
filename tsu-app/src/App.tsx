@@ -25,14 +25,14 @@ function App() {
     <>
     <Provider store={store}>
         <Routes>
-          <Route path={ROUTES.MAINPAGE} element={<Layout/>}>
-            <Route index element={<MainPage/>}/>
+          <Route path={ROUTES.MAINPAGE} element={<Layout/>}>            
             <Route path={ROUTES.AUTHORIZE} element={<AuthorizePage/>}/>
             <Route path={ROUTES.REGISTRATION} element={<RegistrationPage/>}/>
 
 
             
             <Route element={<ProtectedLayout/>}>
+              <Route path={ROUTES.MAINPAGE} element={<MainPage/>}/>
               <Route path={ROUTES.PROFILE} element={<ProfilePage/>}/>
               <Route path={ROUTES.USER_LIST} element={<UsersPage/>}/>
               <Route path={ROUTES.USER_INFORMATION} element={<UsersConcretePage/>}/>

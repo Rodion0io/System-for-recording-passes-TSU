@@ -11,7 +11,7 @@ import { useState, useEffect } from "react";
 const UsersPage = () => {
 
     const token = localStorage.getItem('token');
-
+    
     const [usersList, setUseresList] = useState<UserModel[]>([]);
 
     useEffect(() => {
@@ -23,10 +23,6 @@ const UsersPage = () => {
         }
         getProfileDatas();
     }, []);
-
-    useEffect(() => {
-        console.log(usersList);
-    },[usersList]);
     
     return (
         <>
