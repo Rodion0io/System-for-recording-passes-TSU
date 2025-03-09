@@ -79,7 +79,13 @@ const EditRequestModel = ({ props, id, isFull, modalActive, setModalActive }: Ed
 
             try{
                 if (token){
-                    await editRequest(editDatas, token, userId);
+                    console.log(editDatas);
+                    const formData = new FormData();
+                    formData.append("absenceDateFrom", editDatas.absenceDateFrom);
+                    formData.append("absenceDateTo", editDatas.absenceDateTo);
+                    formData.append("description", editDatas.description);
+                    formData.append("status", editDatas.status);
+                    await editRequest(formData, token, userId);
                     setModalActive(false);
                     navigate("/");
                 }

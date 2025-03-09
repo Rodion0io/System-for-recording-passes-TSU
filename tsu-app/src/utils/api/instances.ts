@@ -11,7 +11,6 @@ import { decodeToken } from "../decodeToken";
 const TOKEN = localStorage.getItem('token');
 const REFRESH = localStorage.getItem('refresh');
 
-console.log(TOKEN);
 
 export const authorizeRequests = axios.create({
     baseURL: URL,

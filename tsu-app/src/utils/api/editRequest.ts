@@ -1,19 +1,16 @@
 import { URL } from "../constant";
 
-import { RequestEditModel } from "../../@types/api";
-
-import { authorizeRequests } from "./instances";
-
+import { formDataRequest } from "./instances";
 
 import axios from "axios";
 
-export const editRequest = async (body: RequestEditModel, token: string, requestId: string): Promise<string> => {
+export const editRequest = async (body: FormData, token: string, requestId: string): Promise<string> => {
     const headerAuth = {
         "Authorization": `Bearer ${token}`
     }
 
     try{
-        const response = await authorizeRequests.put(`${URL}request/${requestId}`, body, {headers: headerAuth});
+        const response = await formDataRequest.put(`${URL}request/${requestId}`, body, {headers: headerAuth});
 
         return response.data;
     }
@@ -21,6 +18,6 @@ export const editRequest = async (body: RequestEditModel, token: string, request
         if (axios.isAxiosError(error)){
             console.log(error.message);
         }
-        throw new Error ("Произошла ошибка редактирования поста");
+        throw new Error ("Произошла ошибка редактирования поста или вынесения вердикта");
     }
 }

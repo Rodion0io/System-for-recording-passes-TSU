@@ -2,7 +2,7 @@ import "./applicationCard.css"
 import darkTsuIcon from "../../../assets/svgs/tsuDarkLogo.svg"
 
 import { REQUEST_STATUS } from "../../../utils/translationLists/requestStatusTranslation";
-import { RequestShortModel, RequestModel } from "../../../@types/api";
+import { RequestShortModel, RequestModel, RequestEditModel } from "../../../@types/api";
 
 import EditRequestModel from "./editRequestModal/EditRequestModel";
 
@@ -16,6 +16,8 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
 import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { editRequest } from "../../../utils/api/editRequest";
 
 
 interface ApplicationCardPropsShortModel{
@@ -30,15 +32,24 @@ interface ApplicationCardPropsModel{
     userRoles: string[],
 }
 
-// interface ApplicationCardFullModel{
-//     props: 
-// }
-
 type ApplicationCardProps = ApplicationCardPropsShortModel | ApplicationCardPropsModel;
 
 const ApplicationCard = ({ props, isFull, userRoles }: ApplicationCardProps) => {
 
     const [modalActive, setModalActive] = useState(false);
+    const navigate = useNavigate();
+    const { id } = useParams();
+    const token = localStorage.getItem('token');
+
+    const editObj: RequestEditModel = (isFull ? 
+        {status: props.status, description: props.description,
+            absenceDateFrom: props.absenceDateFrom,
+             absenceDateTo: props.absenceDateTo} : 
+             {status: props.status, description: props.description,
+        absenceDateFrom: props.absenceDateFrom,
+         absenceDateTo: props.absenceDateTo}
+        );
+    const [editDatas, setEditDatas] = useState<RequestEditModel>(editObj);
 
     const settings = {
         dots: false,
@@ -46,7 +57,49 @@ const ApplicationCard = ({ props, isFull, userRoles }: ApplicationCardProps) => 
         speed: 500,
         slidesToShow: 1,
         slidesToScroll: 1
-    }; 
+    };
+
+    const handleAccept = async () => {
+        setEditDatas((prev) => ({ ...prev, status: 'Confirmed' }));
+    
+        try {
+            if (token) {
+                const formData = new FormData();
+    
+                // Добавляем данные с проверкой
+                formData.append("absenceDateFrom", editDatas.absenceDateFrom || "");
+                formData.append("absenceDateTo", editDatas.absenceDateTo || "");
+                formData.append("description", editDatas.description || "");
+                formData.append("status", 'Confirmed');
+    
+                console.log([...formData.entries()]); // Проверка данных
+    
+                await editRequest(formData, token, id);
+                navigate("/");
+            }
+        } catch (error) {
+            console.log("error", error);
+        }
+    };
+
+    const handleReject = async () => {
+        setEditDatas((prev) => ({...prev, ['status']: 'Rejected'}));
+        try{
+            if (token){
+                console.log(editDatas);
+                const formData = new FormData();
+                formData.append("absenceDateFrom", editDatas.absenceDateFrom);
+                formData.append("absenceDateTo", editDatas.absenceDateTo);
+                formData.append("description", editDatas.description);
+                formData.append("status", 'Rejected');
+                await editRequest(formData, token, id);
+                navigate("/");
+            }
+        }
+        catch{
+            console.log("error");
+        }
+    }
 
     return (
         <>
@@ -107,13 +160,12 @@ const ApplicationCard = ({ props, isFull, userRoles }: ApplicationCardProps) => 
                                     <div className="action-block">
                                         {userRoles.includes("Dean") || userRoles.includes("Admin") ? 
                                             <>
-                                                <Button variant="button" className="btn profile-actions" text="Принять" onClick={() => setModalActive(true)}/>
-                                                <Button variant="button" className="btn cancellation" text="Отклонить" onClick={() => setModalActive(true)}/>
+                                                <Button variant="button" className="btn profile-actions" text="Принять" onClick={handleAccept}/>
+                                                <Button variant="button" className="btn cancellation" text="Отклонить" onClick={handleReject}/>
                                             </>:
-                                            <Button variant="button" className="btn profile-actions" text="Редактировать" onClick={() => setModalActive(true)}/>
+                                            <><Button variant="button" className="btn profile-actions" text="Редактировать" onClick={() => setModalActive(true)}/>
+                                            <Input className="file-input" variant="file" name="photos" /></>
                                         }
-                                        
-                                        <Input className="file-input" variant="file" name="photos" />
                                         {/* inputFileHandleChange={(value) => handleChange("photos", value)} */}
                                     </div>:
                                     null
