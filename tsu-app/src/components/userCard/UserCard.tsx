@@ -105,17 +105,15 @@ const UserCard = ( { props, forList = false } : PropsProfile) => {
     },[redactModalActive]);
 
     const handleNewRole = async () => {
-        console.log(!currentUserRoles.includes("Dean") 
-        || !currentUserRoles.includes("Admin"));
         if ((role === "Admin" && !currentUserRoles.includes("Admin")) || 
             role === "Dean" && !currentUserRoles.includes("Admin")){
                 setErrorStatusCode(17);
                 setErrorFlag(true);
         }
         else if (role === "Teacher" && (!currentUserRoles.includes("Dean") 
-            || !currentUserRoles.includes("Admin"))||
+            && !currentUserRoles.includes("Admin")) ||
                 role === "Student" && (!currentUserRoles.includes("Dean") 
-                || !currentUserRoles.includes("Admin"))){
+                && !currentUserRoles.includes("Admin"))){
                 setErrorStatusCode(18);
                 setErrorFlag(true);
         }
@@ -126,13 +124,15 @@ const UserCard = ( { props, forList = false } : PropsProfile) => {
         else{
             try{
                 const token = localStorage.getItem('token');
-                const urlPattern = createUrl(role, props.id);
+                const urlPattern = createUrl(role, props.id, "userType");
                 setErrorFlag(false);
                 setErrorStatusCode(0);
-                if (token){
-                    await newRole(token, urlPattern);   
+                if (token && urlPattern){
+                    await newRole(token, urlPattern);
+                    setAppointModal(false);
+                    navigate(ROUTES.USER_LIST)
                 }
-                navigate(ROUTES.USER_LIST)
+                
             }
             catch(error){
                 console.error("Ошибка назнаяения роли")

@@ -1,10 +1,11 @@
 import { FilterModel } from "../@types/api"
 
-export const createUrl = (model: FilterModel | string, userId?: string) => {
+export const createUrl = (model: FilterModel | string, userId?: string, fieldValue?: string) => {
     let result = userId ? userId + "?" : "?";
 
-    if (typeof(model) === "string"){
-        result += model;
+    if (typeof(model) === "string" && fieldValue){
+        result += `${fieldValue}=${model}`
+        return result
     }
     else{
       let modelValues = Object.entries(model);
@@ -19,6 +20,6 @@ export const createUrl = (model: FilterModel | string, userId?: string) => {
       return result.slice(0,-1);
     }
     
-    return result;
+    return null;
     
 }
