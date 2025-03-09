@@ -9,10 +9,12 @@ import { USER_TYPE } from "../../utils/translationLists/userTypeTranslation";
 import { logout } from "../../utils/api/logout";
 import { editProfile } from "../../utils/api/editProfile";
 import { userTypeTranslate } from "../../utils/userTypeTranslate";
+import { newRole } from "../../utils/api/newRole";
+import { useUserRoles } from "../../utils/hooks/useUserRoles";
 
 import { logOut } from "../../utils/store/slices/userSlice";
 
-import { ACCOUNT_CONFIRMED_TEXT, ACCOUNT_NOT_CONFIRMED_TEXT } from "../../utils/constant";
+import { ACCOUNT_CONFIRMED_TEXT, ACCOUNT_NOT_CONFIRMED_TEXT, USERS_ROLES } from "../../utils/constant";
 import { ERROR_MESSAGES } from "../../utils/errorMessages";
 
 import ModalWindow from "../ui/modalWindow/ModelaWindow";
@@ -24,6 +26,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useDispatch } from "react-redux";
+import Select from "../ui/select/Select";
+import { createUrl } from "../../utils/createUrl";
 
 interface PropsProfile{
     props: UserModel,
@@ -32,13 +36,17 @@ interface PropsProfile{
 
 const UserCard = ( { props, forList = false } : PropsProfile) => {
     
-    const [modalActive, setModalActive] = useState(false);
+    const [redactModalActive, setRedactModal] = useState<boolean>(false);
+    const [appointModal, setAppointModal] = useState<boolean>(false);
     const [newPassword, setNewPassword] = useState<UserEditModel>({password: ""});
     const [errorFlag, setErrorFlag] = useState(false);
     const [errorStatusCode, setErrorStatusCode] = useState(0);
+    const [role, setRole] = useState<string>("");
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
+
+    const currentUserRoles: string[] = useUserRoles();
 
     const handleClickLogout = () => {
         const token = localStorage.getItem('token');
@@ -68,7 +76,7 @@ const UserCard = ( { props, forList = false } : PropsProfile) => {
                     
                     await editProfile(newPassword, token);
 
-                    setModalActive(false);
+                    setRedactModal(false);
                 }
                 catch {
                     setErrorStatusCode(2);
@@ -94,7 +102,43 @@ const UserCard = ( { props, forList = false } : PropsProfile) => {
         ))
         setErrorFlag(false);
         setErrorStatusCode(0);
-    },[modalActive]);
+    },[redactModalActive]);
+
+    const handleNewRole = async () => {
+        console.log(!currentUserRoles.includes("Dean") 
+        || !currentUserRoles.includes("Admin"));
+        if ((role === "Admin" && !currentUserRoles.includes("Admin")) || 
+            role === "Dean" && !currentUserRoles.includes("Admin")){
+                setErrorStatusCode(17);
+                setErrorFlag(true);
+        }
+        else if (role === "Teacher" && (!currentUserRoles.includes("Dean") 
+            || !currentUserRoles.includes("Admin"))||
+                role === "Student" && (!currentUserRoles.includes("Dean") 
+                || !currentUserRoles.includes("Admin"))){
+                setErrorStatusCode(18);
+                setErrorFlag(true);
+        }
+        else if (props.userTypes.includes(role)){
+            setErrorStatusCode(19);
+            setErrorFlag(true);
+        }
+        else{
+            try{
+                const token = localStorage.getItem('token');
+                const urlPattern = createUrl(role, props.id);
+                setErrorFlag(false);
+                setErrorStatusCode(0);
+                if (token){
+                    await newRole(token, urlPattern);   
+                }
+                navigate(ROUTES.USER_LIST)
+            }
+            catch(error){
+                console.error("Ошибка назнаяения роли")
+            }
+        }
+    }
     
 
     return (
@@ -122,18 +166,31 @@ const UserCard = ( { props, forList = false } : PropsProfile) => {
                     {!forList ?
                         <div className="actions-block">
                             <Button variant="button" className="btn profile-actions" text="Выход" onClick={handleClickLogout}/>
-                            <Button variant="button" className="btn profile-actions" text="Редактировать пароль" onClick={() => setModalActive(true)}/>
+                            <Button variant="button" className="btn profile-actions" text="Редактировать пароль" onClick={() => setRedactModal(true)}/>
                         </div>:
-                        null
+                        <div className="actions-block">
+                            <Button variant="button" className="btn profile-actions" text="Назначить" onClick={() => setAppointModal(true)}/>
+                            <Button variant="button" className="btn cancellation" text="Отстранить" onClick={() => setAppointModal(true)}/>
+                        </div>
                     }
                     
                 </div>
             </div>
-            <ModalWindow active={modalActive} setActive={setModalActive}>
+            <ModalWindow active={redactModalActive} setActive={setRedactModal}>
                 <div className="modal-card-container">
                     <p className="title">Придумайте новый пароль</p>
                     <Input placeholder="Пароль" inputHandleChange={(value) => handleChange("password", value)} type="password"/>
                     <Button variant="button" className="btn newPassword-button" text="Подтвердить" onClick={handleClickChangePassword}/>
+                    {errorFlag ? <p className="error-message">{ERROR_MESSAGES[errorStatusCode]}</p> : null}
+                </div>
+            </ModalWindow>
+            <ModalWindow active={appointModal} setActive={setAppointModal}>
+                <div className="modal-card-container">
+                    <p className="title">Назначить роль</p>
+                    <p className="title">{`Текущие роли: ${props.userTypes}`}</p>
+                    <Select className="filter-select" valuesArr={USERS_ROLES} name="Статус заявок" lableClass="filter-label" 
+                                typeSort="rolesType" selectChange={(value) => setRole(value)}/>
+                    <Button variant="button" className="btn newPassword-button" text="Подтвердить" onClick={handleNewRole}/>
                     {errorFlag ? <p className="error-message">{ERROR_MESSAGES[errorStatusCode]}</p> : null}
                 </div>
             </ModalWindow>

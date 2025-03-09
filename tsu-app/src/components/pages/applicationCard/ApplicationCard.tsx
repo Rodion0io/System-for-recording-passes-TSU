@@ -65,14 +65,12 @@ const ApplicationCard = ({ props, isFull, userRoles }: ApplicationCardProps) => 
         try {
             if (token) {
                 const formData = new FormData();
-    
-                // Добавляем данные с проверкой
+
                 formData.append("absenceDateFrom", editDatas.absenceDateFrom || "");
                 formData.append("absenceDateTo", editDatas.absenceDateTo || "");
                 formData.append("description", editDatas.description || "");
                 formData.append("status", 'Confirmed');
     
-                console.log([...formData.entries()]); // Проверка данных
     
                 await editRequest(formData, token, id);
                 navigate("/");
@@ -86,7 +84,6 @@ const ApplicationCard = ({ props, isFull, userRoles }: ApplicationCardProps) => 
         setEditDatas((prev) => ({...prev, ['status']: 'Rejected'}));
         try{
             if (token){
-                console.log(editDatas);
                 const formData = new FormData();
                 formData.append("absenceDateFrom", editDatas.absenceDateFrom);
                 formData.append("absenceDateTo", editDatas.absenceDateTo);

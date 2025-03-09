@@ -53,7 +53,7 @@ const RegistrationCard = () => {
             setErrorStatusCode(13);
             setErrorFlag(true)
         }
-        else if (newUser.password.length === 0){
+        else if (newUser.password.length < 8){
             setErrorStatusCode(14);
             setErrorFlag(true)
         }

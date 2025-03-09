@@ -11,3 +11,4 @@ export const ACCOUNT_NOT_CONFIRMED_TEXT = "Аккаунт не подтверж�
 export const MONTHS = ["янв","фев","мар","апр","май","июн","июл","авг","сен","окт","ноя","дек"];
 export const SORT_TYPE_ARRAY = ["", "NameAsc", "NameDesc", "CreateAsc", "CreateDesc"];
 export const SORT_STATUS_ARRAY = ["", "Checking", "Confirmed", "Rejected"];
+export const USERS_ROLES = ["", "Student", "Teacher", "Dean", "Admin"];
