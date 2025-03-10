@@ -5,11 +5,11 @@ import profilePhoto from "../../assets/photos/photo_2025-02-23 19.24.49.jpeg"
 import Button from "../ui/button/Button";
 import Input from "../ui/input/Input";
 import { ROUTES } from "../../utils/routes";
-import { USER_TYPE } from "../../utils/translationLists/userTypeTranslation";
 import { logout } from "../../utils/api/logout";
 import { editProfile } from "../../utils/api/editProfile";
 import { userTypeTranslate } from "../../utils/userTypeTranslate";
 import { newRole } from "../../utils/api/newRole";
+import { removeRole } from "../../utils/api/removeRole";
 import { useUserRoles } from "../../utils/hooks/useUserRoles";
 
 import { logOut } from "../../utils/store/slices/userSlice";
@@ -38,6 +38,7 @@ const UserCard = ( { props, forList = false } : PropsProfile) => {
     
     const [redactModalActive, setRedactModal] = useState<boolean>(false);
     const [appointModal, setAppointModal] = useState<boolean>(false);
+    const [removerModal, setRemoverModal] = useState<boolean>(false);
     const [newPassword, setNewPassword] = useState<UserEditModel>({password: ""});
     const [errorFlag, setErrorFlag] = useState(false);
     const [errorStatusCode, setErrorStatusCode] = useState(0);
@@ -139,6 +140,10 @@ const UserCard = ( { props, forList = false } : PropsProfile) => {
             }
         }
     }
+
+    const handleRemoveRole = async () => {
+        
+    }
     
 
     return (
@@ -170,7 +175,7 @@ const UserCard = ( { props, forList = false } : PropsProfile) => {
                         </div>:
                         <div className="actions-block">
                             <Button variant="button" className="btn profile-actions" text="Назначить" onClick={() => setAppointModal(true)}/>
-                            <Button variant="button" className="btn cancellation" text="Отстранить" onClick={() => setAppointModal(true)}/>
+                            <Button variant="button" className="btn cancellation" text="Отстранить" onClick={() => setRemoverModal(true)}/>
                         </div>
                     }
                     
@@ -187,6 +192,16 @@ const UserCard = ( { props, forList = false } : PropsProfile) => {
             <ModalWindow active={appointModal} setActive={setAppointModal}>
                 <div className="modal-card-container">
                     <p className="title">Назначить роль</p>
+                    <p className="title">{`Текущие роли: ${props.userTypes}`}</p>
+                    <Select className="filter-select" valuesArr={USERS_ROLES} name="Статус заявок" lableClass="filter-label" 
+                                typeSort="rolesType" selectChange={(value) => setRole(value)}/>
+                    <Button variant="button" className="btn newPassword-button" text="Подтвердить" onClick={handleNewRole}/>
+                    {errorFlag ? <p className="error-message">{ERROR_MESSAGES[errorStatusCode]}</p> : null}
+                </div>
+            </ModalWindow>
+            <ModalWindow active={removerModal} setActive={setRemoverModal}>
+                <div className="modal-card-container">
+                    <p className="title">Отстранить</p>
                     <p className="title">{`Текущие роли: ${props.userTypes}`}</p>
                     <Select className="filter-select" valuesArr={USERS_ROLES} name="Статус заявок" lableClass="filter-label" 
                                 typeSort="rolesType" selectChange={(value) => setRole(value)}/>

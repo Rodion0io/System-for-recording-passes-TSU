@@ -1,25 +1,23 @@
-import { Outlet, useNavigate } from "react-router-dom"
+// import { Outlet, useNavigate } from "react-router-dom"
 
 import { ROUTES } from "../../utils/routes";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 
 
-const ProtectedLayout = () => {
+const ProtectedLayout = ({ children } : {children : React.ReactNode}) => {
 
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     const isAuth = localStorage.getItem('token');
 
-    useEffect(() => {
-        if (!isAuth){
-            navigate(ROUTES.AUTHORIZE);
-        }
-    },[isAuth])
+    if (!isAuth && window.location.pathname !== ROUTES.AUTHORIZE){
+        window.location.href = ROUTES.AUTHORIZE;
+    }
 
-    
     return (
         <>
-            {isAuth ? <Outlet/> : null}
+            {/* {isAuth ? <Outlet/> : null} */}
+            {children}
         </>
     )
 };
