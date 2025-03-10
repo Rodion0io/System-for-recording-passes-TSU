@@ -3,14 +3,19 @@ import "./filterCard.css"
 import Select from "../../../ui/select/Select";
 import Input from "../../../ui/input/Input";
 import Button from "../../../ui/button/Button";
+import ModalWindow from "../../../ui/modalWindow/ModelaWindow";
 
 import { decodeToken } from "../../../../utils/decodeToken";
 import { useUserRoles } from "../../../../utils/hooks/useUserRoles";
+import { exportDatas } from "../../../../utils/api/export";
+import { useUsers } from "../../../../utils/hooks/useUsers";
 
 import { SORT_TYPE_ARRAY, SORT_STATUS_ARRAY } from "../../../../utils/constant";
-import { FilterModel } from "../../../../@types/api";
+import { FilterModel, ExportDatas, ExportUserInforamtion } from "../../../../@types/api";
+import { ERROR_MESSAGES } from "../../../../utils/errorMessages";
 
 import { useEffect, useState } from "react";
+
 
 interface FilterCardProps{
     changeStateFilters?(value: FilterModel): void;
@@ -20,10 +25,15 @@ interface FilterCardProps{
 
 const FilterCard = ({ changeStateFilters, addFilter }: FilterCardProps) => {
 
+    const [exportModal, setExportModal] = useState<boolean>(false);
+    const [errorFlag, setErrorFlag] = useState<boolean>(false);
+    const [errorStatusCode, setErrorStatusCode] = useState<number>(0);
+    const [exportDatas, setExportDatas] = useState<ExportDatas>({userId: [], dateFrom: "", dateTo: ""});
+    const [filters, setFilters] = useState<FilterModel>({sortType: "", requestStatus: "", dateFrom: "", dateTo: "", userName: ""});
+
     const token = localStorage.getItem('token');
     let userRoles = useUserRoles();
 
-    const [filters, setFilters] = useState<FilterModel>({sortType: "", requestStatus: "", dateFrom: "", dateTo: "", userName: ""});
 
     const handleChange = (field: string, value: string) => {
         setFilters((prevState) => (
@@ -41,6 +51,24 @@ const FilterCard = ({ changeStateFilters, addFilter }: FilterCardProps) => {
         
         if (addFilter){
             addFilter();
+        }
+    }
+
+    const handleExport = () => {
+        if (exportDatas.dateFrom >= exportDatas.dateTo){
+            setErrorFlag(true);
+            setErrorStatusCode(8);
+        }
+        else if (exportDatas.userId.length === 0){
+            setErrorFlag(true);
+            setErrorStatusCode(24);
+        }
+        else{
+            try {
+                console.log('test');
+            } catch (error) {
+                console.error("Ошибка")
+            }
         }
     }
 
@@ -67,7 +95,10 @@ const FilterCard = ({ changeStateFilters, addFilter }: FilterCardProps) => {
                                     <Input variant="input" className="date-time-input" type="datetime-local" inputHandleChange={(value) => handleChange("dateTo", value)}/>
                                 </div>
                                 {userRoles.includes("Dean") || userRoles.includes("Admin") ? 
-                                    <Input className="filter-user-name" placeholder="Имя пользователя" type="text" inputHandleChange={(value) => handleChange("userName", value)}/> : 
+                                    <>
+                                        <Input className="filter-user-name" placeholder="Имя пользователя" type="text" inputHandleChange={(value) => handleChange("userName", value)}/>
+                                        <Button variant="button" className="btn filter-button" text="экспортировать" onClick={() => setExportModal(true)}/>
+                                    </> : 
                                     null
                                 }
                             </div>
@@ -76,6 +107,26 @@ const FilterCard = ({ changeStateFilters, addFilter }: FilterCardProps) => {
                     </div>
                 </div>
             </div>
+            <ModalWindow active={exportModal} setActive={setExportModal}>
+                <div className="modal-card-container">
+                    <div className="edit-container">
+                        <h2 className="title">Экспорт данных</h2>
+                        <div className="params-container">
+                            <Select className="filter-select" valuesArr={SORT_TYPE_ARRAY} name="Пользователи" lableClass="filter-label" 
+                                typeSort="sortType" selectChange={(value) => handleChange("sortType", value)}/>
+                            <div className="time-block-filter">
+                                <label>Начальная дата</label>
+                                <Input variant="input" className="date-time-input" type="datetime-local" inputHandleChange={(value) => handleChange("dateFrom", value)}/>
+                            </div>
+                            <div className="time-block-filter">
+                                <label>Конечная дата</label>
+                                <Input variant="input" className="date-time-input" type="datetime-local" inputHandleChange={(value) => handleChange("dateFrom", value)}/>
+                            </div>
+                        </div>
+                        {errorFlag ? <p className="error-message">{ERROR_MESSAGES[errorStatusCode]}</p> : null}
+                    </div>
+                </div>
+            </ModalWindow>
         </>
     )
 };

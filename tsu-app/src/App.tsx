@@ -29,18 +29,12 @@ function App() {
           <Route path={ROUTES.MAINPAGE} element={<Layout/>}>          
             <Route path={ROUTES.AUTHORIZE} element={<AuthorizePage/>}/>
             <Route path={ROUTES.REGISTRATION} element={<RegistrationPage/>}/>
-
-
-            
-            {/* <Route element={<ProtectedLayout/>}> */}
               <Route path={ROUTES.MAINPAGE} element={<MainPage/>}/>
               <Route path={ROUTES.PROFILE} element={<ProfilePage/>}/>
               <Route path={ROUTES.USER_LIST} element={<UsersPage/>}/>
               <Route path={ROUTES.USER_INFORMATION} element={<UsersConcretePage/>}/>
               <Route path={ROUTES.NEW_REQUEST} element={<NewRequestPage/>}/>
               <Route path={ROUTES.CONCRETE_REQUEST} element={<ConcreteRequestPage/>}/>
-            {/* </Route> */}
-
             <Route path="*" element={<h1>Not found</h1>}/>
           </Route>
         </Routes> 

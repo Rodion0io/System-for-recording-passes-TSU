@@ -2,20 +2,19 @@ import "./mainPage.css"
 
 import FilterCard from "./filterCard/FilterCard";
 import ApplicationCard from "../applicationCard/ApplicationCard";
+import ModalWindow from "../../ui/modalWindow/ModelaWindow";
 
 import Button from "../../ui/button/Button";
 
 import { decodeToken } from "../../../utils/decodeToken";
 import { getUserRequests } from "../../../utils/api/getUserRequests";
 import { getAllUsersRequest } from "../../../utils/api/getAllUsersRequest";
-import { getProfile } from "../../../utils/api/getProfile";
 import { RequestListModel, FilterModel } from "../../../@types/api";
 import { createUrl } from "../../../utils/createUrl";
-import { USER_TYPE } from "../../../utils/translationLists/userTypeTranslation";
 import { useUserRoles } from "../../../utils/hooks/useUserRoles";
 import { useUserRequest } from "../../../utils/hooks/useUserRequest";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { ROUTES } from "../../../utils/routes";
 
@@ -57,6 +56,8 @@ const MainPage = () => {
             setFlag(true);
         }
     }
+
+    
 
     return (
         <>

@@ -100,3 +100,21 @@ export interface UserFullModel{
     user: UserModel,
     requests: RequestModel[];
 }
+
+export interface ExportUserInforamtion{
+    id: string,
+    firstName: string,
+    middleName?: string,
+    lastName: string
+}
+
+export interface ExportDatas{
+    userId: string[],
+    dateFrom: Date | string,
+    dateTo: Date | string
+}
+
+export interface selectedValue{
+    value: string,
+    id: string
+}
