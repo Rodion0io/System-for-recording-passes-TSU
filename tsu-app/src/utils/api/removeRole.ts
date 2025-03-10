@@ -11,7 +11,7 @@ export const removeRole = async (token: string, urlPattern: string) => {
     }
 
     try{
-        const response = await authorizeRequests.put(`${URL}role/${urlPattern}`, {headerAuth: headerAuth});
+        const response = await authorizeRequests.delete(`${URL}role/${urlPattern}`, {headerAuth: headerAuth});
 
         return response.data;
     }

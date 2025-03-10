@@ -136,13 +136,46 @@ const UserCard = ( { props, forList = false } : PropsProfile) => {
                 
             }
             catch(error){
-                console.error("Ошибка назнаяения роли")
+                console.error("Ошибка назначения роли");
             }
         }
     }
 
     const handleRemoveRole = async () => {
-        
+        if ((role === "Dean" || role === "Admin") &&
+            !currentUserRoles.includes("Admin")){
+                setErrorStatusCode(20);
+                setErrorFlag(true);
+        }
+        else if ((role === "Teacher" || role === "Student") &&
+            (!currentUserRoles.includes("Dean") && !currentUserRoles.includes("Admin"))){
+                setErrorStatusCode(21);
+                setErrorFlag(true);
+        }
+        else if (!props.userTypes.includes(role)){
+            setErrorStatusCode(22);
+            setErrorFlag(true);
+        }
+        else if (props.userTypes.length === 1){
+            setErrorStatusCode(23);
+            setErrorFlag(true);
+        }
+        else{
+            try {
+                const token = localStorage.getItem('token');
+                const urlPattern = createUrl(role, props.id, "userType");
+                setErrorStatusCode(0);
+                setErrorFlag(false);
+                if (token && urlPattern){
+                    await removeRole(token, urlPattern);
+                    setRemoverModal(false);
+                    navigate(ROUTES.USER_LIST)
+                }
+                
+            } catch (error) {
+                console.error("Ошибка удаления роли");
+            }
+        }
     }
     
 
@@ -205,7 +238,7 @@ const UserCard = ( { props, forList = false } : PropsProfile) => {
                     <p className="title">{`Текущие роли: ${props.userTypes}`}</p>
                     <Select className="filter-select" valuesArr={USERS_ROLES} name="Статус заявок" lableClass="filter-label" 
                                 typeSort="rolesType" selectChange={(value) => setRole(value)}/>
-                    <Button variant="button" className="btn newPassword-button" text="Подтвердить" onClick={handleNewRole}/>
+                    <Button variant="button" className="btn newPassword-button" text="Подтвердить" onClick={handleRemoveRole}/>
                     {errorFlag ? <p className="error-message">{ERROR_MESSAGES[errorStatusCode]}</p> : null}
                 </div>
             </ModalWindow>
