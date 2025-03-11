@@ -10,10 +10,18 @@ import { useUserRoles } from "../../../utils/hooks/useUserRoles"
 import { useSelector } from "react-redux"
 
 import { RootType } from "../../../utils/store/store"
+import { useEffect } from "react"
 
 const Header = () => {
 
-    const selector = useSelector((state: RootType) => state.userr.token);
+    // const selector = useSelector((state: RootType) => state.userr.token);
+
+    
+
+    
+
+    // console.log(userRoles)
+    const token = localStorage.getItem("token");
 
     const userRoles = useUserRoles();
     
@@ -24,16 +32,20 @@ const Header = () => {
                     <div className="nav-container">
                         <img src={tsuLogo} alt="" className="hero-logo" />
                         <nav className="navbar">
-                            {selector ? 
+                            {token ? 
                                 <>
                                 <div className="left-part">
                                     <Button variant="navLink" className="btn nav-link" link={ROUTES.MAINPAGE} text="Главная"/>
                                     <Button variant="navLink" className="btn nav-link" link={ROUTES.NEW_REQUEST} text="Новая заявка"/>
                                 </div>
-                                <div className="right-part">
-                                    <Button variant="navLink" className="btn nav-link" link={ROUTES.USER_LIST} text="Список пользоватлей"/>
+                                {userRoles.includes("Dean") || userRoles.includes("Admin") ? 
+                                    <div className="right-part">
+                                        <Button variant="navLink" className="btn nav-link" link={ROUTES.USER_LIST} text="Список пользоватлей"/>
+                                        <Button variant="navLink" className="btn nav-link" link={ROUTES.PROFILE} text="Профиль"/>
+                                    </div>:
                                     <Button variant="navLink" className="btn nav-link" link={ROUTES.PROFILE} text="Профиль"/>
-                                </div></> :
+                                }
+                                </> :
                                 null
                             }
                         </nav>

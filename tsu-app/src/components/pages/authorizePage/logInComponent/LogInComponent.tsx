@@ -53,7 +53,7 @@ const LogInComponent = () => {
                 
                 dispatch(logIn(response.accessToken));
 
-                navigate(ROUTES.MAINPAGE);
+                window.location.href = ROUTES.MAINPAGE
             }
             catch {
                 setErrorStatusCode(2);

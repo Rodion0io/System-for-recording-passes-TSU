@@ -55,7 +55,7 @@ const UserCard = ( { props, forList = false } : PropsProfile) => {
             logout(token);
             dispatch(logOut());
             localStorage.clear();
-            navigate(ROUTES.AUTHORIZE);
+            window.location.href = ROUTES.AUTHORIZE
         }
         
     }
