@@ -109,9 +109,9 @@ export interface ExportUserInforamtion{
 }
 
 export interface ExportDatas{
-    userId: string[],
-    dateFrom: Date | string,
-    dateTo: Date | string
+    targetUsersId: string[],
+    dateFrom: string,
+    dateTo: string
 }
 
 export interface selectedValue{

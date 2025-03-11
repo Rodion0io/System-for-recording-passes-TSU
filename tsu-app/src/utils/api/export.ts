@@ -4,20 +4,22 @@ import { formDataRequest } from "./instances";
 
 import axios from "axios";
 
-export const exportDatas = async (token: string, urlPattern: string): Promise<string> => {
+export const exportDatasFile = async (token: string, urlPattern: string) => {
     const headerAuth = {
-        "Authorization": `Bearer ${token}`
-    }
+        Authorization: `Bearer ${token}`
+    };
 
-    try{
-        const response = await formDataRequest.get(`${URL}report${urlPattern}`, {headers: headerAuth});
+    try {
+        const response = await formDataRequest.get(`${URL}report${urlPattern}`, {
+            headers: headerAuth,
+            responseType: "blob"
+        });
 
-        return response.data;
-    }
-    catch(error) {
-        if (axios.isAxiosError(error)){
+        return response;
+    } catch (error) {
+        if (axios.isAxiosError(error)) {
             console.log(error.message);
         }
-        throw new Error ("Произошла ошибка редактирования поста или вынесения вердикта");
+        throw new Error("Произошла ошибка редактирования поста или вынесения вердикта");
     }
-}
+};

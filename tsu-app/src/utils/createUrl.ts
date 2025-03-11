@@ -1,7 +1,9 @@
-import { FilterModel } from "../@types/api"
+import { ExportDatas, FilterModel } from "../@types/api"
 
-export const createUrl = (model: FilterModel | string, userId?: string, fieldValue?: string) => {
+export const createUrl = (model: FilterModel | string | ExportDatas, userId?: string, fieldValue?: string) => {
     let result = userId ? userId + "?" : "?";
+
+
 
     if (typeof(model) === "string" && fieldValue){
         result += `${fieldValue}=${model}`
@@ -11,12 +13,24 @@ export const createUrl = (model: FilterModel | string, userId?: string, fieldVal
       let modelValues = Object.entries(model);
 
       for(let i = 0; i < modelValues.length; i++){
-        if (modelValues[i][1] !== ""){
-            let partUrl = modelValues[i].join("=") + "&";
+
+        console.log(modelValues[i][1])
+
+        if (Array.isArray(modelValues[i][1]) && modelValues[i][1].length > 1){
+          modelValues[i][1][0] = `${modelValues[i][0]}=${modelValues[i][1][0]}&`;
+          let part = modelValues[i][1].join(`${modelValues[i][0]}=`) + "&";
+          result += part;
+          part = "";
+        }
+
+        else if (modelValues[i][1] !== ""){
+          let partUrl = modelValues[i].join("=") + "&";
           result += partUrl;
           partUrl = "";
         }
+        
       }
+      console.log(result.slice(0,-1));
       return result.slice(0,-1);
     }
     

@@ -2,29 +2,43 @@ import "./select.css"
 
 import { SORT_TYPE_TRANSLATION } from "../../../utils/translationLists/sortTypeTranslation";
 import { REQUEST_STATUS } from "../../../utils/translationLists/requestStatusTranslation";
-import { USER_TYPE } from "../../../utils/translationLists/userTypeTranslation";
 import { selectedValue } from "../../../@types/api";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+
 
 interface SelectProps extends React.ComponentProps<'select'>{
-    valuesArr: string[],
+    valuesArr: string[] | selectedValue[],
     lableClass: string,
     typeSort: string,
-    selectChange?(value: string): void,
-    isObj?: boolean
+    selectChange?(value: string | selectedValue[]): void,
+    isMultiply?: boolean
 }
 
-const Select = ({ className, valuesArr, name, lableClass, typeSort, isObj, selectChange, ...props } : SelectProps) => {
+const Select = ({ className, valuesArr, name, lableClass, isMultiply, typeSort, selectChange, ...props } : SelectProps) => {
 
     const [selected, setSelected] = useState("");
+    const [selectedOptions, setSelectedOptions] = useState<selectedValue[]>([]);
 
     const handleChooseValue = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        const value = event.target.value;
-        setSelected(value);
+        if (!isMultiply){
+            const value = event.target.value;
+            setSelected(value);
 
-        if (selectChange){
-            selectChange(value);
+            if (selectChange){
+                selectChange(value);
+            }
+        }
+        else{
+            const value: selectedValue[] = Array.from(event.target.selectedOptions).map(option => ({
+                value: option.value,
+                id: option.getAttribute('id')
+            }));
+            setSelectedOptions(value);
+
+            if (selectChange){
+                selectChange(value);
+            }
         }
     }
 
@@ -32,17 +46,16 @@ const Select = ({ className, valuesArr, name, lableClass, typeSort, isObj, selec
         <>
             <div className="select-block">
                 <label className={`label ${lableClass}`} htmlFor={name}>{name}</label>
-                <select className={`select ${className}`} name={name} id="" {...props} value={selected} onChange={handleChooseValue}>
+                <select className={`select ${className}`} name={name} multiple={isMultiply ? true : undefined} {...props} 
+                    value={isMultiply ? selectedOptions.map(option => option.value) : selected} onChange={handleChooseValue}>
+
                     {valuesArr.map((item, index) => (
-                        <option 
-                            value={item}
-                            key={index}
-                        >{
-                            typeSort === "sortType" ?
-                             SORT_TYPE_TRANSLATION[item] :
-                                typeSort === "rolesType" ?
-                                USER_TYPE[item] :
-                                    REQUEST_STATUS[item]
+                        <option value={typeof item === "string" ? item : item.value} 
+                            id={typeof item !== "string" ? item.id : undefined} key={index}>{
+                            typeSort === "sortType" 
+                                ? SORT_TYPE_TRANSLATION[typeof item === "string" ? item : item.value]
+                                : typeSort === "userTypes" ?  typeof item === "string" ? item : item.value :
+                                REQUEST_STATUS[typeof item === "string" ? item : item.value]
                         }</option>
                     ))}
                 </select>
