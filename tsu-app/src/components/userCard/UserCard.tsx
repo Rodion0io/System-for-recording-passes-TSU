@@ -226,7 +226,7 @@ const UserCard = ( { props, forList = false } : PropsProfile) => {
                 <div className="modal-card-container">
                     <p className="title">Назначить роль</p>
                     <p className="title">{`Текущие роли: ${props.userTypes}`}</p>
-                    <Select className="filter-select" valuesArr={USERS_ROLES} name="Статус заявок" lableClass="filter-label" 
+                    <Select isMultiply={false} className="filter-select" valuesArr={USERS_ROLES} name="Статус заявок" lableClass="filter-label" 
                                 typeSort="rolesType" selectChange={(value) => setRole(value)}/>
                     <Button variant="button" className="btn newPassword-button" text="Подтвердить" onClick={handleNewRole}/>
                     {errorFlag ? <p className="error-message">{ERROR_MESSAGES[errorStatusCode]}</p> : null}

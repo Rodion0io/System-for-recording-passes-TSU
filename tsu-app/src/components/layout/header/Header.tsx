@@ -36,7 +36,10 @@ const Header = () => {
                                 <>
                                 <div className="left-part">
                                     <Button variant="navLink" className="btn nav-link" link={ROUTES.MAINPAGE} text="Главная"/>
-                                    <Button variant="navLink" className="btn nav-link" link={ROUTES.NEW_REQUEST} text="Новая заявка"/>
+                                    {userRoles.includes("Student") ?
+                                        <Button variant="navLink" className="btn nav-link" link={ROUTES.NEW_REQUEST} text="Новая заявка"/>:
+                                        null
+                                    }
                                 </div>
                                 {userRoles.includes("Dean") || userRoles.includes("Admin") ? 
                                     <div className="right-part">

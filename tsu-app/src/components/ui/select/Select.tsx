@@ -5,6 +5,7 @@ import { REQUEST_STATUS } from "../../../utils/translationLists/requestStatusTra
 import { selectedValue } from "../../../@types/api";
 
 import React, { useEffect, useState } from "react";
+import { USER_TYPE } from "../../../utils/translationLists/userTypeTranslation";
 
 
 interface SelectProps extends React.ComponentProps<'select'>{
@@ -50,12 +51,12 @@ const Select = ({ className, valuesArr, name, lableClass, isMultiply, typeSort, 
                     value={isMultiply ? selectedOptions.map(option => option.value) : selected} onChange={handleChooseValue}>
 
                     {valuesArr.map((item, index) => (
-                        <option value={typeof item === "string" ? item : item.value} 
-                            id={typeof item !== "string" ? item.id : undefined} key={index}>{
-                            typeSort === "sortType" 
-                                ? SORT_TYPE_TRANSLATION[typeof item === "string" ? item : item.value]
-                                : typeSort === "userTypes" ?  typeof item === "string" ? item : item.value :
-                                REQUEST_STATUS[typeof item === "string" ? item : item.value]
+                        <option value={typeof item === "string" ? item : item.value} key={index}>{
+                            typeSort === "sortType" ?
+                             SORT_TYPE_TRANSLATION[typeof item === "string" ? item : item.value] :
+                                typeSort === "rolesType" ?
+                                USER_TYPE[typeof item === "string" ? item : item.value] :
+                                    REQUEST_STATUS[typeof item === "string" ? item : item.value]
                         }</option>
                     ))}
                 </select>
