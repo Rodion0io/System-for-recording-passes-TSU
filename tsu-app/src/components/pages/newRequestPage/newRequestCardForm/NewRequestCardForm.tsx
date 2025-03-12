@@ -10,25 +10,12 @@ import { createRequest } from "../../../../utils/api/createRequest";
 
 import { RequestData } from "../../../../@types/api";
 
-// import Slider from "react-slick";
-// import 'slick-carousel/slick/slick.css';
-// import 'slick-carousel/slick/slick-theme.css';
-
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const NewRequestForm = () => {
-
-    // const settings = {
-    //     dots: false,
-    //     infinite: true,
-    //     speed: 500,
-    //     slidesToShow: 1,
-    //     slidesToScroll: 1
-    // }; 
+const NewRequestForm = () => { 
 
     const navigate = useNavigate();
-
 
     const [requestData, setRequestData] = useState<RequestData>({description: "", absenceDateFrom: null, absenceDateTo: null, photos: []});
     const [errorStatusCode, setErrorStatusCode] = useState<number>(0);
@@ -43,6 +30,12 @@ const NewRequestForm = () => {
     const clearFiles = () => {
         setRequestData((prev) => (
             {...prev, ["photos"]: []}
+        ))
+    };
+
+    const removeFile = (id: number) => {
+        setRequestData((prev) => (
+            {...prev, ["photos"]: prev['photos'].filter((item, index) => index !== id)}
         ))
     }
 
@@ -84,6 +77,10 @@ const NewRequestForm = () => {
         }
     }
 
+    useEffect(() => {
+        console.log(requestData.photos);
+    },[requestData.photos]);
+
     return (
         <>
         {/* ref={datasRef} onSubmit={handleSubmit} */}
@@ -100,15 +97,14 @@ const NewRequestForm = () => {
                         <p className="time-block_text">до</p>
                         <Input variant="input" className="date-time-input" inputHandleChange={(value) => handleChange("absenceDateTo", value)} type="datetime-local"/>
                     </div>
-                    {/* Пока это забросим */}
-                    {/* {requestData.photos.length !== 0 ? 
-                        <Slider {...settings}>
+                    {requestData.photos.length !== 0 ? 
+                        <div className="test-lock">
                             {requestData.photos.map((item, index) => (
-                                <FixedPhotoCard photo={item} key={index}/>
+                                <FixedPhotoCard photo={item} id={index} key={index} remover={removeFile}/>
                             ))}
-                        </Slider> :
+                        </div>:
                         null
-                    } */}
+                    }
                     <div className="files-block">
                         <Input className="file-input" variant="file" name="photos" inputFileHandleChange={(value) => handleChange("photos", value)}/>
                         <Button variant="button" className="btn cleaer-files" text="Очистить" onClick={clearFiles}/>

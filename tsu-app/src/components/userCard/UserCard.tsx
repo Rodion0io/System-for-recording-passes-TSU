@@ -169,7 +169,7 @@ const UserCard = ( { props, forList = false } : PropsProfile) => {
                 if (token && urlPattern){
                     await removeRole(token, urlPattern);
                     setRemoverModal(false);
-                    navigate(ROUTES.USER_LIST)
+                    window.location.href = ROUTES.USER_LIST;
                 }
                 
             } catch (error) {

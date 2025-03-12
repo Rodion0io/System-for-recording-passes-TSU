@@ -53,7 +53,9 @@ export interface RequestData{
 }
 
 export interface PhotoCard{
-    photo: File
+    photo: File,
+    id: number,
+    remover(id: number): void
 }
 
 export interface FilterModel{

@@ -11,10 +11,6 @@ import { modifyDate } from "../../../utils/modifyDate";
 import Button from "../../ui/button/Button";
 import Input from "../../ui/input/Input";
 
-import Slider from "react-slick";
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { editRequest } from "../../../utils/api/editRequest";
@@ -50,14 +46,6 @@ const ApplicationCard = ({ props, isFull, userRoles }: ApplicationCardProps) => 
          absenceDateTo: props.absenceDateTo}
         );
     const [editDatas, setEditDatas] = useState<RequestEditModel>(editObj);
-
-    const settings = {
-        dots: false,
-        infinite: true,
-        speed: 500,
-        slidesToShow: 1,
-        slidesToScroll: 1
-    };
 
     const handleAccept = async () => {
         setEditDatas((prev) => ({ ...prev, status: 'Confirmed' }));
