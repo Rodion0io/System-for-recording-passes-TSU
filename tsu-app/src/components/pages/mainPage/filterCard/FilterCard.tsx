@@ -100,7 +100,6 @@ const FilterCard = ({ changeStateFilters, addFilter }: FilterCardProps) => {
             console.error("Ошибка при скачивании файла:", error);
         }
     };
-    
 
     return (
         <>
@@ -124,7 +123,7 @@ const FilterCard = ({ changeStateFilters, addFilter }: FilterCardProps) => {
                                     <label>Дата окончания</label>
                                     <Input variant="input" className="date-time-input" type="datetime-local" inputHandleChange={(value) => handleChange("dateTo", value)}/>
                                 </div>
-                                {userRoles.includes("Dean") || userRoles.includes("Admin") ? 
+                                {userRoles.includes("Teacher") || userRoles.includes("Dean") || userRoles.includes("Admin") ? 
                                     <>
                                         <Input className="filter-user-name" placeholder="Имя пользователя" type="text" inputHandleChange={(value) => handleChange("userName", value)}/>
                                         <Button variant="button" className="btn filter-button" text="экспортировать" onClick={() => setExportModal(true)}/>
@@ -137,6 +136,7 @@ const FilterCard = ({ changeStateFilters, addFilter }: FilterCardProps) => {
                     </div>
                 </div>
             </div>
+            
             <ModalWindow active={exportModal} setActive={setExportModal}>
                 <div className="modal-card-container">
                     <div className="edit-container">

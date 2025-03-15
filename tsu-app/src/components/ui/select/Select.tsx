@@ -43,6 +43,8 @@ const Select = ({ className, valuesArr, name, lableClass, isMultiply, typeSort, 
         }
     }
 
+    console.log(valuesArr[0]);
+
     return (
         <>
             <div className="select-block">
@@ -50,13 +52,24 @@ const Select = ({ className, valuesArr, name, lableClass, isMultiply, typeSort, 
                 <select className={`select ${className}`} name={name} multiple={isMultiply ? true : undefined} {...props} 
                     value={isMultiply ? selectedOptions.map(option => option.value) : selected} onChange={handleChooseValue}>
 
-                    {valuesArr.map((item, index) => (
+                    {/* {valuesArr.map((item, index) => (
                         <option value={typeof item === "string" ? item : item.value} key={index}>{
                             typeSort === "sortType" ?
                              SORT_TYPE_TRANSLATION[typeof item === "string" ? item : item.value] :
                                 typeSort === "rolesType" ?
                                 USER_TYPE[typeof item === "string" ? item : item.value] :
                                     REQUEST_STATUS[typeof item === "string" ? item : item.value]
+                        }</option>
+                    ))} */}
+                    {valuesArr.map((item, index) => (
+                        <option value={typeof item === "string" ? item : item.value} 
+                            id={typeof item !== "string" ? item.id : undefined} key={index}>{
+                            typeSort === "sortType" 
+                                ? SORT_TYPE_TRANSLATION[typeof item === "string" ? item : item.value]
+                                : typeSort === "userTypes" ?  typeof item === "string" ? item : item.value :
+                                typeSort === "rolesType" ?
+                                USER_TYPE[typeof item === "string" ? item : item.value] :
+                                REQUEST_STATUS[typeof item === "string" ? item : item.value]
                         }</option>
                     ))}
                 </select>

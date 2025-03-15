@@ -51,12 +51,6 @@ const ApplicationCard = ({ props, isFull, userRoles, isConcrete }: ApplicationCa
         );
     const [editDatas, setEditDatas] = useState<RequestEditModel>(editObj);
 
-    useEffect(() => {
-        console.log(editDatas);
-    },[editDatas]);
-
-
-
     const handleAccept = async () => {
         setEditDatas((prev) => ({ ...prev, status: 'Confirmed' }));
     
@@ -80,8 +74,6 @@ const ApplicationCard = ({ props, isFull, userRoles, isConcrete }: ApplicationCa
             console.log("error", error);
         }
     };
-
-    console.log(props);
 
     const handleReject = async () => {
         setEditDatas((prev) => ({...prev, ['status']: 'Rejected'}));
