@@ -12,9 +12,10 @@ import Button from "../../../ui/button/Button";
 import Input from "../../../ui/input/Input";
 
 
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 import { useNavigate } from "react-router";
+import FixedPhotoCard from "../../../ui/fixedPhotoCard/fixedPhotoCard";
 
 interface EditRequestModelProps{
     props: RequestEditModel,
@@ -33,20 +34,32 @@ const EditRequestModel = ({ props, id, isFull, modalActive, setModalActive }: Ed
     const [errorFlag, setErrorFlag] = useState<boolean>(false);
 
     const editObj: RequestEditModel = (isFull ? 
-        {status: props.status, description: props.description,
+        {status: props.status, images: props.images, description: props.description,
             absenceDateFrom: props.absenceDateFrom,
-             absenceDateTo: props.absenceDateTo} : 
-             {status: "", description: "",
+             absenceDateTo: props.absenceDateTo,
+            newImages: props.newImages} : 
+             {status: "", images: [], description: "",
         absenceDateFrom: "",
-         absenceDateTo: ""}
+         absenceDateTo: "",
+        newImages: []}
         );
 
     const [editDatas, setEditDatas] = useState<RequestEditModel>(editObj);
 
-    const handleCahnge = (field: string, value: string) => {
-        setEditDatas((prevState) => (
-            {...prevState, [field]: value}
-        ))
+    // Выдал гпт
+    const handleChange = (field: string, value: string | File[] | string[]) => {
+        setEditDatas((prev) => {
+            const isValueArray = Array.isArray(value);
+    
+            return {
+                ...prev,
+                [field]: field === "images" && isValueArray ?
+                    [...(prev.images ?? []), ...value] :
+                    field === "newImages" && isValueArray ?
+                        [...(prev.newImages ?? []), ...value] :
+                        value
+            };
+        });
     };
 
 
@@ -79,12 +92,20 @@ const EditRequestModel = ({ props, id, isFull, modalActive, setModalActive }: Ed
 
             try{
                 if (token){
-                    console.log(editDatas);
                     const formData = new FormData();
                     formData.append("absenceDateFrom", editDatas.absenceDateFrom);
                     formData.append("absenceDateTo", editDatas.absenceDateTo);
                     formData.append("description", editDatas.description);
                     formData.append("status", editDatas.status);
+
+                    editDatas.images?.map((item) => (
+                        formData.append("images", item)
+                    ));
+
+                    editDatas.newImages?.map((item) => (
+                        formData.append("newImages", item)
+                    ));
+
                     await editRequest(formData, token, userId);
                     setModalActive(false);
                     navigate("/");
@@ -103,16 +124,31 @@ const EditRequestModel = ({ props, id, isFull, modalActive, setModalActive }: Ed
                     <div className="edit-container">
                         <h2 className="title">Редактирование профиля</h2>
                         <p className="description-title">Опсиание</p>
-                        <Input name="description" variant="textarea" className="description-input" type="text" inputHandleChange={(value) => handleCahnge("description", value)}
+                        <Input name="description" variant="textarea" className="description-input" type="text" inputHandleChange={(value) => handleChange("description", value)}
                             value={props.description} initialValue={props.description}/>
                         <div className="time-block">
                             <p className="time-block_text">С</p>
-                            <Input variant="input" className="date-time-input" type="datetime-local" inputHandleChange={(value) => handleCahnge("absenceDateFrom", value)}
+                            <Input variant="input" className="date-time-input" type="datetime-local" inputHandleChange={(value) => handleChange("absenceDateFrom", value)}
                                 initialValue={new Date(props.absenceDateFrom).toISOString().slice(0,-8)}/>
                             <p className="time-block_text">до</p>
-                            <Input variant="input" className="date-time-input" type="datetime-local" inputHandleChange={(value) => handleCahnge("absenceDateTo", value)}
+                            <Input variant="input" className="date-time-input" type="datetime-local" inputHandleChange={(value) => handleChange("absenceDateTo", value)}
                                 initialValue={new Date(props.absenceDateTo).toISOString().slice(0,-8)}/>
                         </div>
+                        <Input className="file-input" variant="file" name="photos" inputFileHandleChange={(value) => handleChange("newImages", value)}/>
+                        {editDatas.images?.length !== 0 || editDatas.newImages?.length !== 0 ?
+                            <div className="images-container">
+                                <p className="section-title">Файлы:</p>
+                                <div className="test-block">
+                                    {editDatas.images?.map((item, index) => (
+                                        <FixedPhotoCard photo={item} id={index} key={index} isShown={true} isDeleted={true}/>
+                                    ))}
+                                    {editDatas.newImages?.map((item, index) => (
+                                        <FixedPhotoCard photo={item} id={index} key={index} isShown={false} isDeleted={true}/>
+                                    ))}
+                                </div>
+                            </div>:
+                            null
+                        }
                         <div className="action-block">
                             <Button variant="button" className="btn profile-actions" text="Подтвердить" onClick={handleEditData}/>
                             <Button variant="button" className="btn cancellation" text="Отменить" onClick={handleCancellation}/>

@@ -56,7 +56,8 @@ export interface PhotoCard{
     photo: File | string,
     id: number,
     remover?: (id: number) => void,
-    isShown: boolean
+    isShown: boolean,
+    isDeleted: boolean
 }
 
 export interface FilterModel{
@@ -84,9 +85,11 @@ export interface RequestModel{
 
 export interface RequestEditModel{
     status: string,
+    images?: string[],
     description: string,
     absenceDateFrom: string,
-    absenceDateTo: string
+    absenceDateTo: string,
+    newImages?: File[]
 }
 
 export interface TokenResponseModel{

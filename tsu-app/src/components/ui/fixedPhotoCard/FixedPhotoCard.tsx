@@ -8,19 +8,20 @@ import ModalWindow from "../modalWindow/ModelaWindow";
 
 import { useState } from "react";
 
-const FixedPhotoCard = ({ photo, id, remover, isShown }: PhotoCard) => {
+const FixedPhotoCard = ({ photo, id, remover, isShown, isDeleted }: PhotoCard) => {
 
     const [modalActive, setModalActive] = useState<boolean>(false);
 
-    const path = usePhotoLoader({photo, isShown});
+    console.log(photo);
 
+    const path = usePhotoLoader({photo, isShown});
 
     if (path) {
         return (
             <>
                 <div className="photo-card">
                     <div className="photo-card_container">
-                        {!isShown? 
+                        {isDeleted? 
                             <p className="cross" onClick={() => remover(id)}>x</p>:
                             null
                         }                        

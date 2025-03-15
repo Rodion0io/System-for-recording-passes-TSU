@@ -63,7 +63,6 @@ const ApplicationCard = ({ props, isFull, userRoles, isConcrete }: ApplicationCa
                 formData.append("description", editDatas.description || "");
                 formData.append("status", 'Confirmed');
     
-    
                 await editRequest(formData, token, id);
                 navigate("/");
             }
@@ -140,7 +139,7 @@ const ApplicationCard = ({ props, isFull, userRoles, isConcrete }: ApplicationCa
                                         <p className="section-title">Файлы:</p>
                                         <div className="test-block">
                                             {props.images.map((item, index) => (
-                                                <FixedPhotoCard photo={item} id={index} key={index} isShown={isConcrete ? true : false}/>
+                                                <FixedPhotoCard photo={item} id={index} key={index} isShown={isConcrete ? true : false} isDeleted={isConcrete ? false : true}/>
                                             ))}
                                         </div>
                                     </div>:
@@ -154,8 +153,7 @@ const ApplicationCard = ({ props, isFull, userRoles, isConcrete }: ApplicationCa
                                                 <Button variant="button" className="btn profile-actions" text="Принять" onClick={handleAccept}/>
                                                 <Button variant="button" className="btn cancellation" text="Отклонить" onClick={handleReject}/>
                                             </>:
-                                            <><Button variant="button" className="btn profile-actions" text="Редактировать" onClick={() => setModalActive(true)}/>
-                                            <Input className="file-input" variant="file" name="photos" /></>
+                                            <Button variant="button" className="btn profile-actions" text="Редактировать" onClick={() => setModalActive(true)}/>
                                         }
                                         {/* inputFileHandleChange={(value) => handleChange("photos", value)} */}
                                     </div>:
