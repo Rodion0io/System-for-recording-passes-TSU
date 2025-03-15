@@ -71,6 +71,7 @@ const MainPage = () => {
                                 key={item.id}
                                 props={item}
                                 isFull={false}
+                                isConcrete={false}
                                 userRoles={userRoles}
                                 />
                             )) :
@@ -79,6 +80,7 @@ const MainPage = () => {
                                     key={item.id}
                                     props={item}
                                     isFull={false}
+                                    isConcrete={false}
                                     userRoles={userRoles}
                                     />
                                 ))

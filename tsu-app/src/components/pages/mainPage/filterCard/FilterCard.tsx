@@ -77,8 +77,6 @@ const FilterCard = ({ changeStateFilters, addFilter }: FilterCardProps) => {
     const handleExport = async () => {
         try {
             const urlPattern = createUrl(exportDatas);
-            console.log(exportDatas)
-            console.log(urlPattern)
             const response = await exportDatasFile(token, urlPattern);
     
             if (response.status !== 200) {

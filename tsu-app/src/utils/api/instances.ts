@@ -8,10 +8,6 @@ import { refreshToken } from "./refreshToken";
 
 import { decodeToken } from "../decodeToken";
 
-const TOKEN = localStorage.getItem('token');
-const REFRESH = localStorage.getItem('refresh');
-
-
 export const authorizeRequests = axios.create({
     baseURL: URL,
     headers: {"Content-Type": "application/json"},

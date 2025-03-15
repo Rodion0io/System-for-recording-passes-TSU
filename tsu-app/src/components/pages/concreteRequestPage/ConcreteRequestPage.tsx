@@ -14,7 +14,7 @@ import { useLocation } from "react-router";
 const ConcreteRequestPage = () => {
 
     const location = useLocation();
-    const requestId: string = location.state;
+    const requestId = location.state;
 
     const [concreteRequest, setConcreteRequest] = useState<RequestModel>();
     const userRoles = useUserRoles();
@@ -40,6 +40,7 @@ const ConcreteRequestPage = () => {
                         <ApplicationCard
                             props={concreteRequest}
                              isFull={true}
+                             isConcrete={true}
                              userRoles={userRoles}
                              /> : null}
                     </div>

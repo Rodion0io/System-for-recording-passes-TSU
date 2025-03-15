@@ -10,27 +10,31 @@ import { modifyDate } from "../../../utils/modifyDate";
 
 import Button from "../../ui/button/Button";
 import Input from "../../ui/input/Input";
+import FixedPhotoCard from "../../ui/fixedPhotoCard/fixedPhotoCard";
 
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { editRequest } from "../../../utils/api/editRequest";
 
 
+
 interface ApplicationCardPropsShortModel{
     props: RequestShortModel,
     isFull: false,
+    isConcrete: boolean,
     userRoles: string[],
 };
 
 interface ApplicationCardPropsModel{
     props: RequestModel,
     isFull: true,
+    isConcrete: boolean,
     userRoles: string[],
 }
 
 type ApplicationCardProps = ApplicationCardPropsShortModel | ApplicationCardPropsModel;
 
-const ApplicationCard = ({ props, isFull, userRoles }: ApplicationCardProps) => {
+const ApplicationCard = ({ props, isFull, userRoles, isConcrete }: ApplicationCardProps) => {
 
     const [modalActive, setModalActive] = useState(false);
     const navigate = useNavigate();
@@ -134,9 +138,11 @@ const ApplicationCard = ({ props, isFull, userRoles }: ApplicationCardProps) => 
                                 {props.images.length !== 0 ? 
                                     <div className="images-container">
                                         <p className="section-title">Файлы:</p>
-                                        <Slider {...settings}>
-                                            {/* Пока не пофиксил */}
-                                        </Slider>
+                                        <div className="test-block">
+                                            {props.images.map((item, index) => (
+                                                <FixedPhotoCard photo={item} id={index} key={index} isShown={isConcrete ? true : false}/>
+                                            ))}
+                                        </div>
                                     </div>:
                                     null
                                 }

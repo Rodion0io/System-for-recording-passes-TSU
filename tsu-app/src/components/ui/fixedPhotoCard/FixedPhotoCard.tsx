@@ -1,38 +1,54 @@
 import "./fixedPhotoCard.css"
 
+import { PHOTO_LINK_PART } from "../../../utils/constant";
+
 import { PhotoCard } from "../../../@types/api";
+
+import { getPhoto } from "../../../utils/api/getPhoto";
+import { readFile } from "./readFile";
 
 import ModalWindow from "../modalWindow/ModelaWindow";
 
 import { useEffect, useState } from "react";
 
-const FixedPhotoCard = ({ photo, id, remover }: PhotoCard) => {
+const FixedPhotoCard = ({ photo, id, remover, isShown }: PhotoCard) => {
 
-    const [path, setPath] = useState<string | null>(null);
+    const token = localStorage.getItem("token");
+
+    const [path, setPath] = useState<string>("");
     const [modalActive, setModalActive] = useState<boolean>(false);
 
     useEffect(() => {
-
-        if (path){
-            return
-        }
-        else{
-            const reader = new FileReader();
-
-            reader.onload = (event) => {
-                setPath(event.target?.result as string);
+        const getPath = async () => {
+            if (isShown){
+                try {
+                    if (token){
+                        const response = await getPhoto(token, `${PHOTO_LINK_PART}${photo}`);
+                        const filePath = await readFile(response);
+                        setPath(filePath);
+                    }
+                } catch (error) {
+                    console.error(error);
+                }
             }
-
-            reader.readAsDataURL(photo);
+            else{
+                const filePath = await readFile(photo as File);
+                setPath(filePath);
+            }
         }
-    },[path]);
+        getPath();
+    },[photo, path]);
+
 
     if (path) {
         return (
             <>
                 <div className="photo-card">
                     <div className="photo-card_container">
-                        <p className="cross" onClick={() => remover(id)}>x</p>
+                        {isShown? 
+                            <p className="cross" onClick={() => remover(id)}>x</p>:
+                            null
+                        }                        
                         <img src={path} alt="" className="photo-card_photo" onClick={() => setModalActive(true)}/>
                     </div>
                 </div>

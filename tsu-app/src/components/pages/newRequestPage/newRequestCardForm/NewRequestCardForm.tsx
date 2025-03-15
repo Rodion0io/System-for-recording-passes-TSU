@@ -39,6 +39,8 @@ const NewRequestForm = () => {
         ))
     }
 
+    
+
     const handleClick = async () => {
         // Пока так берем токен, потом будем брать из global state
         const token = localStorage.getItem("token");
@@ -65,7 +67,9 @@ const NewRequestForm = () => {
                     formData.append("absenceDateFrom", requestData.absenceDateFrom);
                     formData.append("absenceDateTo", requestData.absenceDateTo);
                     formData.append("description", requestData.description);
-                    // formData.append("files", requestData.photos);
+                    requestData.photos.forEach((file) => {
+                        formData.append("files", file);
+                    });
                     await createRequest(token, formData);
                     navigate(ROUTES.MAINPAGE);
                 }
@@ -76,10 +80,6 @@ const NewRequestForm = () => {
             }
         }
     }
-
-    useEffect(() => {
-        console.log(requestData.photos);
-    },[requestData.photos]);
 
     return (
         <>
@@ -100,7 +100,7 @@ const NewRequestForm = () => {
                     {requestData.photos.length !== 0 ? 
                         <div className="test-lock">
                             {requestData.photos.map((item, index) => (
-                                <FixedPhotoCard photo={item} id={index} key={index} remover={removeFile}/>
+                                <FixedPhotoCard photo={item} id={index} key={index} isShown={false} remover={removeFile}/>
                             ))}
                         </div>:
                         null
