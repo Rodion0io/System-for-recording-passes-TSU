@@ -56,7 +56,7 @@ export interface PhotoCard{
     photo: File | string,
     id: number,
     remover?: (id: number) => void,
-    isShown?: boolean
+    isShown: boolean
 }
 
 export interface FilterModel{

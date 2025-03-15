@@ -1,43 +1,18 @@
 import "./fixedPhotoCard.css"
 
-import { PHOTO_LINK_PART } from "../../../utils/constant";
-
 import { PhotoCard } from "../../../@types/api";
 
-import { getPhoto } from "../../../utils/api/getPhoto";
-import { readFile } from "./readFile";
+import usePhotoLoader from "./hooks/usePhotoLoader";
 
 import ModalWindow from "../modalWindow/ModelaWindow";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const FixedPhotoCard = ({ photo, id, remover, isShown }: PhotoCard) => {
 
-    const token = localStorage.getItem("token");
-
-    const [path, setPath] = useState<string>("");
     const [modalActive, setModalActive] = useState<boolean>(false);
 
-    useEffect(() => {
-        const getPath = async () => {
-            if (isShown){
-                try {
-                    if (token){
-                        const response = await getPhoto(token, `${PHOTO_LINK_PART}${photo}`);
-                        const filePath = await readFile(response);
-                        setPath(filePath);
-                    }
-                } catch (error) {
-                    console.error(error);
-                }
-            }
-            else{
-                const filePath = await readFile(photo as File);
-                setPath(filePath);
-            }
-        }
-        getPath();
-    },[photo, path]);
+    const path = usePhotoLoader({photo, isShown});
 
 
     if (path) {
@@ -45,7 +20,7 @@ const FixedPhotoCard = ({ photo, id, remover, isShown }: PhotoCard) => {
             <>
                 <div className="photo-card">
                     <div className="photo-card_container">
-                        {isShown? 
+                        {!isShown? 
                             <p className="cross" onClick={() => remover(id)}>x</p>:
                             null
                         }                        
@@ -54,7 +29,7 @@ const FixedPhotoCard = ({ photo, id, remover, isShown }: PhotoCard) => {
                 </div>
                 <ModalWindow active={modalActive} setActive={setModalActive}>
                     <div className="modal-card-container">
-                        <img className="photo-block" src={path} alt="" />
+                        <img className="photo-block" src={path} alt="Фото" />
                     </div>
                 </ModalWindow>
             </>
