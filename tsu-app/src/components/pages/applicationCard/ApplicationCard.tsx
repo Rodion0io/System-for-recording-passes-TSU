@@ -12,7 +12,7 @@ import Button from "../../ui/button/Button";
 import Input from "../../ui/input/Input";
 import FixedPhotoCard from "../../ui/fixedPhotoCard/fixedPhotoCard";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { editRequest } from "../../../utils/api/editRequest";
 
@@ -42,14 +42,20 @@ const ApplicationCard = ({ props, isFull, userRoles, isConcrete }: ApplicationCa
     const token = localStorage.getItem('token');
 
     const editObj: RequestEditModel = (isFull ? 
-        {status: props.status, description: props.description,
+        {status: props.status, images: props.images, description: props.description,
             absenceDateFrom: props.absenceDateFrom,
              absenceDateTo: props.absenceDateTo} : 
-             {status: props.status, description: props.description,
+             {status: props.status, images: props.images, description: props.description,
         absenceDateFrom: props.absenceDateFrom,
          absenceDateTo: props.absenceDateTo}
         );
     const [editDatas, setEditDatas] = useState<RequestEditModel>(editObj);
+
+    useEffect(() => {
+        console.log(editDatas);
+    },[editDatas]);
+
+
 
     const handleAccept = async () => {
         setEditDatas((prev) => ({ ...prev, status: 'Confirmed' }));
@@ -62,6 +68,10 @@ const ApplicationCard = ({ props, isFull, userRoles, isConcrete }: ApplicationCa
                 formData.append("absenceDateTo", editDatas.absenceDateTo || "");
                 formData.append("description", editDatas.description || "");
                 formData.append("status", 'Confirmed');
+
+                editDatas.images?.map((item) => (
+                    formData.append("images", item)
+                ));
     
                 await editRequest(formData, token, id);
                 navigate("/");
@@ -70,6 +80,8 @@ const ApplicationCard = ({ props, isFull, userRoles, isConcrete }: ApplicationCa
             console.log("error", error);
         }
     };
+
+    console.log(props);
 
     const handleReject = async () => {
         setEditDatas((prev) => ({...prev, ['status']: 'Rejected'}));
@@ -80,6 +92,10 @@ const ApplicationCard = ({ props, isFull, userRoles, isConcrete }: ApplicationCa
                 formData.append("absenceDateTo", editDatas.absenceDateTo);
                 formData.append("description", editDatas.description);
                 formData.append("status", 'Rejected');
+
+                editDatas.images?.map((item) => (
+                    formData.append("images", item)
+                ));
                 await editRequest(formData, token, id);
                 navigate("/");
             }
