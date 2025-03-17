@@ -100,7 +100,7 @@ const NewRequestForm = () => {
                     {requestData.photos.length !== 0 ? 
                         <div className="test-block">
                             {requestData.photos.map((item, index) => (
-                                <FixedPhotoCard photo={item} id={index} key={index} isShown={false} remover={removeFile}/>
+                                <FixedPhotoCard photo={item} id={index} key={index} isShown={false} remover={removeFile} isDeleted={true}/>
                             ))}
                         </div>:
                         null

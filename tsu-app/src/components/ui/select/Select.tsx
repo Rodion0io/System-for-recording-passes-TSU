@@ -43,8 +43,6 @@ const Select = ({ className, valuesArr, name, lableClass, isMultiply, typeSort, 
         }
     }
 
-    console.log(valuesArr[0]);
-
     return (
         <>
             <div className="select-block">

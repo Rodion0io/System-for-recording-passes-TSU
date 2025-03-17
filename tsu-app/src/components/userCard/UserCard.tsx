@@ -131,7 +131,7 @@ const UserCard = ( { props, forList = false } : PropsProfile) => {
                 if (token && urlPattern){
                     await newRole(token, urlPattern);
                     setAppointModal(false);
-                    navigate(ROUTES.USER_LIST)
+                    window.location.href = ROUTES.USER_LIST;
                 }
                 
             }

@@ -11,8 +11,7 @@ export const modifyDate = (firstDate: string, secondDate: string | null = null, 
   firstMiddleValue = newFirstDate[0];
   newFirstDate[0] = newFirstDate[1];
   newFirstDate[1] = firstMiddleValue;
-  
-  console.log(firstDate);
+
 
   if (secondDate !== null){
       secondSplitedString = secondDate.split(/[\.T]/);

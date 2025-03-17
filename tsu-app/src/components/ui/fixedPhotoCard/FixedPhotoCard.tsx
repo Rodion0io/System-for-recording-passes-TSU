@@ -12,8 +12,6 @@ const FixedPhotoCard = ({ photo, id, remover, isShown, isDeleted }: PhotoCard) =
 
     const [modalActive, setModalActive] = useState<boolean>(false);
 
-    console.log(photo);
-
     const path = usePhotoLoader({photo, isShown});
 
     if (path) {

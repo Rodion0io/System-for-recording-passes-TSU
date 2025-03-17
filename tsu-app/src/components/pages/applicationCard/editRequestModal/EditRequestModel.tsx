@@ -65,6 +65,18 @@ const EditRequestModel = ({ props, id, isFull, modalActive, setModalActive }: Ed
         });
     };
 
+    const removeImages = (id: number) => {
+        setEditDatas((prev) => (
+            {...prev, ["images"]: prev['images'].filter((item, index) => index !== id)}
+        ))
+    }
+
+    const removeNewImages = (id: number) => {
+        setEditDatas((prev) => (
+            {...prev, ["newImages"]: prev['newImages'].filter((item, index) => index !== id)}
+        ))
+    }
+
 
     const handleCancellation = () => {
         setErrorFlag(false);
@@ -143,10 +155,10 @@ const EditRequestModel = ({ props, id, isFull, modalActive, setModalActive }: Ed
                                 <p className="section-title">Файлы:</p>
                                 <div className="test-block">
                                     {editDatas.images?.map((item, index) => (
-                                        <FixedPhotoCard photo={item} id={index} key={index} isShown={true} isDeleted={true}/>
+                                        <FixedPhotoCard photo={item} id={index} key={index} remover={removeImages} isShown={true} isDeleted={true}/>
                                     ))}
                                     {editDatas.newImages?.map((item, index) => (
-                                        <FixedPhotoCard photo={item} id={index} key={index} isShown={false} isDeleted={true}/>
+                                        <FixedPhotoCard photo={item} id={index} key={index} remover={removeNewImages} isShown={false} isDeleted={true}/>
                                     ))}
                                 </div>
                             </div>:
