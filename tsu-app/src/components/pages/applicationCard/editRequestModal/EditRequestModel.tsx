@@ -7,12 +7,12 @@ import { ERROR_MESSAGES } from "../../../../utils/errorMessages";
 
 import { editRequest } from "../../../../utils/api/editRequest";
 
+import { useUserRoles } from "../../../../utils/hooks/useUserRoles";
 
 import Button from "../../../ui/button/Button";
 import Input from "../../../ui/input/Input";
 
-
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 
 import { useNavigate } from "react-router";
 import FixedPhotoCard from "../../../ui/fixedPhotoCard/fixedPhotoCard";
@@ -29,12 +29,15 @@ const EditRequestModel = ({ props, id, isFull, modalActive, setModalActive }: Ed
 
     const navigate = useNavigate();
 
+    const userRoles = useUserRoles();
+
     
     const [errorStatusCode, setErrorStatusCode] = useState<number>(0);
     const [errorFlag, setErrorFlag] = useState<boolean>(false);
 
     const editObj: RequestEditModel = (isFull ? 
-        {status: props.status, images: props.images, description: props.description,
+        {status: !userRoles.includes("Dean") || !userRoles.includes('Admin') ?
+         null : props.status, images: props.images, description: props.description,
             absenceDateFrom: props.absenceDateFrom,
              absenceDateTo: props.absenceDateTo,
             newImages: props.newImages} : 

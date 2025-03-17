@@ -21,12 +21,6 @@
     font-weight: 450;
 }
 
-.description-input{
-    resize: none;
-    width: 100%;
-    border: 1px solid #E7E7E7;
-}
-
 .time-block{
     display: flex;
     align-items: center;

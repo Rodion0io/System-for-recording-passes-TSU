@@ -12,6 +12,8 @@ export const modifyDate = (firstDate: string, secondDate: string | null = null, 
   newFirstDate[0] = newFirstDate[1];
   newFirstDate[1] = firstMiddleValue;
   
+  console.log(firstDate);
+
   if (secondDate !== null){
       secondSplitedString = secondDate.split(/[\.T]/);
   
@@ -29,7 +31,8 @@ export const modifyDate = (firstDate: string, secondDate: string | null = null, 
           return `${firstSplitedString[0].slice(-2)} ${MONTHS[+((new Date(firstSplitedString[0])).getMonth())]} c ${firstSplitedString[1].slice(0,-3)} до ${secondSplitedString[1].slice(0,-3)}`;
         }
         else{
-          return `c ${firstSplitedString[0].slice(-2)} ${MONTHS[+((new Date(firstSplitedString[0])).getMonth())]} по ${secondSplitedString[0].slice(-2)} ${MONTHS[+((new Date(secondSplitedString[0])).getMonth())]}`
+          return `c ${firstSplitedString[0].slice(-2)} ${MONTHS[+((new Date(firstSplitedString[0])).getMonth())]} ${newFirstDate[1]} 
+          по ${secondSplitedString[0].slice(-2)} ${MONTHS[+((new Date(secondSplitedString[0])).getMonth())]} ${newFirstDate[1]}`
         }
     }
   }

@@ -113,9 +113,3 @@
     transition: all 0.25s ease-out;
 }
 
-.test-block{
-    display: flex;
-    flex-direction: row;
-    gap: 15px;
-    flex-wrap: wrap;
-}

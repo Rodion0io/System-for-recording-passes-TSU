@@ -98,7 +98,7 @@ const NewRequestForm = () => {
                         <Input variant="input" className="date-time-input" inputHandleChange={(value) => handleChange("absenceDateTo", value)} type="datetime-local"/>
                     </div>
                     {requestData.photos.length !== 0 ? 
-                        <div className="test-lock">
+                        <div className="test-block">
                             {requestData.photos.map((item, index) => (
                                 <FixedPhotoCard photo={item} id={index} key={index} isShown={false} remover={removeFile}/>
                             ))}
