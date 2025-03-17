@@ -35,9 +35,11 @@ const EditRequestModel = ({ props, id, isFull, modalActive, setModalActive }: Ed
     const [errorStatusCode, setErrorStatusCode] = useState<number>(0);
     const [errorFlag, setErrorFlag] = useState<boolean>(false);
 
+    // status: !userRoles.includes("Dean") || !userRoles.includes('Admin') ?
+    //      null : props.status,
+
     const editObj: RequestEditModel = (isFull ? 
-        {status: !userRoles.includes("Dean") || !userRoles.includes('Admin') ?
-         null : props.status, images: props.images, description: props.description,
+        {status: props.status, images: props.images, description: props.description,
             absenceDateFrom: props.absenceDateFrom,
              absenceDateTo: props.absenceDateTo,
             newImages: props.newImages} : 
