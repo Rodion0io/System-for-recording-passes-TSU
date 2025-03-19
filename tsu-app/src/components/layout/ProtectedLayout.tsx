@@ -1,12 +1,9 @@
-// import { Outlet, useNavigate } from "react-router-dom"
-
 import { ROUTES } from "../../utils/routes";
-import React, { useEffect } from "react";
+
+import React from "react";
 
 
 const ProtectedLayout = ({ children } : {children : React.ReactNode}) => {
-
-    // const navigate = useNavigate();
 
     const isAuth = localStorage.getItem('token');
 
@@ -16,7 +13,6 @@ const ProtectedLayout = ({ children } : {children : React.ReactNode}) => {
 
     return (
         <>
-            {/* {isAuth ? <Outlet/> : null} */}
             {children}
         </>
     )
