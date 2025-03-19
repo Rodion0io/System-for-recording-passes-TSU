@@ -5,14 +5,14 @@ import ApplicationCard from "../applicationCard/ApplicationCard";
 
 import { useUserRoles } from "../../../utils/hooks/useUserRoles";
 import { useUserRequest } from "../../../utils/hooks/useUserRequest";
-import { useFilter } from "./hooks/useFilter";
+import { useConnectFilter } from "./hooks/useConnectFilter";
 
 
 const MainPage = () => {
     
     const userRoles = useUserRoles();
     const userRequests = useUserRequest(userRoles);
-    const {userRequest, flag, handleChangeUrlComponents, addFilter} = useFilter(userRoles);
+    const {userRequest, flag, handleChangeUrlComponents, addFilter} = useConnectFilter(userRoles);
 
     return (
         <>
@@ -38,7 +38,7 @@ const MainPage = () => {
                                 userRoles={userRoles}
                                 />
                             ))
-                        }:
+                        }
                     </div>
                 </div>
             </main>
