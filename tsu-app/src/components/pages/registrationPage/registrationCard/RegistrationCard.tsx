@@ -5,87 +5,17 @@ import darkTsuLogo from "../../../../assets/svgs/tsuDarkLogo.svg"
 import Input from "../../../ui/input/Input"
 import Button from "../../../ui/button/Button"
 
-import { UserRegisterModel } from "../../../../@types/api"
 import { ERROR_MESSAGES } from "../../../../utils/errorMessages"
-import { VALID_PERSONAL_DATAS, EMAIL_PATTERN, VALID_PASSWORD } from "../../../../utils/constant"
 import { ROUTES } from "../../../../utils/routes"
 
-import { logIn } from "../../../../utils/store/slices/userSlice"
-
-import { registration } from "../../../../utils/api/registration"
-
-import { useState } from "react"
-
-import { useDispatch } from "react-redux"
-
-import { useNavigate } from "react-router-dom"
-
+import { useRegistration } from "./hooks/useRegistration"
 
 const RegistrationCard = () => {
 
-    const [newUser, setNewUser] = useState<UserRegisterModel>({firstName: "", middleName: "", lastName: "", email: "", password: ""});
-    const [errorFlag, setErrorFlag] = useState(false);
-    const [errorStatusCode, setErrorStatusCode] = useState<number>(0);
-
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
-
     const token = localStorage.getItem('token');
 
-    const handleChange = (inputName: string, value: string) => {
-        setNewUser((prevItem) => (
-            {...prevItem,
-            [inputName]: value}
-        ))
-    };
-
-
-    const handleClick = async () => {
-        if (newUser.firstName.length === 0){
-            setErrorStatusCode(11);
-            setErrorFlag(true)
-        }
-        else if (newUser.lastName.length === 0){
-            setErrorStatusCode(12);
-            setErrorFlag(true)
-        }
-        else if (newUser.email.length === 0){
-            setErrorStatusCode(13);
-            setErrorFlag(true)
-        }
-        else if (newUser.password.length < 8){
-            setErrorStatusCode(14);
-            setErrorFlag(true)
-        }
-        else if (!VALID_PERSONAL_DATAS.test(newUser.firstName)){
-            setErrorStatusCode(15);
-            setErrorFlag(true)
-        }
-        else if (!EMAIL_PATTERN.test(newUser.email)){
-            setErrorStatusCode(3);
-            setErrorFlag(true)
-        }
-        else if (!VALID_PASSWORD.test(newUser.password)){
-            setErrorStatusCode(16);
-            setErrorFlag(true)
-        }
-        else{
-            try{
-                setErrorStatusCode(0);
-                setErrorFlag(false);
-                const response = (await registration(newUser))
-
-                localStorage.setItem("token", response.accessToken);
-                localStorage.setItem("refresh", response.refreshToken);
-                dispatch(logIn(response.accessToken));
-                window.location.href = ROUTES.MAINPAGE
-            }
-            catch{
-                // Временно
-                console.log("error")
-            }
-        }
-    }
+    const { errorFlag, errorStatusCode, handleChange, handleClick} = useRegistration();
+    
 
     return (
         <>
