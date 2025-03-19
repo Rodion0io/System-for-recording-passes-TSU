@@ -1,21 +1,17 @@
 import "./editRequestModal.css"
 
 import ModalWindow from "../../../ui/modalWindow/ModelaWindow"
+import FixedPhotoCard from "../../../ui/fixedPhotoCard/fixedPhotoCard";
 
 import { RequestEditModel } from "../../../../@types/api";
 import { ERROR_MESSAGES } from "../../../../utils/errorMessages";
-
 import { editRequest } from "../../../../utils/api/editRequest";
-
-import { useUserRoles } from "../../../../utils/hooks/useUserRoles";
 
 import Button from "../../../ui/button/Button";
 import Input from "../../../ui/input/Input";
 
 import { Dispatch, SetStateAction, useState } from "react";
 
-import { useNavigate } from "react-router";
-import FixedPhotoCard from "../../../ui/fixedPhotoCard/fixedPhotoCard";
 
 interface EditRequestModelProps{
     props: RequestEditModel,
@@ -26,17 +22,9 @@ interface EditRequestModelProps{
 }
 
 const EditRequestModel = ({ props, id, isFull, modalActive, setModalActive }: EditRequestModelProps) => {
-
-    const navigate = useNavigate();
-
-    const userRoles = useUserRoles();
-
     
     const [errorStatusCode, setErrorStatusCode] = useState<number>(0);
     const [errorFlag, setErrorFlag] = useState<boolean>(false);
-
-    // status: !userRoles.includes("Dean") || !userRoles.includes('Admin') ?
-    //      null : props.status,
 
     const editObj: RequestEditModel = (isFull ? 
         {status: props.status, images: props.images, description: props.description,
@@ -69,13 +57,13 @@ const EditRequestModel = ({ props, id, isFull, modalActive, setModalActive }: Ed
 
     const removeImages = (id: number) => {
         setEditDatas((prev) => (
-            {...prev, ["images"]: prev['images'].filter((item, index) => index !== id)}
+                {...prev, ["images"]: prev['images']?.filter((item, index) => index !== id)}
         ))
     }
 
     const removeNewImages = (id: number) => {
         setEditDatas((prev) => (
-            {...prev, ["newImages"]: prev['newImages'].filter((item, index) => index !== id)}
+            {...prev, ["newImages"]: prev['newImages']?.filter((item, index) => index !== id)}
         ))
     }
 
@@ -113,7 +101,9 @@ const EditRequestModel = ({ props, id, isFull, modalActive, setModalActive }: Ed
                     formData.append("absenceDateFrom", editDatas.absenceDateFrom);
                     formData.append("absenceDateTo", editDatas.absenceDateTo);
                     formData.append("description", editDatas.description);
-                    formData.append("status", editDatas.status);
+                    if(editDatas.status !== "Checking" && editDatas.status){
+                        formData.append("status", editDatas.status)
+                    }
 
                     editDatas.images?.map((item) => (
                         formData.append("images", item)
@@ -125,7 +115,7 @@ const EditRequestModel = ({ props, id, isFull, modalActive, setModalActive }: Ed
 
                     await editRequest(formData, token, userId);
                     setModalActive(false);
-                    navigate("/");
+                    window.location.href = "/";
                 }
             }
             catch{

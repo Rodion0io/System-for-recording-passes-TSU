@@ -11,12 +11,13 @@ import { modifyDate } from "../../../utils/modifyDate";
 import Button from "../../ui/button/Button";
 import Input from "../../ui/input/Input";
 import FixedPhotoCard from "../../ui/fixedPhotoCard/fixedPhotoCard";
+import ModalWindow from "../../ui/modalWindow/ModelaWindow";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { editRequest } from "../../../utils/api/editRequest";
-
-
+import { ERROR_MESSAGES } from "../../../utils/errorMessages";
+import { ROUTES } from "../../../utils/routes";
 
 interface ApplicationCardPropsShortModel{
     props: RequestShortModel,
@@ -36,26 +37,51 @@ type ApplicationCardProps = ApplicationCardPropsShortModel | ApplicationCardProp
 
 const ApplicationCard = ({ props, isFull, userRoles, isConcrete }: ApplicationCardProps) => {
 
-    const [modalActive, setModalActive] = useState(false);
+    const editObj: RequestEditModel = (isFull ? 
+        
+        {status: props.status, 
+            images: props.images, 
+            description: props.description,
+            absenceDateFrom: props.absenceDateFrom,
+             absenceDateTo: props.absenceDateTo} : 
+             {status: props.status, 
+                images: props.images, 
+                description: props.description,
+                absenceDateFrom: props.absenceDateFrom,
+                absenceDateTo: props.absenceDateTo}
+    );
+
+    const [modalActive, setModalActive] = useState<boolean>(false);
+    const [extensionModal, setExtensionModal] = useState<boolean>(false);
+    const [editDatas, setEditDatas] = useState<RequestEditModel>(editObj);
+    const [errorStatusCode, setErrorStatusCode] = useState<number>(0);
+    const [errorFlag, setErrorFlag] = useState<boolean>(false);
+
     const navigate = useNavigate();
     const { id } = useParams();
     const token = localStorage.getItem('token');
 
-    const editObj: RequestEditModel = (isFull ? 
-        {status: props.status, images: props.images, description: props.description,
-            absenceDateFrom: props.absenceDateFrom,
-             absenceDateTo: props.absenceDateTo} : 
-             {status: props.status, images: props.images, description: props.description,
-        absenceDateFrom: props.absenceDateFrom,
-         absenceDateTo: props.absenceDateTo}
-        );
-    const [editDatas, setEditDatas] = useState<RequestEditModel>(editObj);
+    const handleChange = (field: string, value: string | File[] | string[]) => {
+        setEditDatas((prev) => {
+            const isValueArray = Array.isArray(value);
+    
+            return {
+                ...prev,
+                [field]: field === "images" && isValueArray ?
+                    [...(prev.images ?? []), ...value] :
+                    field === "newImages" && isValueArray ?
+                        [...(prev.newImages ?? []), ...value] :
+                        value
+            };
+        });
+    };
 
+    
     const handleAccept = async () => {
         setEditDatas((prev) => ({ ...prev, status: 'Confirmed' }));
     
         try {
-            if (token) {
+            if (token && id) {
                 const formData = new FormData();
 
                 formData.append("absenceDateFrom", editDatas.absenceDateFrom || "");
@@ -66,7 +92,7 @@ const ApplicationCard = ({ props, isFull, userRoles, isConcrete }: ApplicationCa
                 editDatas.images?.map((item) => (
                     formData.append("images", item)
                 ));
-    
+                
                 await editRequest(formData, token, id);
                 navigate("/");
             }
@@ -78,7 +104,7 @@ const ApplicationCard = ({ props, isFull, userRoles, isConcrete }: ApplicationCa
     const handleReject = async () => {
         setEditDatas((prev) => ({...prev, ['status']: 'Rejected'}));
         try{
-            if (token){
+            if (token && id){
                 const formData = new FormData();
                 formData.append("absenceDateFrom", editDatas.absenceDateFrom);
                 formData.append("absenceDateTo", editDatas.absenceDateTo);
@@ -89,11 +115,46 @@ const ApplicationCard = ({ props, isFull, userRoles, isConcrete }: ApplicationCa
                     formData.append("images", item)
                 ));
                 await editRequest(formData, token, id);
-                navigate("/");
+                navigate(ROUTES.MAINPAGE);
             }
         }
         catch{
             console.log("error");
+        }
+    }
+
+    const handleExtend = async () => {
+        if ((editDatas.absenceDateFrom) > (editDatas.absenceDateTo)){
+            setErrorFlag(true);
+            setErrorStatusCode(10);
+        }
+        else if (props.absenceDateFrom >= editDatas.absenceDateFrom){
+            setErrorFlag(true);
+            setErrorStatusCode(25);
+        }
+        else{
+            setErrorFlag(false);
+            setErrorStatusCode(0);
+            try {
+                if (token && id){
+                    const formData = new FormData();
+                    formData.append("absenceDateFrom", editDatas.absenceDateFrom);
+                    formData.append("absenceDateTo", editDatas.absenceDateTo);
+                    formData.append("description", editDatas.description);
+                    if (editDatas.status){
+                        formData.append('status', editDatas.status);
+                    }
+                    editDatas.images?.map((item) => (
+                        formData.append("images", item)
+                    ));
+    
+                    await editRequest(formData, token, id);
+                    navigate(ROUTES.MAINPAGE);
+                }
+            } 
+            catch (error) {
+                console.error(error);
+            }
         }
     }
 
@@ -167,6 +228,11 @@ const ApplicationCard = ({ props, isFull, userRoles, isConcrete }: ApplicationCa
                                     </div>:
                                     null
                                 }
+                                {userRoles.includes("Dean") || userRoles.includes("Admin") ? 
+                                    <div className="action-block">
+                                    <Button variant="button" className="btn profile-actions" text="Продлить" onClick={() => setExtensionModal(true)}/></div>:
+                                    null
+                                }
                                 
                             </>
                             :null
@@ -186,6 +252,26 @@ const ApplicationCard = ({ props, isFull, userRoles, isConcrete }: ApplicationCa
                             modalActive={modalActive}
                             setModalActive={setModalActive}
                         />: null
+                    }
+                    {extensionModal ?
+                        <ModalWindow active={extensionModal} setActive={setExtensionModal}>
+                            <div className="modal-card-container">
+                                <div className="edit-container">
+                                    <h2 className="title">Продление</h2>
+                                    <div className="time-block">
+                                        <p className="time-block_text">С</p>
+                                        <Input variant="input" className="date-time-input" type="datetime-local" inputHandleChange={(value) => handleChange("absenceDateFrom", value)}
+                                            initialValue={new Date(props.absenceDateFrom).toISOString().slice(0,-8)}/>
+                                        <p className="time-block_text">до</p>
+                                        <Input variant="input" className="date-time-input" type="datetime-local" inputHandleChange={(value) => handleChange("absenceDateTo", value)}
+                                            initialValue={new Date(props.absenceDateTo).toISOString().slice(0,-8)}/>
+                                    </div>
+                                    <Button variant="button" className="btn profile-actions" text="Подтвердить" onClick={handleExtend}/>
+                                    {errorFlag ? <p className="error-message">{ERROR_MESSAGES[errorStatusCode]}</p> : null}
+                                </div>
+                            </div>
+                        </ModalWindow>
+                     :null
                     }
                 </div>
             </article>

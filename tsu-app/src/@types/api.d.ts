@@ -84,7 +84,7 @@ export interface RequestModel{
 }
 
 export interface RequestEditModel{
-    status: string,
+    status?: string,
     images?: string[],
     description: string,
     absenceDateFrom: string,
