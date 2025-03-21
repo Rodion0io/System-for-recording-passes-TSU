@@ -19,6 +19,7 @@ import { editRequest } from "../../../utils/api/editRequest";
 import { ERROR_MESSAGES } from "../../../utils/errorMessages";
 import { ROUTES } from "../../../utils/routes";
 
+
 interface ApplicationCardPropsShortModel{
     props: RequestShortModel,
     isFull: false,

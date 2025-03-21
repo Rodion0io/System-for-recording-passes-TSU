@@ -11,7 +11,6 @@ import { useUserRoles } from "../../../../utils/hooks/useUserRoles";
 
 import { useParams, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useFilters } from "../../../../utils/hooks/useFilters";
 import { decodeToken } from "../../../../utils/decodeToken";
 import { createUrl } from "../../../../utils/createUrl";
 import { getAllUsersRequest } from "../../../../utils/api/getAllUsersRequest";

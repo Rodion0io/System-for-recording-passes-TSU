@@ -1,5 +1,5 @@
-export const URL = "http://localhost:5693/api/";
-export const PHOTO_LINK_PART = "http://localhost:5693/";
+export const URL = "http://88.204.10.182:5693/api/";
+export const PHOTO_LINK_PART = "http://88.204.10.182:5693/";
 
 export const EMAIL_PATTERN = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 export const VALID_PERSONAL_DATAS = /[A-Za-zа-яА-ЯёЁ]/;

@@ -114,18 +114,18 @@ const FilterCard = ({ changeStateFilters, addFilter }: FilterCardProps) => {
                                 typeSort="sortStatus" selectChange={(value) => handleChange("requestStatus", value, "filter")}/>
                             <div className="time-block-filter">
                                 <label>Дата начала</label>
-                                <Input variant="input" className="date-time-input" type="datetime-local" inputHandleChange={(value) => handleChange("dateFrom", value)}/>
+                                <Input variant="input" className="date-time-input" type="datetime-local" inputHandleChange={(value) => handleChange("dateFrom", value, "filter")}/>
                             </div>
                         </div>
                         <div className="bottom-section">
                             <div className="inputs-block">
                                 <div className="time-block-filter">
                                     <label>Дата окончания</label>
-                                    <Input variant="input" className="date-time-input" type="datetime-local" inputHandleChange={(value) => handleChange("dateTo", value)}/>
+                                    <Input variant="input" className="date-time-input" type="datetime-local" inputHandleChange={(value) => handleChange("dateTo", value, "filter")}/>
                                 </div>
                                 {userRoles.includes("Teacher") || userRoles.includes("Dean") || userRoles.includes("Admin") ? 
                                     <>
-                                        <Input className="filter-user-name" placeholder="Имя пользователя" type="text" inputHandleChange={(value) => handleChange("userName", value)}/>
+                                        <Input className="filter-user-name" placeholder="Имя пользователя" type="text" inputHandleChange={(value) => handleChange("userName", value, "filter")}/>
                                         <Button variant="button" className="btn filter-button" text="экспортировать" onClick={() => setExportModal(true)}/>
                                     </> : 
                                     null
