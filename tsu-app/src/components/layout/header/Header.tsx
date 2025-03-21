@@ -3,24 +3,13 @@ import "./header.css"
 import tsuLogo from "../../../assets/svgs/tsuLightLogo.svg"
 
 import Button from "../../ui/button/Button"
+
 import { ROUTES } from "../../../utils/routes"
 
 import { useUserRoles } from "../../../utils/hooks/useUserRoles"
 
-import { useSelector } from "react-redux"
-
-import { RootType } from "../../../utils/store/store"
-import { useEffect } from "react"
-
 const Header = () => {
 
-    // const selector = useSelector((state: RootType) => state.userr.token);
-
-    
-
-    
-
-    // console.log(userRoles)
     const token = localStorage.getItem("token");
 
     const userRoles = useUserRoles();

@@ -6,61 +6,13 @@ import Button from "../../../ui/button/Button";
 import Input from "../../../ui/input/Input";
 
 import { ROUTES } from "../../../../utils/routes"
-import { authorize } from "../../../../utils/api/authorize";
-import { LogInDatas } from "../../../../@types/api";
-import { logIn } from "../../../../utils/store/slices/userSlice";
-import { EMAIL_PATTERN } from "../../../../utils/constant";
 import { ERROR_MESSAGES } from "../../../../utils/errorMessages";
 
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLogin } from "./hooks/useLogin";
 
 const LogInComponent = () => {
 
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-
-    const [LogInDatas, setLogInDatas] = useState<LogInDatas>({email: "", password: ""});
-    const [errorFlag, setErrorFlag] = useState(false);
-    const [errorStatusCode, setErrorStatusCode] = useState<number>(0);
-    
-    const handleChange = (inputName: string, value: string) => {
-        setLogInDatas((prevItem) => (
-            {...prevItem,
-            [inputName]: value}
-        ))
-    };
-
-    const handleClick = async () => {
-
-        if (LogInDatas.email.length === 0 || LogInDatas.password.length === 0){
-            setErrorStatusCode(1);
-            setErrorFlag(true);
-        }
-        else if (!EMAIL_PATTERN.test(LogInDatas.email)){
-            setErrorStatusCode(3);
-            setErrorFlag(true);
-        }
-        else if (EMAIL_PATTERN.test(LogInDatas.email) && LogInDatas.password.length !== 0){
-            try{
-                setErrorFlag(false);
-                setErrorStatusCode(0);
-                const response = await authorize(LogInDatas);
-    
-                localStorage.setItem("token", response.accessToken);
-                localStorage.setItem('refresh', response.refreshToken);
-                
-                dispatch(logIn(response.accessToken));
-
-                window.location.href = ROUTES.MAINPAGE
-            }
-            catch {
-                setErrorStatusCode(2);
-                setErrorFlag(true);
-            }
-        }
-    };
+    const { errorFlag, errorStatusCode, handleChange, handleClick} = useLogin();
 
     
     return (

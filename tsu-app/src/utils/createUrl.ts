@@ -3,8 +3,6 @@ import { ExportDatas, FilterModel } from "../@types/api"
 export const createUrl = (model: FilterModel | string | ExportDatas, userId?: string, fieldValue?: string) => {
     let result = userId ? userId + "?" : "?";
 
-
-
     if (typeof(model) === "string" && fieldValue){
         result += `${fieldValue}=${model}`
         return result
@@ -13,8 +11,6 @@ export const createUrl = (model: FilterModel | string | ExportDatas, userId?: st
       let modelValues = Object.entries(model);
 
       for(let i = 0; i < modelValues.length; i++){
-
-        console.log(modelValues[i][1])
 
         if (Array.isArray(modelValues[i][1]) && modelValues[i][1].length > 1){
           modelValues[i][1][0] = `${modelValues[i][0]}=${modelValues[i][1][0]}&`;
@@ -30,7 +26,6 @@ export const createUrl = (model: FilterModel | string | ExportDatas, userId?: st
         }
         
       }
-      console.log(result.slice(0,-1));
       return result.slice(0,-1);
     }
     

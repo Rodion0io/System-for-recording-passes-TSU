@@ -6,7 +6,9 @@ import { getAllUsersRequest } from "../api/getAllUsersRequest";
 import { RequestListModel } from "../../@types/api"
 import { decodeToken } from "../decodeToken";
 
-export const useUserRequest = (token: string, userRoles: string[]): RequestListModel => {
+export const useUserRequest = (userRoles: string[]): RequestListModel => {
+
+    const token = localStorage.getItem('token');
 
     const userId = decodeToken(token, "user_id");
 
@@ -14,13 +16,15 @@ export const useUserRequest = (token: string, userRoles: string[]): RequestListM
 
     useEffect(() => {
         const request = async () => {
-            if (userRoles.includes("Dean") || userRoles.includes("Admin")){
-                const response = await getAllUsersRequest(token, null);
-                setUserRequests((prev) => ({...prev, ...response}));
-            }
-            else{
-                const response = await getUserRequests(token, userId);
-                setUserRequests((prev) => ({...prev, ...response}));
+            if (token){
+                if ((userRoles.includes("Dean") || userRoles.includes("Admin"))){
+                    const response = await getAllUsersRequest(token, null);
+                    setUserRequests((prev) => ({...prev, ...response}));
+                }
+                else{
+                    const response = await getUserRequests(token, userId);
+                    setUserRequests((prev) => ({...prev, ...response}));
+                }
             }
         }
         request();  
